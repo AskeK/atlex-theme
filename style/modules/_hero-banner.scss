@@ -1,0 +1,35 @@
+.hero-banner{
+    position: relative;
+    z-index:5;
+    box-shadow: 1px 1px 10px 0px rgba(black,.2);
+    background-color: $color-dark;
+    @extend %fill-bg;
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 56.25%;
+    border-bottom: 3px solid $color-gold;
+
+    @media(min-width:640px){
+        border-bottom-width: 5px;
+    }
+
+    @media only screen and(min-width:960px){
+
+        height: 540px;
+        padding-bottom: 0;
+    }
+
+    @media only screen and(min-width:1280px){
+
+        height: 0;
+        padding-bottom: 42.19%;
+
+    }
+
+    @media only screen and(min-width:1600px){
+        height: 675px;
+        padding-bottom: 0;
+
+    }
+
+}

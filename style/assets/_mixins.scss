@@ -1,0 +1,15 @@
+// Fancy centering with extras callbackish...
+@mixin center($left:false,$top:false,$transform:null){
+    position:absolute;
+    $left-c: 0;
+    @if($left){
+         left:50%;
+         $left-c:-50%;
+    }
+    $top-c: 0;
+    @if($top){
+         top:50%;
+         $top-c:-50%;
+    }
+    transform: translate($left-c,$top-c) $transform;
+}

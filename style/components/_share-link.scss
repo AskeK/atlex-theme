@@ -1,0 +1,22 @@
+.share-link {
+    padding: 0px 20px;
+
+    height: 35px;
+    line-height: 35px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: .8;
+    border: 1px solid;
+    border-color: rgba(black,.5);
+    transition: opacity 120ms, border-color 120ms;
+
+    &:hover{
+        opacity: 1;
+        border-color:black;
+    }
+
+    &:first-child{
+        margin-right: 10px;
+    }
+}

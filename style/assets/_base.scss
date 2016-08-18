@@ -1,0 +1,40 @@
+html,body{
+
+    @extend %font-size;
+    min-width: 278px;
+    font-family:$base-font;
+    color:$base-color;
+    background-color: black;
+    font-weight: $base-font-weight;
+    box-sizing:border-box;
+    text-rendering: geometricPrecision;
+    backface-visibility: hidden;
+    -webkit-text-size-adjust: 100%;
+    line-height: 1;
+    width:100%;
+    overflow-x: hidden;
+
+
+    *{
+        box-sizing:inherit;
+        backface-visibility: inherit;
+    }
+
+    img{
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+::selection {
+        // background: #333;
+    }
+::-moz-selection {
+        // background: #333;
+    }
+
+#svg-icons{display: none;}
+svg{
+    max-width: 100%;
+    max-height: 100%;
+}
