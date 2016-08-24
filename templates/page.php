@@ -31,6 +31,6 @@
     </main>
 
     <aside>
-
+        <?php get_sidebar(); ?>
     </aside>
 </section>

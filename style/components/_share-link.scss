@@ -1,11 +1,11 @@
 .share-link {
-    padding: 0px 20px;
+    padding: 0px 10px;
 
-    height: 35px;
-    line-height: 35px;
+    height: 25px;
+    line-height: 25px;
     display: inline-block;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 10px;
     opacity: .8;
     border: 1px solid;
     border-color: rgba(black,.5);
@@ -19,4 +19,12 @@
     &:first-child{
         margin-right: 10px;
     }
+
+    @media only screen and(min-width:480px){
+        font-size: 12px;
+        padding: 0px 20px;
+        height: 35px;
+        line-height: 35px;
+    }
+
 }

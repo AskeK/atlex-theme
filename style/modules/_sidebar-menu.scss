@@ -1,0 +1,68 @@
+.sidebar-menu{
+
+    li{
+        position: relative;
+        border-top: 2px solid $color-dark-2;
+    }
+
+    a{
+        display: block;
+        height: 60px;
+        line-height: 60px;
+        padding:0px 20px;
+        text-transform: uppercase;
+        color: $color-light-6;
+        background-color: $color-light-2;
+        font-weight: 300;
+    }
+
+    svg{
+        position:absolute;
+        height: 20px;
+        width: 20px;
+        top: 20px;
+        right:20px;
+        transition: transform 120ms;
+    }
+
+    .current-menu-item>a,
+    .current-menu-parent>a{
+        color: $color-dark-2;
+        background-color: $color-gold;
+        font-style: italic;
+
+    }
+
+    .current-menu-item>svg,
+    .current-menu-parent>svg{
+        transform: rotate(45deg);
+    }
+
+    .sub-menu{
+        height: 0;
+        overflow: hidden;
+        transition: height 120ms;
+
+        a{
+            font-style: normal;
+            color: white;
+            background-color: $color-gold-2;
+        }
+
+        svg{
+            display: none;
+        }
+
+        .current-menu-item>a{
+            background-color: $color-gold;
+            cursor: default;
+        }
+
+    }
+
+    .current-menu-parent .sub-menu,
+    .current-menu-item .sub-menu{
+        height: auto;
+        display: block;
+    }
+}

@@ -1,0 +1,108 @@
+$menu-width: 240px;
+$menu-trans: 250ms;
+$menu-trans-timing: cubic-bezier(.77, .09, .31, 1);
+
+%hamburger-sideswipe{
+    left: 0;
+    right: 0;
+    transition: left $menu-trans, right $menu-trans;
+    transition-timing-function: $menu-trans-timing;
+}
+
+.menu-open %hamburger-sideswipe{
+    left: -$menu-width;
+    right: $menu-width;
+}
+
+.wrapper{
+    position: relative;
+}
+
+.wrapper,
+.site-header .inner,
+.fixed-aside.fixed{
+    @extend %hamburger-sideswipe;
+}
+
+
+@mixin hamburger-menu-base($open:false){
+
+    position: fixed;
+    width: 100%;
+    max-width:$menu-width;
+    height: 100vh + 30;
+    top: 0;
+    right: - $menu-width;
+    transition: right $menu-trans;
+    transition-timing-function: $menu-trans-timing;
+    overflow: scroll;
+    background-color: $color-dark-2;
+    color: white;
+
+    a{
+        padding: 20px;
+        font-weight: 700;
+        font-size: 13px;
+        @media only screen and(min-width:640px){
+            font-size: 14px;
+        }
+
+        display: block;
+        transition: background-color 120ms;
+        &:hover{
+            background-color: $color-gold-2;
+        }
+
+        svg, i{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            float: right;
+            fill: white;
+            stroke: white;
+            text-align: center;
+        }
+    }
+
+    .site-login-menu{
+        border-bottom: 1px solid darken($color-gold,10);
+        box-shadow: 1px 1px 3px 0px rgba(black,.5);
+    }
+
+    .site-login-menu a{
+        font-weigth: 300;
+        color: $color-dark;
+        border-top: 1px solid darken($color-gold,10);
+        background-color: $color-gold;
+        &:hover{
+            background-color: $color-gold-3;
+        }
+
+        svg{
+            fill: $color-dark;
+            stroke: $color-dark;
+        }
+    }
+
+}
+
+
+
+@media only screen and(max-width:640px){
+    .menu-open .site-header-navs{
+        right: 0;
+    }
+    .site-header-navs{
+        @include hamburger-menu-base();
+    }
+}
+
+@media only screen and(min-width:640px){
+    .menu-open .site-hamburger-menu{
+        right: 0;
+    }
+    .site-hamburger-menu{
+        @include hamburger-menu-base();
+    }
+}
+

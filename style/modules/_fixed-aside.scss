@@ -1,0 +1,38 @@
+@media only screen and(min-width:960px){
+
+
+    .fixed-aside{
+        background-color: inherit;
+        width: inherit;
+        max-width: inherit;
+        min-height: calc(100vh - #{$header-height});
+        border-right: 1px solid $color-dark-2;
+        overflow: hidden;
+
+        .inner{
+            position:relative;
+            overflow: scroll;
+            padding-bottom: $header-height;
+        }
+    }
+
+
+    .logged-in .fixed-aside.fixed{
+        padding-top: $header-height-logged-in;
+    }
+    .fixed-aside.fixed{
+        position: fixed;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        padding-top: $header-height;
+
+    }
+
+    .fixed-aside.stop{
+        position: absolute;
+        top: auto;
+        bottom: 0;
+    }
+
+}

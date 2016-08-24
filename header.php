@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> ng-app>
 <head>
     <meta charset="UTF-8">
     <title><?php wp_title(' · ', true, 'right')?></title>
@@ -7,4 +7,5 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+<div class="wrapper">
 <?php get_template_part('template-parts/header/vector'); ?>
