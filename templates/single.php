@@ -1,7 +1,6 @@
 <section class="main-section">
     <main>
         <?php
-        get_template_part('template-parts/modules/main-header');
 
         $GLOBALS['current_id'] = get_the_ID();
 

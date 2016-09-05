@@ -57,9 +57,10 @@ $header-height-logged-in: 130px;
     }
     margin-left: 20px;
 
-    img{
+    img, svg{
         @include center(false,true);
         width: inherit;
+        fill: white;
     }
 }
 

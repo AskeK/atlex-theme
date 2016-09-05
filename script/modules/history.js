@@ -1,0 +1,3 @@
+function getHistory(){}
+
+function setHistory(){}

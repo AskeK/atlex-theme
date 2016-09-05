@@ -1,15 +1,29 @@
 <?php
-
-
 get_functions_part(array(
     'menus',
     'scripts',
+    'images',
 ));
 
 get_functions_part(array(
     'ovelse',
     'forlob',
+    'beacon',
 ),'post-types');
+
+get_functions_part(array(
+    'ovelse-type',
+    'ovelse-styrke',
+),'tax');
+
+get_functions_part(array(
+    'functions',
+    'ovelse',
+    'forlob',
+    'post',
+    'page',
+    'user',
+),'rest');
 
 // email
 function sendEmail( $from_name, $from, $to, $subject, $message ){
@@ -48,6 +62,19 @@ function get_image_link($post_id = false, $size = 'full'){
     return esc_url($top_pic[0]);
 }
 
+function get_tree_array($post_id = false){
+    if(!$post_id){return;}
+
+    $parents = get_post_ancestors( $post_id );
+    $parent_id = ($parents) ? $parents[count($parents)-1]: $GLOBALS['current_id'];
+
+    $posts = array($parent_id);
+    foreach(get_posts(array('post_type' => array('post','page'), 'post_parent' => $parent_id)) as $p){
+        array_push($posts,$p->ID);
+    }
+
+    return $posts;
+}
 
 // social knapper
 function smamo_share($id = false, $platform = false){

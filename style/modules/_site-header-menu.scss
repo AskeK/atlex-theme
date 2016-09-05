@@ -28,10 +28,10 @@
 
         li{
             display: inline-block;
-            width: 100px;
+            width: 80px;
             font-size: 10px;
             @media only screen and(min-width:850px){
-                width: 160px;
+                width: 130px;
                 font-size: 12px;
             }
 
@@ -46,6 +46,7 @@
             display: block;
             height: inherit;
             position: relative;
+            margin-right: 2px;
             transition: background-color 120ms;
 
             &:hover{
@@ -54,10 +55,13 @@
         }
 
         svg{
-
-            height: 40px;
             fill: white;
+            width: 45px;
+            @media only screen and(min-width:850px){
+                width: 50px;
+            }
 
+            margin: auto;
             display: block;
         }
 

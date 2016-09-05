@@ -5,7 +5,7 @@ add_action( 'init', 'smamo_add_ovelse' );
 function smamo_add_ovelse() {
 	register_post_type( 'ovelse', array(
 
-        'menu_icon' 		 => 'dashicons-businessman',
+        'menu_icon' 		 => 'dashicons-controls-repeat',
 		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
@@ -16,7 +16,7 @@ function smamo_add_ovelse() {
 		'has_archive'        => true,
 		'hierarchical'       => false,
 		'menu_position'      => 22,
-		'supports'           => array( 'title'),
+		'supports'           => array( 'title','thumbnail', 'author', 'editor'),
         'show_in_rest'       => true,
   		'rest_base'          => 'ovelse',
   		'rest_controller_class' => 'WP_REST_Posts_Controller',

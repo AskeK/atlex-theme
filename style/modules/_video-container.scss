@@ -1,29 +1,35 @@
-.video-container{
-    position: absolute;
-    width: 100%;
+.video-container,
+.image-container{
+    position: relative;
     height: 0;
     padding-bottom: 56.25%;
-    @include center(false,true);
-    opacity: 0;
-    transition: opacity 500ms;
 
-    &:after{
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba($color-dark,.05);
-        z-index: 2;
-        content: '';
+    &.hero-banner-video{
+        width: 100%;
+        @include center(false,true);
+        opacity: 0;
+        transition: opacity 500ms;
+
+        &:after{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba($color-dark,.05);
+            z-index: 2;
+            content: '';
+        }
+
+        &.playing{
+            opacity: 1;
+        }
+
     }
 
-    &.playing{
-        opacity: 1;
-    }
 
-
-    iframe{
+    iframe,
+    img{
         position: absolute;
         top: 0;
         left: 0;

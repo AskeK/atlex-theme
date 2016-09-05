@@ -1,4 +1,8 @@
+
 <div class="fixed-aside">
+    <a href="#" class="fixed-aside-toggle">
+        <svg><use xlink:href=#icon-settings></use></svg>
+    </a>
     <div class="inner">
     <?php
     $template = array(

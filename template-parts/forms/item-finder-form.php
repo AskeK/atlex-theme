@@ -1,18 +1,25 @@
 <form method="get" action="" class="item-finder-form">
-    <a href="#" class="item-finder-toggle active">Øvelser</a>
-    <a href="#" class="item-finder-toggle">Forløb</a>
+    <a href="#" data-type="ovelse" class="item-finder-toggle active">Øvelser</a>
+    <a href="#" data-type="forlob" class="item-finder-toggle">Forløb</a>
     <div class="item-finder-list">
-        <a href="#" class="item-finder-list-nav prev"><svg><use xlink:href="#icon-prev"></use></svg></a>
-        <a href="#" class="item-finder-list-nav next"><svg><use xlink:href="#icon-next"></use></svg></a>
+        <a href="#" class="item-finder-list-nav prev"><svg><use xlink:href="#icon-collapse"></use></svg></a>
+        <a href="#" class="item-finder-list-nav next"><svg><use xlink:href="#icon-expand"></use></svg></a>
         <ul>
-            <li>Listeitem nummer 1</li>
-            <li>Listeitem nummer 2</li>
-            <li>Listeitem nummer 3</li>
-            <li class="active">Listeitem nummer 4</li>
-            <li>Listeitem nummer 5</li>
-            <li>Listeitem nummer 6</li>
-            <li>Listeitem nummer 7</li>
-            <li>Listeitem nummer 8</li>
+
+           <li class="active" data-slug="false">
+                <a href="#">
+                    <span>Alle Øvelser</span>
+                    <i><?php echo count(get_posts(array('post_type' => 'ovelse', 'numberposts' => -1))); ?></i>
+                </a>
+            </li>
+            <?php $types = get_terms('type'); foreach($types as $type) : ?>
+            <li data-slug="<?php echo $type->slug ?>">
+                <a href="<?php echo get_term_link($type->term_id) ?>">
+                    <span><?php echo esc_attr($type->name); ?></span>
+                    <i><?php echo count(get_posts(array('post_type' => 'ovelse','type' => $type->slug))) ?></i>
+                </a>
+            </li>
+            <?php endforeach; ?>
         </ul>
     </div>
     <div class="item-finder-ranges">

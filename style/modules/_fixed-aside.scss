@@ -1,38 +1,153 @@
-@media only screen and(min-width:960px){
+$aside-toggle-width: 40px;
+$aside-toggle-icon-width: 22px;
+
+.main-section aside,
+.fixed-aside-toggle,
+.fixed-aside{
+    transition: left $menu-trans;
+    transition-timing-function: $menu-trans-timing;
+    will-change: left, position, top, bottom, height;
+    *{
+        will-change: inherit;
+    }
+}
+
+.fixed-aside{
+    positon: relative;
+    background-color: inherit;
+    width: inherit;
+    max-width: inherit;
+    min-height: calc(100vh - #{$header-height-small});
+    overflow: hidden;
 
 
-    .fixed-aside{
-        background-color: inherit;
-        width: inherit;
-        max-width: inherit;
-        min-height: calc(100vh - #{$header-height});
-        border-right: 1px solid $color-dark-2;
-        overflow: hidden;
-
-        .inner{
-            position:relative;
-            overflow: scroll;
-            padding-bottom: $header-height;
-        }
+    .inner{
+        position:relative;
+        overflow: auto;
+        padding-bottom: $header-height;
+        width: calc( 100% - 40px);
     }
 
+    @media only screen and(min-width:640px){
+        min-height: calc(100vh - #{$header-height});
+    }
+
+}
+
+
+
+.fixed-aside-toggle{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $aside-toggle-width;
+    fill: $color-light-6;
+    background-color: $color-light;
+
+    svg{
+        position: absolute;
+        width: $aside-toggle-icon-width;
+        height: $aside-toggle-icon-width;
+        left:  ($aside-toggle-width - $aside-toggle-icon-width) / 2;
+        top: ($aside-toggle-width - $aside-toggle-icon-width) / 1.5;
+    }
+}
+
+.menu-open .fixed-aside.fixed{
+    left: calc(-100% + 40px - #{$menu-width});
+
+    @media only screen and(min-width:380px){
+        left: - 340px - $menu-width;
+    }
+
+    .fixed-aside-toggle{
+        left: -$menu-width;
+    }
+}
+
+.menu-open.toggle-aside .fixed-aside.fixed{
+    left: -$menu-width;
+
+    .fixed-aside-toggle{
+        left: calc(100vw - 40px - #{$menu-width});
+
+        @media only screen and(min-width:380px){
+            left: 340px - $menu-width;
+        }
+
+    }
+}
+
+.toggle-aside .fixed-aside.fixed{
+    left: 0;
+
+    .fixed-aside-toggle{
+        left: calc(100vw - 40px);
+
+        @media only screen and(min-width:380px){
+            left: 340px;
+        }
+
+    }
+
+}
+
+.fixed-aside.fixed{
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: calc(-100% + 40px);
+    padding-top: $header-height-small;
+
+    @media only screen and(min-width:380px){
+        left: -340px;
+    }
+
+    @media only screen and(min-width:640px){
+        padding-top: $header-height;
+    }
+
+    .fixed-aside-toggle{
+        position: fixed;
+        left: 0;
+        top: $header-height-small;
+
+
+        @media only screen and(min-width:640px){
+
+            top: $header-height;
+        }
+
+    }
+}
+
+.fixed-aside.stop{
+    position: absolute;
+    top: auto;
+    bottom: 0;
+}
+
+@media only screen and(min-width:960px){
 
     .logged-in .fixed-aside.fixed{
         padding-top: $header-height-logged-in;
     }
+
+    .fixed-aside{
+        border-right: 1px solid $color-dark-2;
+    }
+
     .fixed-aside.fixed{
-        position: fixed;
-        height: 100vh;
-        top: 0;
         left: 0;
-        padding-top: $header-height;
-
     }
 
-    .fixed-aside.stop{
-        position: absolute;
-        top: auto;
-        bottom: 0;
+    .fixed-aside .inner{
+        width: 100%;
     }
 
+    .fixed-aside-toggle{
+        display: none;
+    }
 }

@@ -71,6 +71,14 @@
             top: auto;
             bottom: 0;
         }
+
+        svg{
+            display: block;
+            fill: white;
+            height: inherit;
+            width: inherit;
+            position: relative;
+        }
     }
 
     .item-finder-ranges{

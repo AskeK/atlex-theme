@@ -5,7 +5,7 @@ add_action( 'init', 'smamo_add_forlob' );
 function smamo_add_forlob() {
 	register_post_type( 'forlob', array(
 
-        'menu_icon' 		 => 'dashicons-businessman',
+        'menu_icon' 		 => 'dashicons-list-view',
 		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
@@ -16,7 +16,7 @@ function smamo_add_forlob() {
 		'has_archive'        => true,
 		'hierarchical'       => false,
 		'menu_position'      => 22,
-		'supports'           => array( 'title'),
+		'supports'           => array( 'title', 'thumbnail', 'author', 'editor'),
         'show_in_rest'       => true,
   		'rest_base'          => 'forlob',
   		'rest_controller_class' => 'WP_REST_Posts_Controller',

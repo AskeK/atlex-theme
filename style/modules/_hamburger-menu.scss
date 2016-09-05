@@ -30,12 +30,14 @@ $menu-trans-timing: cubic-bezier(.77, .09, .31, 1);
     position: fixed;
     width: 100%;
     max-width:$menu-width;
-    height: 100vh + 30;
+    padding-bottom: 60px;
     top: 0;
+    bottom: -30px;
     right: - $menu-width;
     transition: right $menu-trans;
     transition-timing-function: $menu-trans-timing;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     background-color: $color-dark-2;
     color: white;
 
