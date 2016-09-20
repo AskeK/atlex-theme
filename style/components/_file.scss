@@ -1,0 +1,116 @@
+$fileinputwidth: 140px;
+$fileinputheight: 130px;
+
+
+.file-upload-dz{
+    min-width: $fileinputwidth;
+    min-height: $fileinputheight;
+    cursor: pointer;
+
+    &:after,
+    .dz-preview{
+        background-color: $color-light;
+        vertical-align: top;
+        box-sizing: border-box;
+
+        position: relative;
+        display: inline-block;
+        width: $fileinputwidth;
+        height: $fileinputheight;
+
+
+    }
+
+    &.gold:after,
+    &.gold .dz-preview{
+        background-color: $color-gold-3;
+    }
+
+    &:after{
+        content: '';
+        background-color: white;
+        background-image: url('../statics/plus.svg');
+        background-size: 40px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 1px solid #676767;
+    }
+
+    &.dz-max-files-reached .dz-preview:last-child{
+        margin-right: 0px;
+        margin-bottom: 0px;
+    }
+
+    &.dz-max-files-reached:after{
+        display: none;
+    }
+
+    .dz-preview{
+        margin-right: 20px;
+        margin-bottom: 20px;
+        cursor: default;
+
+        .dz-details,
+        .dz-progress,
+        .dz-error-message,
+        .dz-success-mark,
+        .dz-error-mark{
+            display: none;
+        }
+
+        .dz-remove{
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            font-size: 0px;
+            color: transparent;
+            background-color:rgba(black,.5);
+
+            &:before,
+            &:after{
+                content: '';
+                height: 15px;
+                width: 2px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                background-color: white;
+                transform: translate(-50%,-50%) rotate(45deg);
+            }
+
+            &:after{
+                transform: translate(-50%,-50%) rotate(-45deg);
+            }
+        }
+
+        &.dz-processing{
+
+            &:after{
+                content: '';
+                width: 100%;
+                height: 100%;
+                position:absolute;
+                bottom: 0;
+                right: 0;
+                background-color: rgba($color-gold,.6);
+                animation: widthDown linear forwards 1 1s;
+            }
+
+            .dz-image{
+                opacity: .4;
+            }
+        }
+
+        &.dz-complete{
+            .dz-image{
+                transition: opacity 120ms;
+                transition-delay: 1s;
+                opacity:1;
+            }
+        }
+    }
+}

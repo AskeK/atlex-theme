@@ -1,0 +1,1 @@
+var cloneSelect=function(){$(".clone-select").each(function(){var e=$(this),n=e.find("a.clone-add"),c=e.find("a.clone-remove");n.off().on("click",function(n){n.preventDefault(),e.clone().appendTo(e.parents("fieldset")),clonoSelect}),c.off().on("click",function(n){n.preventDefault(),e.remove()})})};

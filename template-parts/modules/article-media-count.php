@@ -2,20 +2,20 @@
 $tpl = $GLOBALS['jstemplates'];
 if ( !$tpl && !in_array( get_post_type( get_the_ID() ), array('post','page') ) ) : // PHP template
 
-$media = get_post_meta(get_the_ID(),'media',true);
+$images = get_post_meta(get_the_ID(),'images',false);
+$video = get_post_meta(get_the_ID(),'video',false);
 $count_str = '';
 $img_count = 0;
 $vid_count = 0;
-if (is_array($media)) {
-    foreach($media as $m){
+if (is_array($images) && !empty($images)) {
+    foreach($images as $m){
+        $img_count ++;
+    }
+}
 
-        if($m['media_type'] === '1'){
-            $img_count ++;
-        }
-
-        else{
-            $vid_count ++;
-        }
+if (is_array($video) && !empty($video[0])) {
+    foreach($video as $v){
+        $vid_count ++;
     }
 }
 
@@ -28,13 +28,11 @@ $count_str .= $vid_count . ' video' . ( $vid_count !== 1 ? 'er' : '' );
 {{if type==='ovelse' || type==='forlob'}}
 <span class="article-media-count">
 {{* window.mc = 0; window.vc = 0; }}
-{{for media}}
-    {{if media_type==='1'}}
-        {{* mc ++; }}
-    {{/if}}
-    {{if media_type && media_type!=='1'}}
-        {{* vc ++; }}
-    {{/if}}
+{{for images}}
+    {{* mc ++; }}
+{{/for}}
+{{for video}}
+    {{* vc ++; }}
 {{/for}}
 {{* :mc }} billede{{if mc!==1}}r{{/if}} / {{* :vc }} video{{if vc!=='1'}}er{{/if}}
 </span>

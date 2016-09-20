@@ -24,41 +24,17 @@
     </div>
     <div class="item-finder-ranges">
 
+        <?php $terms = get_terms('styrke',array('hide_empty' => false)); foreach($terms as $t) : ?>
         <fieldset class="range range-step">
-            <label for="arms">Arme</label>
+            <label for="<?php echo $t->slug ?>"><?php echo $t->name ?></label>
             <output>nej</output>
-            <input type="range" value="0" name="arms">
+            <input data-term="styrke" type="range" value="0" name="<?php echo $t->slug ?>">
         </fieldset>
-
-        <fieldset class="range range-step">
-            <label for="legs">Ben</label>
-            <output>nej</output>
-            <input type="range" value="0" name="legs">
-        </fieldset>
-
-        <fieldset class="range range-step">
-            <label for="abs">Mave</label>
-            <output>nej</output>
-            <input type="range" value="0" name="abs">
-        </fieldset>
-
-        <fieldset class="range range-step">
-            <label for="chest">Bryst</label>
-            <output>nej</output>
-            <input type="range" value="0" name="chest">
-        </fieldset>
-
-        <fieldset class="range range-step">
-            <label for="back">Ryg</label>
-            <output>nej</output>
-            <input type="range" value="0" name="back">
-        </fieldset>
-
+        <?php endforeach; ?>
         <fieldset class="range range-postfix" data-postfix="minut;minutter">
-            <label for="time">Tid</label>
+            <label for="time">Tid minimum</label>
             <output>1 minut</output>
-            <input type="range" value="1" min="1" max="90" name="time">
+            <input data-meta="time" data-meta-compare=">" type="range" value="1" min="1" max="90" name="time">
         </fieldset>
-
     </div>
 </form>

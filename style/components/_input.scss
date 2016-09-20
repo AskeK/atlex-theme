@@ -1,0 +1,69 @@
+fieldset{
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea{
+        width: 100%;
+        font-size: inherit;
+        font-family: inherit;
+        line-height: 1.5;
+        padding: 10px;
+        background: linear-gradient( left, #{lighten($color-gold,34)}, #{lighten($color-gold,35)}, #{lighten($color-gold,33)});
+        display: block;
+
+        &:active,
+        &:focus{
+            background: rgba($color-gold,.3);
+        }
+
+        &[maxlength]{
+            padding-right: 50px;
+        }
+    }
+
+    input[type="button"],
+    input[type="submit"],
+    a.submit,
+    a.button{
+        transition: background-color 120ms;
+        text-decoration: none;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        min-width: 200px;
+        text-align: center;
+        padding: 15px 25px;
+        font-size: 85%;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: 1px solid $color-dark;
+        background-color: white;
+        color: $color-dark;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-block;
+        box-shadow: 1px 2px 10px 0px rgba(black,.2);
+
+        &:hover,&:active,&:focus{
+            background-color: #f0f0f0;
+        }
+
+        &.gold{
+            background-color: lighten($color-gold, 10);
+            &:hover,&:active,&:focus{
+                background-color:$color-gold;
+            }
+        }
+    }
+
+    label.error{
+        color: #d66!important;
+    }
+
+    input[type="text"].error,
+    input[type="email"].error,
+    input[type="password"].error,
+    textarea.error{
+        background-color: rgba(#ff9999,.3)!important;
+    }
+}

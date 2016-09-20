@@ -1,0 +1,91 @@
+$select-height: 40px;
+$select-icon-width: 45px;
+$select-bg: #fafafa;
+
+fieldset.select span{
+    margin: 10px 0px;
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    border: 1px solid $color-light-5;
+    background-color: $select-bg;
+    background-image: url('../statics/select.svg');
+    background-position: center right 5px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    width: calc(100% - 100px);
+    //max-width: 420px;
+
+    select {
+        width: 100%;
+        padding: 0px 10px;
+        left: 10px;
+        height: $select-height;
+        line-height: $select-height;
+        font-size: inherit;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        background-image: none;
+        -webkit-appearance: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+
+}
+
+
+.select-clone{
+
+
+    a{
+        opacity: .2;
+        cursor: default;
+        position: absolute;
+        right: -51px;
+        top: -1px;
+        display: block;
+        width: 45px;
+        height: $select-height + 2px;
+        line-height: $select-height;
+        text-align: center;
+        background-color: $select-bg;
+        border: 1px solid $color-light-5;
+
+        &.clone-add{
+            right: -100px;
+            background-color: $color-gold-3;
+        }
+
+        &.clone-remove{
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+
+    &:first-child{
+        a,
+        a.clone-remove{
+            opacity: .2;
+            cursor: default;
+        }
+    }
+
+    &:last-child{
+        a.clone-add{
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+
+    svg{
+        @include center(true,true);
+        width: 20px;
+        height: 20px;
+        stroke: $color-dark-2;
+        fill: $color-dark-2;
+    }
+}

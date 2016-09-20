@@ -1,0 +1,73 @@
+.settings-article,
+.form-article{
+
+    form{
+        font-size: 0;
+    }
+
+    fieldset,p{
+        position: relative;
+        @extend %font-size;
+        margin: 10px 0px;
+    }
+
+    fieldset label,
+    p.p-label{
+        display: block;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+    fieldset{
+        @media only screen and(min-width:480px){
+           &.half{
+                display: inline-block;
+                width: 50%;
+                padding-right: 10px;
+
+                &.right{
+                    padding-left:10px;
+                    padding-right: 0px;
+                }
+            }
+        }
+
+        &.align-center{
+            text-align: center;
+        }
+
+        &.align-right{
+            text-align: right;
+        }
+
+
+        &.inline{
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 40px;
+        }
+
+        .maxlength-count{
+            color: rgba(black,.5);
+            margin-top: 23px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: right;
+            padding: 10px;
+
+            &.danger{
+                color: #e44;
+            }
+
+            &:before{
+                content: '(';
+            }
+
+            &:after{
+                content: ')';
+            }
+        }
+    }
+}

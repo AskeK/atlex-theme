@@ -1,10 +1,51 @@
 $(function(){
 
     var itemFinderType = 'ovelse',
-        itemFinderslug = 'false';
+        itemFinderslug = 'false',
+
+        itemFinderRanges = 'false',
+        setItemFinderRanges = function(){
+            var terms = {},
+                metas = {};
+            $('.item-finder-form input[type="range"]').each(function(){
+                var field = $(this),
+                    meta = field.attr('data-meta'),
+                    compare = field.attr('data-meta-compare'),
+                    term = field.attr('data-term'),
+                    slug = field.attr('name'),
+                    val = field.val();
+
+                // term range boolians
+                if(typeof term !== 'undefined' && val === '1'){
+
+                    if(!terms[term].length){
+                        terms[term] = '';
+                    }
+
+                    terms[term].push(slug);
+
+                }
+
+                // meta val
+                if(typeof meta !== 'undefined' && val !== ''){
+                    metas[meta] = {};
+
+                    metas[meta]['meta_key'] = slug;
+                    metas[meta]['meta_value'] = val;
+                    metas[meta]['meta_compare'] = compare;
+
+                }
+            });
+            console.log(terms);
+            console.log(metas);
+        },
+
+        itemFinderTime = 'false';
 
     $('body').on('click', '.item-finder-list-nav', function(e){
         e.preventDefault();
+
+        setItemFinderRanges();
 
         var a = $(this),
             parent = a.parents('.item-finder-list'),

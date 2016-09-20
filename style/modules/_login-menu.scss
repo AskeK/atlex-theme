@@ -67,6 +67,11 @@
         }
 
         svg,i{
+
+            @media only screen and(min-width:640px){
+                transform: skewX(15deg) translate3d(0,0,0);
+            }
+
             z-index: 1;
             position: relative;
             line-height: 20px;
@@ -86,5 +91,9 @@
 }
 
 a.login-name:hover svg{
-    animation: rotate linear infinite 2.5s;
+    animation: rotate linear infinite 1.5s;
+    @media only screen and(min-width:640px){
+        animation: rotateSkew linear infinite 1.5s;
+    }
+
 }

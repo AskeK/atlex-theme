@@ -2,3 +2,19 @@
     from{transform: rotate(0deg)}
     to{transform: rotate(360deg);}
 }
+
+
+@keyframes rotateSkew{
+    from{transform: skew(15deg) rotate(0deg);}
+    to{transform: skew(15deg) rotate(360deg);}
+}
+
+@keyframes width{
+    from{width:0%}
+    to{width:100%}
+}
+
+@keyframes widthDown{
+    from{width:100%}
+    to{width:0%}
+}

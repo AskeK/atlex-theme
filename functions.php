@@ -3,6 +3,8 @@ get_functions_part(array(
     'menus',
     'scripts',
     'images',
+    'page-state',
+    'user-url'
 ));
 
 get_functions_part(array(
@@ -24,6 +26,24 @@ get_functions_part(array(
     'page',
     'user',
 ),'rest');
+
+get_functions_part(array(
+    'page',
+),'columns');
+
+
+get_functions_part(array(
+    'config',
+    'front-video',
+),'kirki');
+
+
+get_functions_part(array(
+    'ajax-upload',
+    'form-submit',
+    'get_posts',
+),'ajax');
+
 
 // email
 function sendEmail( $from_name, $from, $to, $subject, $message ){

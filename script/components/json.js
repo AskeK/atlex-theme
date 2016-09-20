@@ -15,3 +15,21 @@ function jsGetJSON(link,ret){
         },
     });
 };
+
+function jsGetPosts(query,ret){
+
+    console.log('getting posts from ' + ajaxURL);
+
+    query['action'] = 'get_posts';
+
+    $.ajax({
+        url : ajaxURL,
+        type : 'POST',
+        data : query,
+        dataType : 'json',
+        success : function(response){
+            ret(response);
+        },
+    });
+
+}

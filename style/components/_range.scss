@@ -1,13 +1,20 @@
+aside fieldset.range{
+    color: white;
+    font-weight: 700;
+
+    label{
+        font-size: 90%;
+    }
+}
+
 fieldset.range{
     margin:20px 0px 0px;
     @extend %font-size;
-    font-weight: 700;
-    color: white;
     text-transform: uppercase;
 
     label{
+        display: inline-block;
         margin-left: 5px;
-        font-size: 90%;
     }
 
     output{

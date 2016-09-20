@@ -10,6 +10,7 @@
         'home'      => is_front_page(),
         '404'       => is_404(),
         'search'    => is_search(),
+        'author'    => is_author(),
         'archive'   => is_home() || is_archive(),
         'page'      => is_page() && is_singular(),
         'single'    => is_singular() || is_single(),

@@ -8,6 +8,7 @@ function smamo_rest_register_ovelse_meta() {
         'tw_link' => 'smamo_rest_get_tw_link',
         'img' => 'smamo_rest_get_img_link',
         'media' => null,
+        'images' => null,
     );
 
 

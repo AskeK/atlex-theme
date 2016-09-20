@@ -5,3 +5,4 @@
 /node_modules/
 /.codekit-cache/
 /style/.sass-cache/
+/config.codekit
