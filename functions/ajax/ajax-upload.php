@@ -30,7 +30,7 @@ function upload_user_file( $file = array() ) {
 
         if( 0 < intval( $attachment_id ) ) {
 
-			$image_url = wp_get_attachment_image_src( $attachment_id, 'rh-img');
+			$image_url = wp_get_attachment_image_src( $attachment_id, 'dz');
 
 
 			$function_return = array(

@@ -1,51 +1,71 @@
+var itemFinderslug = 'false',
+    itemFinderTime = 0,
+    itemFinderRanges = [],
+    itemFinderType = 'ovelse';
+
 $(function(){
 
-    var itemFinderType = 'ovelse',
-        itemFinderslug = 'false',
+    $('body').on('change','.item-finder-ranges input',function(e){
 
-        itemFinderRanges = 'false',
-        setItemFinderRanges = function(){
-            var terms = {},
-                metas = {};
-            $('.item-finder-form input[type="range"]').each(function(){
-                var field = $(this),
-                    meta = field.attr('data-meta'),
-                    compare = field.attr('data-meta-compare'),
-                    term = field.attr('data-term'),
-                    slug = field.attr('name'),
-                    val = field.val();
+        $('.item-finder-toggle').removeClass('active');
+        $('.toggle-ovelse').addClass('active');
+        itemFinderType = 'ovelse';
+        articlePageToggle(1,'top');
 
-                // term range boolians
-                if(typeof term !== 'undefined' && val === '1'){
+        var t = $(e.target),
+            id = t.attr('data-term-id'),
+            on = false;
 
-                    if(!terms[term].length){
-                        terms[term] = '';
+        if(t.attr('data-meta') === 'time'){
+            itemFinderTime = t.val();
+            console.log(itemFinderTime);
+        }
+
+        if (parseInt(t.val()) > 49 && typeof id !== 'undefined'){
+            itemFinderRanges.push(id);
+        }
+
+        else{
+            itemFinderRanges.pop(id);
+        }
+
+
+
+        $('.article-page-ovelse article').each(function(){
+            var s = $(this).attr('data-s').split(','),
+                time = $(this).attr('data-t');
+
+            var show = true;
+
+            if (itemFinderRanges.length) {
+
+                for (var i = 0; i < itemFinderRanges.length; i++) {
+                    if(s.indexOf(itemFinderRanges[i]) < 0){
+                        show = false;
                     }
-
-                    terms[term].push(slug);
-
                 }
+            }
 
-                // meta val
-                if(typeof meta !== 'undefined' && val !== ''){
-                    metas[meta] = {};
+            if(typeof time !== 'undefinded' && parseInt(time) < parseInt(itemFinderTime)){
+                show = false;
+            }
 
-                    metas[meta]['meta_key'] = slug;
-                    metas[meta]['meta_value'] = val;
-                    metas[meta]['meta_compare'] = compare;
-
-                }
-            });
-            console.log(terms);
-            console.log(metas);
-        },
-
-        itemFinderTime = 'false';
+            if(show){
+                $(this).show();
+            }
+            else{
+                $(this).hide();
+            }
+        });
+    });
 
     $('body').on('click', '.item-finder-list-nav', function(e){
-        e.preventDefault();
 
-        setItemFinderRanges();
+        $('.item-finder-toggle').removeClass('active');
+        $('.toggle-ovelse').addClass('active');
+        itemFinderType = 'ovelse';
+        articlePageToggle(1,'top');
+        e.preventDefault();
 
         var a = $(this),
             parent = a.parents('.item-finder-list'),
@@ -81,7 +101,7 @@ $(function(){
             jsRenderModule({
                 endpoint : endpoint,
                 template: 'jsTemplate-article',
-                target: '.main-section main',
+                target: '.main-section main .article-page-ovelse',
                 overwrite: true,
                 },function(){
                     jio_data_img.scan();
@@ -94,26 +114,35 @@ $(function(){
     $('body').on('click', '.item-finder-toggle',function(e){
         e.preventDefault();
         $('.item-finder-toggle').removeClass('active');
+        $('body').removeClass('toggle-aside');
         $(this).addClass('active');
 
-        if(itemFinderType !== $(this).attr('data-type')){
-            itemFinderType = $(this).attr('data-type');
 
-            var endpoint = itemFinderType;
-            if(itemFinderslug !== 'false' && itemFinderType !== 'forlob'){
+        itemFinderType = $(this).attr('data-type');
 
-                endpoint += '/?filter[type]=' + itemFinderslug;
-            }
+        var endpoint = itemFinderType;
+        if(itemFinderslug !== 'false' && itemFinderType !== 'forlob'){
+            endpoint += '/?filter[type]=' + itemFinderslug;
+        }
+
+        var articlePage = ('ovelse' === itemFinderType ? 1 : 2);
+            articlePageToggle(articlePage,'top');
+
+
+        if(!$('.article-page-'+itemFinderType+' article').length){
+            $('.main-section main .article-page-'+itemFinderType).addClass('loading').css('height','400px');
 
             jsRenderModule({
                 endpoint : endpoint,
                 template: 'jsTemplate-article',
-                target: '.main-section main',
+                target: '.main-section main .article-page-'+itemFinderType,
                 overwrite: true,
                 },function(){
+                    $('.main-section main .article-page-'+itemFinderType).removeAttr('style');
                     jio_data_img.scan();
                 }
             );
         }
+
     });
 });

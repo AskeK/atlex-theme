@@ -12,14 +12,14 @@ var jio_data_img = {
     replace: function($img) {
         var $imgSrc = $img.attr('data-src'),
             $imgBg = $img.attr('data-bg'),
-            $imgID = $img.attr('data-id'),
+            $imgID = $img.attr('data-img-id'),
 
             $imgIDSize = $img.attr('data-id-size'),
             $imgSrcset = $img.attr('data-srcset'),
             $imgSizes = $img.attr('data-sizes'),
             $imgPlaceholder = new Image();
 
-        $img.removeAttr('data-src data-bg data-srcset data-sizes data-id data-id-size');
+        $img.removeAttr('data-src data-bg data-srcset data-sizes data-img-id data-id-size');
 
         if (typeof $imgSrc !== 'undefined') {
             $imgPlaceholder.src = $imgSrc;
@@ -32,6 +32,7 @@ var jio_data_img = {
             if(typeof $imgIDSize === 'undefined'){$imgIDSize = 'full';}
 
             jsGetJSON('media/'+$imgID, function(ret){
+
                 if (ret.status !== 404){
                     var imgsrc = ret.media_details.sizes[$imgIDSize].source_url;
 
@@ -63,7 +64,7 @@ var jio_data_img = {
 
     // scan DOM for replacable img srcses
     scan : function(){
-        $('[data-src], [data-bg], [data-srcset], [data-sizes], [data-id]').each(function(e){
+        $('[data-src], [data-bg], [data-srcset], [data-sizes], [data-img-id]').each(function(e){
             var $img = $(this);
             if(jio_data_img.inview($img)){
                 jio_data_img.replace($img);

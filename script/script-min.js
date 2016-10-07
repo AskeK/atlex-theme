@@ -10,6 +10,9 @@ function jsGetJSON(link,ret){
         type : 'GET',
         data : null,
         dataType : 'json',
+        beforeSend: function ( xhr ) {
+            xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
+        },
         success : function(response){
             ret(response);
         },
@@ -61,14 +64,14 @@ var jio_data_img = {
     replace: function($img) {
         var $imgSrc = $img.attr('data-src'),
             $imgBg = $img.attr('data-bg'),
-            $imgID = $img.attr('data-id'),
+            $imgID = $img.attr('data-img-id'),
 
             $imgIDSize = $img.attr('data-id-size'),
             $imgSrcset = $img.attr('data-srcset'),
             $imgSizes = $img.attr('data-sizes'),
             $imgPlaceholder = new Image();
 
-        $img.removeAttr('data-src data-bg data-srcset data-sizes data-id data-id-size');
+        $img.removeAttr('data-src data-bg data-srcset data-sizes data-img-id data-id-size');
 
         if (typeof $imgSrc !== 'undefined') {
             $imgPlaceholder.src = $imgSrc;
@@ -81,6 +84,7 @@ var jio_data_img = {
             if(typeof $imgIDSize === 'undefined'){$imgIDSize = 'full';}
 
             jsGetJSON('media/'+$imgID, function(ret){
+
                 if (ret.status !== 404){
                     var imgsrc = ret.media_details.sizes[$imgIDSize].source_url;
 
@@ -112,7 +116,7 @@ var jio_data_img = {
 
     // scan DOM for replacable img srcses
     scan : function(){
-        $('[data-src], [data-bg], [data-srcset], [data-sizes], [data-id]').each(function(e){
+        $('[data-src], [data-bg], [data-srcset], [data-sizes], [data-img-id]').each(function(e){
             var $img = $(this);
             if(jio_data_img.inview($img)){
                 jio_data_img.replace($img);
@@ -139,6 +143,1382 @@ jio_data_img.init(['load','scroll','resize']);
 function getHistory(){}
 
 function setHistory(){}
+
+
+/**!
+ * Sortable
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @license MIT
+ */
+
+(function sortableModule(factory) {
+	"use strict";
+
+	if (typeof define === "function" && define.amd) {
+		define(factory);
+	}
+	else if (typeof module != "undefined" && typeof module.exports != "undefined") {
+		module.exports = factory();
+	}
+	else if (typeof Package !== "undefined") {
+		//noinspection JSUnresolvedVariable
+		Sortable = factory();  // export for Meteor.js
+	}
+	else {
+		/* jshint sub:true */
+		window["Sortable"] = factory();
+	}
+})(function sortableFactory() {
+	"use strict";
+
+	if (typeof window == "undefined" || !window.document) {
+		return function sortableError() {
+			throw new Error("Sortable.js requires a window with a document");
+		};
+	}
+
+	var dragEl,
+		parentEl,
+		ghostEl,
+		cloneEl,
+		rootEl,
+		nextEl,
+
+		scrollEl,
+		scrollParentEl,
+		scrollCustomFn,
+
+		lastEl,
+		lastCSS,
+		lastParentCSS,
+
+		oldIndex,
+		newIndex,
+
+		activeGroup,
+		putSortable,
+
+		autoScroll = {},
+
+		tapEvt,
+		touchEvt,
+
+		moved,
+
+		/** @const */
+		RSPACE = /\s+/g,
+
+		expando = 'Sortable' + (new Date).getTime(),
+
+		win = window,
+		document = win.document,
+		parseInt = win.parseInt,
+
+		$ = win.jQuery || win.Zepto,
+		Polymer = win.Polymer,
+
+		supportDraggable = !!('draggable' in document.createElement('div')),
+		supportCssPointerEvents = (function (el) {
+			// false when IE11
+			if (!!navigator.userAgent.match(/Trident.*rv[ :]?11\./)) {
+				return false;
+			}
+			el = document.createElement('x');
+			el.style.cssText = 'pointer-events:auto';
+			return el.style.pointerEvents === 'auto';
+		})(),
+
+		_silent = false,
+
+		abs = Math.abs,
+		min = Math.min,
+		slice = [].slice,
+
+		touchDragOverListeners = [],
+
+		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl) {
+			// Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
+			if (rootEl && options.scroll) {
+				var el,
+					rect,
+					sens = options.scrollSensitivity,
+					speed = options.scrollSpeed,
+
+					x = evt.clientX,
+					y = evt.clientY,
+
+					winWidth = window.innerWidth,
+					winHeight = window.innerHeight,
+
+					vx,
+					vy,
+
+					scrollOffsetX,
+					scrollOffsetY
+				;
+
+				// Delect scrollEl
+				if (scrollParentEl !== rootEl) {
+					scrollEl = options.scroll;
+					scrollParentEl = rootEl;
+					scrollCustomFn = options.scrollFn;
+
+					if (scrollEl === true) {
+						scrollEl = rootEl;
+
+						do {
+							if ((scrollEl.offsetWidth < scrollEl.scrollWidth) ||
+								(scrollEl.offsetHeight < scrollEl.scrollHeight)
+							) {
+								break;
+							}
+							/* jshint boss:true */
+						} while (scrollEl = scrollEl.parentNode);
+					}
+				}
+
+				if (scrollEl) {
+					el = scrollEl;
+					rect = scrollEl.getBoundingClientRect();
+					vx = (abs(rect.right - x) <= sens) - (abs(rect.left - x) <= sens);
+					vy = (abs(rect.bottom - y) <= sens) - (abs(rect.top - y) <= sens);
+				}
+
+
+				if (!(vx || vy)) {
+					vx = (winWidth - x <= sens) - (x <= sens);
+					vy = (winHeight - y <= sens) - (y <= sens);
+
+					/* jshint expr:true */
+					(vx || vy) && (el = win);
+				}
+
+
+				if (autoScroll.vx !== vx || autoScroll.vy !== vy || autoScroll.el !== el) {
+					autoScroll.el = el;
+					autoScroll.vx = vx;
+					autoScroll.vy = vy;
+
+					clearInterval(autoScroll.pid);
+
+					if (el) {
+						autoScroll.pid = setInterval(function () {
+							scrollOffsetY = vy ? vy * speed : 0;
+							scrollOffsetX = vx ? vx * speed : 0;
+
+							if ('function' === typeof(scrollCustomFn)) {
+								return scrollCustomFn.call(_this, scrollOffsetX, scrollOffsetY, evt);
+							}
+
+							if (el === win) {
+								win.scrollTo(win.pageXOffset + scrollOffsetX, win.pageYOffset + scrollOffsetY);
+							} else {
+								el.scrollTop += scrollOffsetY;
+								el.scrollLeft += scrollOffsetX;
+							}
+						}, 24);
+					}
+				}
+			}
+		}, 30),
+
+		_prepareGroup = function (options) {
+			function toFn(value, pull) {
+				if (value === void 0 || value === true) {
+					value = group.name;
+				}
+
+				if (typeof value === 'function') {
+					return value;
+				} else {
+					return function (to, from) {
+						var fromGroup = from.options.group.name;
+
+						return pull
+							? value
+							: value && (value.join
+								? value.indexOf(fromGroup) > -1
+								: (fromGroup == value)
+							);
+					};
+				}
+			}
+
+			var group = {};
+			var originalGroup = options.group;
+
+			if (!originalGroup || typeof originalGroup != 'object') {
+				originalGroup = {name: originalGroup};
+			}
+
+			group.name = originalGroup.name;
+			group.checkPull = toFn(originalGroup.pull, true);
+			group.checkPut = toFn(originalGroup.put);
+
+			options.group = group;
+		}
+	;
+
+
+
+	/**
+	 * @class  Sortable
+	 * @param  {HTMLElement}  el
+	 * @param  {Object}       [options]
+	 */
+	function Sortable(el, options) {
+		if (!(el && el.nodeType && el.nodeType === 1)) {
+			throw 'Sortable: `el` must be HTMLElement, and not ' + {}.toString.call(el);
+		}
+
+		this.el = el; // root element
+		this.options = options = _extend({}, options);
+
+
+		// Export instance
+		el[expando] = this;
+
+
+		// Default options
+		var defaults = {
+			group: Math.random(),
+			sort: true,
+			disabled: false,
+			store: null,
+			handle: null,
+			scroll: true,
+			scrollSensitivity: 30,
+			scrollSpeed: 10,
+			draggable: /[uo]l/i.test(el.nodeName) ? 'li' : '>*',
+			ghostClass: 'sortable-ghost',
+			chosenClass: 'sortable-chosen',
+			dragClass: 'sortable-drag',
+			ignore: 'a, img',
+			filter: null,
+			animation: 0,
+			setData: function (dataTransfer, dragEl) {
+				dataTransfer.setData('Text', dragEl.textContent);
+			},
+			dropBubble: false,
+			dragoverBubble: false,
+			dataIdAttr: 'data-id',
+			delay: 0,
+			forceFallback: false,
+			fallbackClass: 'sortable-fallback',
+			fallbackOnBody: false,
+			fallbackTolerance: 0,
+			fallbackOffset: {x: 0, y: 0}
+		};
+
+
+		// Set default options
+		for (var name in defaults) {
+			!(name in options) && (options[name] = defaults[name]);
+		}
+
+		_prepareGroup(options);
+
+		// Bind all private methods
+		for (var fn in this) {
+			if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
+				this[fn] = this[fn].bind(this);
+			}
+		}
+
+		// Setup drag mode
+		this.nativeDraggable = options.forceFallback ? false : supportDraggable;
+
+		// Bind events
+		_on(el, 'mousedown', this._onTapStart);
+		_on(el, 'touchstart', this._onTapStart);
+
+		if (this.nativeDraggable) {
+			_on(el, 'dragover', this);
+			_on(el, 'dragenter', this);
+		}
+
+		touchDragOverListeners.push(this._onDragOver);
+
+		// Restore sorting
+		options.store && this.sort(options.store.get(this));
+	}
+
+
+	Sortable.prototype = /** @lends Sortable.prototype */ {
+		constructor: Sortable,
+
+		_onTapStart: function (/** Event|TouchEvent */evt) {
+			var _this = this,
+				el = this.el,
+				options = this.options,
+				type = evt.type,
+				touch = evt.touches && evt.touches[0],
+				target = (touch || evt).target,
+				originalTarget = evt.target.shadowRoot && evt.path[0] || target,
+				filter = options.filter,
+				startIndex;
+
+			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
+			if (dragEl) {
+				return;
+			}
+
+			if (type === 'mousedown' && evt.button !== 0 || options.disabled) {
+				return; // only left button or enabled
+			}
+
+			if (options.handle && !_closest(originalTarget, options.handle, el)) {
+				return;
+			}
+
+			target = _closest(target, options.draggable, el);
+
+			if (!target) {
+				return;
+			}
+
+			// Get the index of the dragged element within its parent
+			startIndex = _index(target, options.draggable);
+
+			// Check filter
+			if (typeof filter === 'function') {
+				if (filter.call(this, evt, target, this)) {
+					_dispatchEvent(_this, originalTarget, 'filter', target, el, startIndex);
+					evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+			else if (filter) {
+				filter = filter.split(',').some(function (criteria) {
+					criteria = _closest(originalTarget, criteria.trim(), el);
+
+					if (criteria) {
+						_dispatchEvent(_this, criteria, 'filter', target, el, startIndex);
+						return true;
+					}
+				});
+
+				if (filter) {
+					evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+
+			// Prepare `dragstart`
+			this._prepareDragStart(evt, touch, target, startIndex);
+		},
+
+		_prepareDragStart: function (/** Event */evt, /** Touch */touch, /** HTMLElement */target, /** Number */startIndex) {
+			var _this = this,
+				el = _this.el,
+				options = _this.options,
+				ownerDocument = el.ownerDocument,
+				dragStartFn;
+
+			if (target && !dragEl && (target.parentNode === el)) {
+				tapEvt = evt;
+
+				rootEl = el;
+				dragEl = target;
+				parentEl = dragEl.parentNode;
+				nextEl = dragEl.nextSibling;
+				activeGroup = options.group;
+				oldIndex = startIndex;
+
+				this._lastX = (touch || evt).clientX;
+				this._lastY = (touch || evt).clientY;
+
+				dragEl.style['will-change'] = 'transform';
+
+				dragStartFn = function () {
+					// Delayed drag has been triggered
+					// we can re-enable the events: touchmove/mousemove
+					_this._disableDelayedDrag();
+
+					// Make the element draggable
+					dragEl.draggable = _this.nativeDraggable;
+
+					// Chosen item
+					_toggleClass(dragEl, options.chosenClass, true);
+
+					// Bind the events: dragstart/dragend
+					_this._triggerDragStart(touch);
+
+					// Drag start event
+					_dispatchEvent(_this, rootEl, 'choose', dragEl, rootEl, oldIndex);
+				};
+
+				// Disable "draggable"
+				options.ignore.split(',').forEach(function (criteria) {
+					_find(dragEl, criteria.trim(), _disableDraggable);
+				});
+
+				_on(ownerDocument, 'mouseup', _this._onDrop);
+				_on(ownerDocument, 'touchend', _this._onDrop);
+				_on(ownerDocument, 'touchcancel', _this._onDrop);
+
+				if (options.delay) {
+					// If the user moves the pointer or let go the click or touch
+					// before the delay has been reached:
+					// disable the delayed drag
+					_on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchend', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
+					_on(ownerDocument, 'mousemove', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchmove', _this._disableDelayedDrag);
+
+					_this._dragStartTimer = setTimeout(dragStartFn, options.delay);
+				} else {
+					dragStartFn();
+				}
+			}
+		},
+
+		_disableDelayedDrag: function () {
+			var ownerDocument = this.el.ownerDocument;
+
+			clearTimeout(this._dragStartTimer);
+			_off(ownerDocument, 'mouseup', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchend', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
+			_off(ownerDocument, 'mousemove', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchmove', this._disableDelayedDrag);
+		},
+
+		_triggerDragStart: function (/** Touch */touch) {
+			if (touch) {
+				// Touch device support
+				tapEvt = {
+					target: dragEl,
+					clientX: touch.clientX,
+					clientY: touch.clientY
+				};
+
+				this._onDragStart(tapEvt, 'touch');
+			}
+			else if (!this.nativeDraggable) {
+				this._onDragStart(tapEvt, true);
+			}
+			else {
+				_on(dragEl, 'dragend', this);
+				_on(rootEl, 'dragstart', this._onDragStart);
+			}
+
+			try {
+				if (document.selection) {
+					// Timeout neccessary for IE9
+					setTimeout(function () {
+						document.selection.empty();
+					});
+				} else {
+					window.getSelection().removeAllRanges();
+				}
+			} catch (err) {
+			}
+		},
+
+		_dragStarted: function () {
+			if (rootEl && dragEl) {
+				var options = this.options;
+
+				// Apply effect
+				_toggleClass(dragEl, options.ghostClass, true);
+				_toggleClass(dragEl, options.dragClass, false);
+
+				Sortable.active = this;
+
+				// Drag start event
+				_dispatchEvent(this, rootEl, 'start', dragEl, rootEl, oldIndex);
+			}
+		},
+
+		_emulateDragOver: function () {
+			if (touchEvt) {
+				if (this._lastX === touchEvt.clientX && this._lastY === touchEvt.clientY) {
+					return;
+				}
+
+				this._lastX = touchEvt.clientX;
+				this._lastY = touchEvt.clientY;
+
+				if (!supportCssPointerEvents) {
+					_css(ghostEl, 'display', 'none');
+				}
+
+				var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY),
+					parent = target,
+					i = touchDragOverListeners.length;
+
+				if (parent) {
+					do {
+						if (parent[expando]) {
+							while (i--) {
+								touchDragOverListeners[i]({
+									clientX: touchEvt.clientX,
+									clientY: touchEvt.clientY,
+									target: target,
+									rootEl: parent
+								});
+							}
+
+							break;
+						}
+
+						target = parent; // store last element
+					}
+					/* jshint boss:true */
+					while (parent = parent.parentNode);
+				}
+
+				if (!supportCssPointerEvents) {
+					_css(ghostEl, 'display', '');
+				}
+			}
+		},
+
+
+		_onTouchMove: function (/**TouchEvent*/evt) {
+			if (tapEvt) {
+				var	options = this.options,
+					fallbackTolerance = options.fallbackTolerance,
+					fallbackOffset = options.fallbackOffset,
+					touch = evt.touches ? evt.touches[0] : evt,
+					dx = (touch.clientX - tapEvt.clientX) + fallbackOffset.x,
+					dy = (touch.clientY - tapEvt.clientY) + fallbackOffset.y,
+					translate3d = evt.touches ? 'translate3d(' + dx + 'px,' + dy + 'px,0)' : 'translate(' + dx + 'px,' + dy + 'px)';
+
+				// only set the status to dragging, when we are actually dragging
+				if (!Sortable.active) {
+					if (fallbackTolerance &&
+						min(abs(touch.clientX - this._lastX), abs(touch.clientY - this._lastY)) < fallbackTolerance
+					) {
+						return;
+					}
+
+					this._dragStarted();
+				}
+
+				// as well as creating the ghost element on the document body
+				this._appendGhost();
+
+				moved = true;
+				touchEvt = touch;
+
+				_css(ghostEl, 'webkitTransform', translate3d);
+				_css(ghostEl, 'mozTransform', translate3d);
+				_css(ghostEl, 'msTransform', translate3d);
+				_css(ghostEl, 'transform', translate3d);
+
+				evt.preventDefault();
+			}
+		},
+
+		_appendGhost: function () {
+			if (!ghostEl) {
+				var rect = dragEl.getBoundingClientRect(),
+					css = _css(dragEl),
+					options = this.options,
+					ghostRect;
+
+				ghostEl = dragEl.cloneNode(true);
+
+				_toggleClass(ghostEl, options.ghostClass, false);
+				_toggleClass(ghostEl, options.fallbackClass, true);
+				_toggleClass(ghostEl, options.dragClass, true);
+
+				_css(ghostEl, 'top', rect.top - parseInt(css.marginTop, 10));
+				_css(ghostEl, 'left', rect.left - parseInt(css.marginLeft, 10));
+				_css(ghostEl, 'width', rect.width);
+				_css(ghostEl, 'height', rect.height);
+				_css(ghostEl, 'opacity', '0.8');
+				_css(ghostEl, 'position', 'fixed');
+				_css(ghostEl, 'zIndex', '100000');
+				_css(ghostEl, 'pointerEvents', 'none');
+
+				options.fallbackOnBody && document.body.appendChild(ghostEl) || rootEl.appendChild(ghostEl);
+
+				// Fixing dimensions.
+				ghostRect = ghostEl.getBoundingClientRect();
+				_css(ghostEl, 'width', rect.width * 2 - ghostRect.width);
+				_css(ghostEl, 'height', rect.height * 2 - ghostRect.height);
+			}
+		},
+
+		_onDragStart: function (/**Event*/evt, /**boolean*/useFallback) {
+			var dataTransfer = evt.dataTransfer,
+				options = this.options;
+
+			this._offUpEvents();
+
+			if (activeGroup.checkPull(this, this, dragEl, evt) == 'clone') {
+				cloneEl = _clone(dragEl);
+				_css(cloneEl, 'display', 'none');
+				rootEl.insertBefore(cloneEl, dragEl);
+				_dispatchEvent(this, rootEl, 'clone', dragEl);
+			}
+
+			_toggleClass(dragEl, options.dragClass, true);
+
+			if (useFallback) {
+				if (useFallback === 'touch') {
+					// Bind touch events
+					_on(document, 'touchmove', this._onTouchMove);
+					_on(document, 'touchend', this._onDrop);
+					_on(document, 'touchcancel', this._onDrop);
+				} else {
+					// Old brwoser
+					_on(document, 'mousemove', this._onTouchMove);
+					_on(document, 'mouseup', this._onDrop);
+				}
+
+				this._loopId = setInterval(this._emulateDragOver, 50);
+			}
+			else {
+				if (dataTransfer) {
+					dataTransfer.effectAllowed = 'move';
+					options.setData && options.setData.call(this, dataTransfer, dragEl);
+				}
+
+				_on(document, 'drop', this);
+				setTimeout(this._dragStarted, 0);
+			}
+		},
+
+		_onDragOver: function (/**Event*/evt) {
+			var el = this.el,
+				target,
+				dragRect,
+				targetRect,
+				revert,
+				options = this.options,
+				group = options.group,
+				activeSortable = Sortable.active,
+				isOwner = (activeGroup === group),
+				canSort = options.sort;
+
+			if (evt.preventDefault !== void 0) {
+				evt.preventDefault();
+				!options.dragoverBubble && evt.stopPropagation();
+			}
+
+			moved = true;
+
+			if (activeGroup && !options.disabled &&
+				(isOwner
+					? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
+					: (
+						putSortable === this ||
+						activeGroup.checkPull(this, activeSortable, dragEl, evt) && group.checkPut(this, activeSortable, dragEl, evt)
+					)
+				) &&
+				(evt.rootEl === void 0 || evt.rootEl === this.el) // touch fallback
+			) {
+				// Smart auto-scrolling
+				_autoScroll(evt, options, this.el);
+
+				if (_silent) {
+					return;
+				}
+
+				target = _closest(evt.target, options.draggable, el);
+				dragRect = dragEl.getBoundingClientRect();
+				putSortable = this;
+
+				if (revert) {
+					_cloneHide(true);
+					parentEl = rootEl; // actualization
+
+					if (cloneEl || nextEl) {
+						rootEl.insertBefore(dragEl, cloneEl || nextEl);
+					}
+					else if (!canSort) {
+						rootEl.appendChild(dragEl);
+					}
+
+					return;
+				}
+
+
+				if ((el.children.length === 0) || (el.children[0] === ghostEl) ||
+					(el === evt.target) && (target = _ghostIsLast(el, evt))
+				) {
+					if (target) {
+						if (target.animated) {
+							return;
+						}
+
+						targetRect = target.getBoundingClientRect();
+					}
+
+					_cloneHide(isOwner);
+
+					if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt) !== false) {
+						if (!dragEl.contains(el)) {
+							el.appendChild(dragEl);
+							parentEl = el; // actualization
+						}
+
+						this._animate(dragRect, dragEl);
+						target && this._animate(targetRect, target);
+					}
+				}
+				else if (target && !target.animated && target !== dragEl && (target.parentNode[expando] !== void 0)) {
+					if (lastEl !== target) {
+						lastEl = target;
+						lastCSS = _css(target);
+						lastParentCSS = _css(target.parentNode);
+					}
+
+					targetRect = target.getBoundingClientRect();
+
+					var width = targetRect.right - targetRect.left,
+						height = targetRect.bottom - targetRect.top,
+						floating = /left|right|inline/.test(lastCSS.cssFloat + lastCSS.display)
+							|| (lastParentCSS.display == 'flex' && lastParentCSS['flex-direction'].indexOf('row') === 0),
+						isWide = (target.offsetWidth > dragEl.offsetWidth),
+						isLong = (target.offsetHeight > dragEl.offsetHeight),
+						halfway = (floating ? (evt.clientX - targetRect.left) / width : (evt.clientY - targetRect.top) / height) > 0.5,
+						nextSibling = target.nextElementSibling,
+						moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt),
+						after
+					;
+
+					if (moveVector !== false) {
+						_silent = true;
+						setTimeout(_unsilent, 30);
+
+						_cloneHide(isOwner);
+
+						if (moveVector === 1 || moveVector === -1) {
+							after = (moveVector === 1);
+						}
+						else if (floating) {
+							var elTop = dragEl.offsetTop,
+								tgTop = target.offsetTop;
+
+							if (elTop === tgTop) {
+								after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
+							}
+							else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
+								after = (evt.clientY - targetRect.top) / height > 0.5;
+							} else {
+								after = tgTop > elTop;
+							}
+						} else {
+							after = (nextSibling !== dragEl) && !isLong || halfway && isLong;
+						}
+
+						if (!dragEl.contains(el)) {
+							if (after && !nextSibling) {
+								el.appendChild(dragEl);
+							} else {
+								target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+							}
+						}
+
+						parentEl = dragEl.parentNode; // actualization
+
+						this._animate(dragRect, dragEl);
+						this._animate(targetRect, target);
+					}
+				}
+			}
+		},
+
+		_animate: function (prevRect, target) {
+			var ms = this.options.animation;
+
+			if (ms) {
+				var currentRect = target.getBoundingClientRect();
+
+				_css(target, 'transition', 'none');
+				_css(target, 'transform', 'translate3d('
+					+ (prevRect.left - currentRect.left) + 'px,'
+					+ (prevRect.top - currentRect.top) + 'px,0)'
+				);
+
+				target.offsetWidth; // repaint
+
+				_css(target, 'transition', 'all ' + ms + 'ms');
+				_css(target, 'transform', 'translate3d(0,0,0)');
+
+				clearTimeout(target.animated);
+				target.animated = setTimeout(function () {
+					_css(target, 'transition', '');
+					_css(target, 'transform', '');
+					target.animated = false;
+				}, ms);
+			}
+		},
+
+		_offUpEvents: function () {
+			var ownerDocument = this.el.ownerDocument;
+
+			_off(document, 'touchmove', this._onTouchMove);
+			_off(ownerDocument, 'mouseup', this._onDrop);
+			_off(ownerDocument, 'touchend', this._onDrop);
+			_off(ownerDocument, 'touchcancel', this._onDrop);
+		},
+
+		_onDrop: function (/**Event*/evt) {
+			var el = this.el,
+				options = this.options;
+
+			clearInterval(this._loopId);
+			clearInterval(autoScroll.pid);
+			clearTimeout(this._dragStartTimer);
+
+			// Unbind events
+			_off(document, 'mousemove', this._onTouchMove);
+
+			if (this.nativeDraggable) {
+				_off(document, 'drop', this);
+				_off(el, 'dragstart', this._onDragStart);
+			}
+
+			this._offUpEvents();
+
+			if (evt) {
+				if (moved) {
+					evt.preventDefault();
+					!options.dropBubble && evt.stopPropagation();
+				}
+
+				ghostEl && ghostEl.parentNode.removeChild(ghostEl);
+
+				if (dragEl) {
+					if (this.nativeDraggable) {
+						_off(dragEl, 'dragend', this);
+					}
+
+					_disableDraggable(dragEl);
+					dragEl.style['will-change'] = '';
+
+					// Remove class's
+					_toggleClass(dragEl, this.options.ghostClass, false);
+					_toggleClass(dragEl, this.options.chosenClass, false);
+
+					if (rootEl !== parentEl) {
+						newIndex = _index(dragEl, options.draggable);
+
+						if (newIndex >= 0) {
+
+							// Add event
+							_dispatchEvent(null, parentEl, 'add', dragEl, rootEl, oldIndex, newIndex);
+
+							// Remove event
+							_dispatchEvent(this, rootEl, 'remove', dragEl, rootEl, oldIndex, newIndex);
+
+							// drag from one list and drop into another
+							_dispatchEvent(null, parentEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+							_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+						}
+					}
+					else {
+						// Remove clone
+						cloneEl && cloneEl.parentNode.removeChild(cloneEl);
+
+						if (dragEl.nextSibling !== nextEl) {
+							// Get the index of the dragged element within its parent
+							newIndex = _index(dragEl, options.draggable);
+
+							if (newIndex >= 0) {
+								// drag & drop within the same list
+								_dispatchEvent(this, rootEl, 'update', dragEl, rootEl, oldIndex, newIndex);
+								_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+							}
+						}
+					}
+
+					if (Sortable.active) {
+						/* jshint eqnull:true */
+						if (newIndex == null || newIndex === -1) {
+							newIndex = oldIndex;
+						}
+
+						_dispatchEvent(this, rootEl, 'end', dragEl, rootEl, oldIndex, newIndex);
+
+						// Save sorting
+						this.save();
+					}
+				}
+
+			}
+
+			this._nulling();
+		},
+
+		_nulling: function() {
+			rootEl =
+			dragEl =
+			parentEl =
+			ghostEl =
+			nextEl =
+			cloneEl =
+
+			scrollEl =
+			scrollParentEl =
+
+			tapEvt =
+			touchEvt =
+
+			moved =
+			newIndex =
+
+			lastEl =
+			lastCSS =
+
+			putSortable =
+			activeGroup =
+			Sortable.active = null;
+		},
+
+		handleEvent: function (/**Event*/evt) {
+			var type = evt.type;
+
+			if (type === 'dragover' || type === 'dragenter') {
+				if (dragEl) {
+					this._onDragOver(evt);
+					_globalDragOver(evt);
+				}
+			}
+			else if (type === 'drop' || type === 'dragend') {
+				this._onDrop(evt);
+			}
+		},
+
+
+		/**
+		 * Serializes the item into an array of string.
+		 * @returns {String[]}
+		 */
+		toArray: function () {
+			var order = [],
+				el,
+				children = this.el.children,
+				i = 0,
+				n = children.length,
+				options = this.options;
+
+			for (; i < n; i++) {
+				el = children[i];
+				if (_closest(el, options.draggable, this.el)) {
+					order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
+				}
+			}
+
+			return order;
+		},
+
+
+		/**
+		 * Sorts the elements according to the array.
+		 * @param  {String[]}  order  order of the items
+		 */
+		sort: function (order) {
+			var items = {}, rootEl = this.el;
+
+			this.toArray().forEach(function (id, i) {
+				var el = rootEl.children[i];
+
+				if (_closest(el, this.options.draggable, rootEl)) {
+					items[id] = el;
+				}
+			}, this);
+
+			order.forEach(function (id) {
+				if (items[id]) {
+					rootEl.removeChild(items[id]);
+					rootEl.appendChild(items[id]);
+				}
+			});
+		},
+
+
+		/**
+		 * Save the current sorting
+		 */
+		save: function () {
+			var store = this.options.store;
+			store && store.set(this);
+		},
+
+
+		/**
+		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
+		 * @param   {HTMLElement}  el
+		 * @param   {String}       [selector]  default: `options.draggable`
+		 * @returns {HTMLElement|null}
+		 */
+		closest: function (el, selector) {
+			return _closest(el, selector || this.options.draggable, this.el);
+		},
+
+
+		/**
+		 * Set/get option
+		 * @param   {string} name
+		 * @param   {*}      [value]
+		 * @returns {*}
+		 */
+		option: function (name, value) {
+			var options = this.options;
+
+			if (value === void 0) {
+				return options[name];
+			} else {
+				options[name] = value;
+
+				if (name === 'group') {
+					_prepareGroup(options);
+				}
+			}
+		},
+
+
+		/**
+		 * Destroy
+		 */
+		destroy: function () {
+			var el = this.el;
+
+			el[expando] = null;
+
+			_off(el, 'mousedown', this._onTapStart);
+			_off(el, 'touchstart', this._onTapStart);
+
+			if (this.nativeDraggable) {
+				_off(el, 'dragover', this);
+				_off(el, 'dragenter', this);
+			}
+
+			// Remove draggable attributes
+			Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
+				el.removeAttribute('draggable');
+			});
+
+			touchDragOverListeners.splice(touchDragOverListeners.indexOf(this._onDragOver), 1);
+
+			this._onDrop();
+
+			this.el = el = null;
+		}
+	};
+
+
+	function _cloneHide(state) {
+		if (cloneEl && (cloneEl.state !== state)) {
+			_css(cloneEl, 'display', state ? 'none' : '');
+			!state && cloneEl.state && rootEl.insertBefore(cloneEl, dragEl);
+			cloneEl.state = state;
+		}
+	}
+
+
+	function _closest(/**HTMLElement*/el, /**String*/selector, /**HTMLElement*/ctx) {
+		if (el) {
+			ctx = ctx || document;
+
+			do {
+				if ((selector === '>*' && el.parentNode === ctx) || _matches(el, selector)) {
+					return el;
+				}
+				/* jshint boss:true */
+			} while (el = _getParentOrHost(el));
+		}
+
+		return null;
+	}
+
+
+	function _getParentOrHost(el) {
+		var parent = el.host;
+
+		return (parent && parent.nodeType) ? parent : el.parentNode;
+	}
+
+
+	function _globalDragOver(/**Event*/evt) {
+		if (evt.dataTransfer) {
+			evt.dataTransfer.dropEffect = 'move';
+		}
+		evt.preventDefault();
+	}
+
+
+	function _on(el, event, fn) {
+		el.addEventListener(event, fn, false);
+	}
+
+
+	function _off(el, event, fn) {
+		el.removeEventListener(event, fn, false);
+	}
+
+
+	function _toggleClass(el, name, state) {
+		if (el) {
+			if (el.classList) {
+				el.classList[state ? 'add' : 'remove'](name);
+			}
+			else {
+				var className = (' ' + el.className + ' ').replace(RSPACE, ' ').replace(' ' + name + ' ', ' ');
+				el.className = (className + (state ? ' ' + name : '')).replace(RSPACE, ' ');
+			}
+		}
+	}
+
+
+	function _css(el, prop, val) {
+		var style = el && el.style;
+
+		if (style) {
+			if (val === void 0) {
+				if (document.defaultView && document.defaultView.getComputedStyle) {
+					val = document.defaultView.getComputedStyle(el, '');
+				}
+				else if (el.currentStyle) {
+					val = el.currentStyle;
+				}
+
+				return prop === void 0 ? val : val[prop];
+			}
+			else {
+				if (!(prop in style)) {
+					prop = '-webkit-' + prop;
+				}
+
+				style[prop] = val + (typeof val === 'string' ? '' : 'px');
+			}
+		}
+	}
+
+
+	function _find(ctx, tagName, iterator) {
+		if (ctx) {
+			var list = ctx.getElementsByTagName(tagName), i = 0, n = list.length;
+
+			if (iterator) {
+				for (; i < n; i++) {
+					iterator(list[i], i);
+				}
+			}
+
+			return list;
+		}
+
+		return [];
+	}
+
+
+
+	function _dispatchEvent(sortable, rootEl, name, targetEl, fromEl, startIndex, newIndex) {
+		sortable = (sortable || rootEl[expando]);
+
+		var evt = document.createEvent('Event'),
+			options = sortable.options,
+			onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1);
+
+		evt.initEvent(name, true, true);
+
+		evt.to = rootEl;
+		evt.from = fromEl || rootEl;
+		evt.item = targetEl || rootEl;
+		evt.clone = cloneEl;
+
+		evt.oldIndex = startIndex;
+		evt.newIndex = newIndex;
+
+		rootEl.dispatchEvent(evt);
+
+		if (options[onName]) {
+			options[onName].call(sortable, evt);
+		}
+	}
+
+
+	function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvt) {
+		var evt,
+			sortable = fromEl[expando],
+			onMoveFn = sortable.options.onMove,
+			retVal;
+
+		evt = document.createEvent('Event');
+		evt.initEvent('move', true, true);
+
+		evt.to = toEl;
+		evt.from = fromEl;
+		evt.dragged = dragEl;
+		evt.draggedRect = dragRect;
+		evt.related = targetEl || toEl;
+		evt.relatedRect = targetRect || toEl.getBoundingClientRect();
+
+		fromEl.dispatchEvent(evt);
+
+		if (onMoveFn) {
+			retVal = onMoveFn.call(sortable, evt, originalEvt);
+		}
+
+		return retVal;
+	}
+
+
+	function _disableDraggable(el) {
+		el.draggable = false;
+	}
+
+
+	function _unsilent() {
+		_silent = false;
+	}
+
+
+	/** @returns {HTMLElement|false} */
+	function _ghostIsLast(el, evt) {
+		var lastEl = el.lastElementChild,
+			rect = lastEl.getBoundingClientRect();
+
+		// 5 — min delta
+		// abs — нельзя добавлять, а то глюки при наведении сверху
+		return (
+			(evt.clientY - (rect.top + rect.height) > 5) ||
+			(evt.clientX - (rect.right + rect.width) > 5)
+		) && lastEl;
+	}
+
+
+	/**
+	 * Generate id
+	 * @param   {HTMLElement} el
+	 * @returns {String}
+	 * @private
+	 */
+	function _generateId(el) {
+		var str = el.tagName + el.className + el.src + el.href + el.textContent,
+			i = str.length,
+			sum = 0;
+
+		while (i--) {
+			sum += str.charCodeAt(i);
+		}
+
+		return sum.toString(36);
+	}
+
+	/**
+	 * Returns the index of an element within its parent for a selected set of
+	 * elements
+	 * @param  {HTMLElement} el
+	 * @param  {selector} selector
+	 * @return {number}
+	 */
+	function _index(el, selector) {
+		var index = 0;
+
+		if (!el || !el.parentNode) {
+			return -1;
+		}
+
+		while (el && (el = el.previousElementSibling)) {
+			if ((el.nodeName.toUpperCase() !== 'TEMPLATE') && (selector === '>*' || _matches(el, selector))) {
+				index++;
+			}
+		}
+
+		return index;
+	}
+
+	function _matches(/**HTMLElement*/el, /**String*/selector) {
+		if (el) {
+			selector = selector.split('.');
+
+			var tag = selector.shift().toUpperCase(),
+				re = new RegExp('\\s(' + selector.join('|') + ')(?=\\s)', 'g');
+
+			return (
+				(tag === '' || el.nodeName.toUpperCase() == tag) &&
+				(!selector.length || ((' ' + el.className + ' ').match(re) || []).length == selector.length)
+			);
+		}
+
+		return false;
+	}
+
+	function _throttle(callback, ms) {
+		var args, _this;
+
+		return function () {
+			if (args === void 0) {
+				args = arguments;
+				_this = this;
+
+				setTimeout(function () {
+					if (args.length === 1) {
+						callback.call(_this, args[0]);
+					} else {
+						callback.apply(_this, args);
+					}
+
+					args = void 0;
+				}, ms);
+			}
+		};
+	}
+
+	function _extend(dst, src) {
+		if (dst && src) {
+			for (var key in src) {
+				if (src.hasOwnProperty(key)) {
+					dst[key] = src[key];
+				}
+			}
+		}
+
+		return dst;
+	}
+
+	function _clone(el) {
+		return $
+			? $(el).clone(true)[0]
+			: (Polymer && Polymer.dom
+				? Polymer.dom(el).cloneNode(true)
+				: el.cloneNode(true)
+			);
+	}
+
+
+	// Export utils
+	Sortable.utils = {
+		on: _on,
+		off: _off,
+		css: _css,
+		find: _find,
+		is: function (el, selector) {
+			return !!_closest(el, selector, el);
+		},
+		extend: _extend,
+		throttle: _throttle,
+		closest: _closest,
+		toggleClass: _toggleClass,
+		clone: _clone,
+		index: _index
+	};
+
+
+	/**
+	 * Create sortable instance
+	 * @param {HTMLElement}  el
+	 * @param {Object}      [options]
+	 */
+	Sortable.create = function (el, options) {
+		return new Sortable(el, options);
+	};
+
+
+	// Export
+	Sortable.version = '1.4.2';
+	return Sortable;
+});
 
 
 (function (root, factory) {
@@ -2227,6 +3607,49 @@ var formHandleResponse = function(response,form){
 
 }
 
+var clearForm = function(form){
+
+    // Ryd inputs og textareas
+    form.find('input, textarea').each(function(){
+        if(!$(this).is('input[type="hidden"]')){
+            $(this).val('');
+            $(this).removeProp('checked');
+        }
+    });
+
+    // Ryd kloner
+    form.find('.select-clone').each(function(){
+        if($(this).hasClass('cloned')){
+            $(this).remove();
+        }
+
+        else{
+            $(this).find('option').removeProp('selected');
+        }
+    });
+
+    // Ryd billedupload
+    form.find('.dz-preview').each(function(){
+        var prev = $(this),
+            id = prev.attr('data-id');
+        $.ajax({
+            url : ajaxURL,
+            type : 'POST',
+            data : {
+                action : 'file_upload',
+                delete : id,
+            },
+            dataType : 'json',
+            success : function(response){
+                prev.remove();
+            },
+        });
+    });
+
+    form.find('.image-id').remove();
+    form.find('.file-upload-dz').removeClass('dz-started dz-max-files-reached');
+}
+
 var validateForm = function(form){
 
     var ready = true;
@@ -2322,7 +3745,7 @@ var formJsInit = function(){
         click : function(e){
             var t = $(e.target);
 
-            if(t.is('.submit') || t.is('input[type="submit"]')){
+            if(t.is('input[type="submit"]')){
                 e.preventDefault();
 
 
@@ -2377,6 +3800,24 @@ $(function(){
 autosize($('textarea'));
 
 
+var updatePop = function(id,val){
+
+    $.ajax({
+        url : ajaxURL,
+        type : 'POST',
+        data : {
+            action : 'update_pop',
+            post_id : id,
+            value : val,
+        },
+        dataType : 'json',
+        success : function(response){
+        },
+    });
+
+}
+
+
 var cloneSelect = function(){
 
     $('.select-clone').each(function(){
@@ -2392,7 +3833,7 @@ var cloneSelect = function(){
             e.preventDefault();
 
             if(select.children('option:selected').val() !== '0' && span.is(':last-child')){
-                span.clone().appendTo(span.parents('fieldset'));
+                span.clone().appendTo(span.parents('fieldset')).addClass('cloned');
                 cloneSelect();
             }
 
@@ -2548,54 +3989,74 @@ if($('.home .video-container').length){
 }
 
 
+var itemFinderslug = 'false',
+    itemFinderTime = 0,
+    itemFinderRanges = [],
+    itemFinderType = 'ovelse';
+
 $(function(){
 
-    var itemFinderType = 'ovelse',
-        itemFinderslug = 'false',
+    $('body').on('change','.item-finder-ranges input',function(e){
 
-        itemFinderRanges = 'false',
-        setItemFinderRanges = function(){
-            var terms = {},
-                metas = {};
-            $('.item-finder-form input[type="range"]').each(function(){
-                var field = $(this),
-                    meta = field.attr('data-meta'),
-                    compare = field.attr('data-meta-compare'),
-                    term = field.attr('data-term'),
-                    slug = field.attr('name'),
-                    val = field.val();
+        $('.item-finder-toggle').removeClass('active');
+        $('.toggle-ovelse').addClass('active');
+        itemFinderType = 'ovelse';
+        articlePageToggle(1,'top');
 
-                // term range boolians
-                if(typeof term !== 'undefined' && val === '1'){
+        var t = $(e.target),
+            id = t.attr('data-term-id'),
+            on = false;
 
-                    if(!terms[term].length){
-                        terms[term] = '';
+        if(t.attr('data-meta') === 'time'){
+            itemFinderTime = t.val();
+            console.log(itemFinderTime);
+        }
+
+        if (parseInt(t.val()) > 49 && typeof id !== 'undefined'){
+            itemFinderRanges.push(id);
+        }
+
+        else{
+            itemFinderRanges.pop(id);
+        }
+
+
+
+        $('.article-page-ovelse article').each(function(){
+            var s = $(this).attr('data-s').split(','),
+                time = $(this).attr('data-t');
+
+            var show = true;
+
+            if (itemFinderRanges.length) {
+
+                for (var i = 0; i < itemFinderRanges.length; i++) {
+                    if(s.indexOf(itemFinderRanges[i]) < 0){
+                        show = false;
                     }
-
-                    terms[term].push(slug);
-
                 }
+            }
 
-                // meta val
-                if(typeof meta !== 'undefined' && val !== ''){
-                    metas[meta] = {};
+            if(typeof time !== 'undefinded' && parseInt(time) < parseInt(itemFinderTime)){
+                show = false;
+            }
 
-                    metas[meta]['meta_key'] = slug;
-                    metas[meta]['meta_value'] = val;
-                    metas[meta]['meta_compare'] = compare;
-
-                }
-            });
-            console.log(terms);
-            console.log(metas);
-        },
-
-        itemFinderTime = 'false';
+            if(show){
+                $(this).show();
+            }
+            else{
+                $(this).hide();
+            }
+        });
+    });
 
     $('body').on('click', '.item-finder-list-nav', function(e){
-        e.preventDefault();
 
-        setItemFinderRanges();
+        $('.item-finder-toggle').removeClass('active');
+        $('.toggle-ovelse').addClass('active');
+        itemFinderType = 'ovelse';
+        articlePageToggle(1,'top');
+        e.preventDefault();
 
         var a = $(this),
             parent = a.parents('.item-finder-list'),
@@ -2631,7 +4092,7 @@ $(function(){
             jsRenderModule({
                 endpoint : endpoint,
                 template: 'jsTemplate-article',
-                target: '.main-section main',
+                target: '.main-section main .article-page-ovelse',
                 overwrite: true,
                 },function(){
                     jio_data_img.scan();
@@ -2644,28 +4105,64 @@ $(function(){
     $('body').on('click', '.item-finder-toggle',function(e){
         e.preventDefault();
         $('.item-finder-toggle').removeClass('active');
+        $('body').removeClass('toggle-aside');
         $(this).addClass('active');
 
-        if(itemFinderType !== $(this).attr('data-type')){
-            itemFinderType = $(this).attr('data-type');
 
-            var endpoint = itemFinderType;
-            if(itemFinderslug !== 'false' && itemFinderType !== 'forlob'){
+        itemFinderType = $(this).attr('data-type');
 
-                endpoint += '/?filter[type]=' + itemFinderslug;
-            }
+        var endpoint = itemFinderType;
+        if(itemFinderslug !== 'false' && itemFinderType !== 'forlob'){
+            endpoint += '/?filter[type]=' + itemFinderslug;
+        }
+
+        var articlePage = ('ovelse' === itemFinderType ? 1 : 2);
+            articlePageToggle(articlePage,'top');
+
+
+        if(!$('.article-page-'+itemFinderType+' article').length){
+            $('.main-section main .article-page-'+itemFinderType).addClass('loading').css('height','400px');
 
             jsRenderModule({
                 endpoint : endpoint,
                 template: 'jsTemplate-article',
-                target: '.main-section main',
+                target: '.main-section main .article-page-'+itemFinderType,
                 overwrite: true,
                 },function(){
+                    $('.main-section main .article-page-'+itemFinderType).removeAttr('style');
                     jio_data_img.scan();
                 }
             );
         }
+
     });
+});
+
+
+var current_user;
+
+$(function(){
+    var user_meta = $('meta[name="user-id"]');
+
+    if(user_meta.length){
+        var user_id = user_meta.attr('content');
+        user_meta.remove();
+
+        jsGetJSON('users/'+user_id, function(response){
+
+            current_user = response;
+            $.views.helpers({
+                current_user: current_user,
+            });
+        });
+
+    }
+
+    else{
+        $.views.helpers({
+            current_user: false,
+        });
+    }
 });
 
 
@@ -2758,6 +4255,44 @@ $(function(){
 });
 
 
+function loadInners(article,target,callback){
+
+    var ao = article.attr('data-a-o'),
+        endpoint = 'ovelse/?filter[orderby]=post__in';
+
+    if(ao.length){
+        ao = ao.split(',');
+
+        for (i = 0; i < ao.length; i++) {
+            endpoint += '&filter[post__in][]='+ao[i];
+        }
+
+        jsRenderModule({
+            endpoint : endpoint,
+            template : 'jsTemplate-inner-article',
+            target : target + ' .main-article',
+            overwrite : false,
+        },function(){
+
+            if(typeof callback === 'function'){
+                callback();
+            }
+        });
+    }
+}
+
+$(function(){
+    if($('body').hasClass('single-forlob')){
+        var article = $('.main-article'),
+            target = '.article-page-single',
+            callback = null;
+
+        loadInners(article, target ,callback);
+
+    }
+});
+
+
 $(function(){
 
     $('.site-header-hamburger').click(function(e){
@@ -2788,24 +4323,130 @@ $(function(){
 });
 
 
-var toggleArticle = function(e, article){
+var toggleArticle = function(e, article, close){
 
-    if(article.is('.collapsed')){
+    if(close === true && article.hasClass('post-type-forlob')){
+        e.preventDefault();
+
+        articlePageToggle(2,'top');
+    }
+
+    else if(close === true){
+        e.preventDefault();
+        article.removeClass('expanded').addClass('collapsed');
+        $('html,body').animate({scrollTop: article.offset().top - $('.site-header').innerHeight()},100);
+    }
+
+    else if(article.hasClass('inner-article')){
+        e.preventDefault();
+        $('.inner-article').removeClass('expanded').addClass('collapsed');
+        article.removeClass('collapsed').addClass('expanded');
+
+        $('body').removeClass('toggle-aside');
+        $('html,body').animate({scrollTop: article.offset().top - $('.site-header').innerHeight()},100);
+        jio_data_img.scan();
+    }
+
+    else if(article.is('.post-type-forlob')){
+        e.preventDefault();
+        var target = '.article-page-single';
+
+        $(target).empty();
+
+        $('body').removeClass('toggle-aside');
+
+        article.clone().appendTo(target).removeClass('collapsed').addClass('expanded');
+
+        articlePageToggle(3,'top');
+        loadInners(article,target);
+    }
+
+    else if(article.is('.collapsed')){
         $('body').removeClass('toggle-aside');
 
         e.preventDefault();
         $('main .main-article').removeClass('current expanded').addClass('collapsed');
         article.removeClass('collapsed').addClass('current expanded');
         $('html,body').animate({scrollTop: article.offset().top - $('.site-header').innerHeight()},100);
+
+        var id = article.attr('id').replace('post-','');
     }
 }
 
-$('body').on('click .main-article.collapsed',function(e){
+$('body').on('click', '.main-article.collapsed .article-link',function(e){
     var t = $(e.target),
         article = t.parents('article');
 
-    toggleArticle(e, article);
+    toggleArticle(e, article, false);
 
+});
+
+$('body').on('click', '.main-article.expanded .article-close-link',function(e){
+    var t = $(e.target),
+        article = t.parents('article');
+
+    toggleArticle(e, article, true);
+
+});
+
+
+$('body').on('click', '.inner-article.collapsed .article-link',function(e){
+    var t = $(e.target),
+        article = t.parents('.inner-article');
+    toggleArticle(e, article);
+});
+
+
+$(function(){
+
+    $('body').on('click','.article-save-post input',function(e){
+
+        if(!$('body').hasClass('logged-in')){
+            var anchor = $('.login-link');
+            if(anchor.length){
+                window.location.href = anchor.attr('href');
+            }
+        }
+
+        var checkbox = $(e.target),
+            check = checkbox.context.checked,
+            article = $(e.target).parents('article'),
+            id = article.attr('id').replace('post-',''),
+            saved_span = article.find('.article-saved-count span'),
+            saved_value = saved_span.html(),
+            check_span = article.find('.article-save-post');
+
+        // iterer count
+        if( !check ) {
+            saved_value --;
+            if ( saved_value < 0 ) { saved_value = 0; }
+            article.removeClass('saved');
+        }
+
+        else{
+            saved_value ++;
+            article.addClass('saved');
+        }
+
+        saved_span.html( saved_value );
+
+        $.ajax({
+            url : ajaxURL,
+            type : 'POST',
+            data : {
+                action : 'save_user_meta',
+                key : 'saved_posts',
+                value : id,
+                unique : false,
+                remove : ( check ? false : true ),
+            },
+            dataType : 'json',
+            success : function(response){
+
+
+            },
+        });
+    });
 });
 
 
@@ -2831,6 +4472,10 @@ $(function(){
         else if(!li.is('.sub-menu li')){
             ul.find('li').removeClass('current-menu-item current-menu-parent');
             li.addClass('current-menu-item');
+
+            if($(this).is('.sub-nav')){
+                e.preventDefault();
+            }
         }
 
         // Click on active child
@@ -2839,7 +4484,7 @@ $(function(){
         }
 
         // Click on inactive child
-        else if(li.is('.sub-menu li')){
+        else if(li.is('.sub-menu li') && !$(this).is('.sub-nav')){
             ul.find('li').removeClass('current-menu-item current-menu-parent');
             li.addClass('current-menu-item').parents('li').addClass('current-menu-parent');
             e.preventDefault();
@@ -2892,7 +4537,7 @@ function jsRenderModule(vars, callback){
 
             var htmlOutput = template.render(response);
 
-            if(typeof vars.overwrite === 'undefined' || vars.overwrite !== 'false' ){
+            if(typeof vars.overwrite === 'undefined' || vars.overwrite !== false ){
                 $(vars.target).empty().html(htmlOutput).removeClass('loading');
             }
 
@@ -2900,13 +4545,11 @@ function jsRenderModule(vars, callback){
                 $(vars.target).append(htmlOutput).removeClass('loading');
             }
 
-            if(typeof callback !== 'undefined'){
+            if(typeof callback === 'function'){
 
-                callback;
 
+                callback();
             }
-
-            jio_data_img.scan();
         }
     });
 }
@@ -2916,33 +4559,121 @@ $.views.settings.allowCode(true);
 
 
 
-var inputLimit = function(){
-    $('input[maxlength], textarea[maxlength]').each(function(){
-        var field = $(this),
-            limit = field.attr('maxlength'),
-            fieldset = field.parent('fieldset');
+var inputLimit = {
+    set : function(field,limit,limitDiv){
 
-        if(fieldset.find('.maxlength-count').length === 0){
-            var limitDiv = $('<div class="maxlength-count">'+limit+'</div>');
-            field.parent('fieldset').append(limitDiv);
-        }
+        var charnum = field.val().length,
+            val = limit - charnum;
 
-        field.on('keyup',function(){
-            var charnum = field.val().length,
-                val = limit - charnum;
+        if(val < 0){val = 0;}
+        if(val < 11){ limitDiv.addClass('danger')}
+        else{limitDiv.removeClass('danger')}
 
-            if(val < 0){val = 0;}
-            if(val < 11){ limitDiv.addClass('danger')}
-            else{limitDiv.removeClass('danger')}
+        limitDiv.html(val);
 
-            limitDiv.html(val);
+    },
+
+    init : function(){
+        $('input[maxlength], textarea[maxlength]').each(function(){
+
+            var field = $(this),
+                limit = field.attr('maxlength'),
+                fieldset = field.parent('fieldset');
+
+            if(fieldset.find('.maxlength-count').length === 0){
+                var limitDiv = $('<div class="maxlength-count">'+limit+'</div>');
+                field.parent('fieldset').append(limitDiv);
+            }
+
+            inputLimit.set(field,limit,limitDiv);
+            field.on('keyup',function(){
+                inputLimit.set(field,limit,limitDiv);
+            });
         });
-    });
+    }
 
-}
+};
 
 $(function(){
-    inputLimit();
+    inputLimit.init();
+});
+
+
+function setAttachInputNames(){
+
+    $('#attach-ovelse-list li').each(function(i){
+        var elem = $(this),
+            input = elem.find('input[type="hidden"]');
+
+        input.attr('name','attach_ovelse['+i+']');
+    });
+}
+
+function sortAttach(parent){
+
+    var elem = document.getElementById(parent);
+    if(elem !== null){
+        var sortable = Sortable.create(elem,{
+            animation: 70,
+            onUpdate: function () {
+                setAttachInputNames();
+            },
+
+        });
+    }
+}
+
+
+
+$(function(){
+    sortAttach('attach-ovelse-list');
+
+    $('body').on('click','.attach-ovelse-item .ovelse-delete',function(e){
+        e.preventDefault();
+
+        var parent = $(e.target).parents('li');
+        parent.remove();
+    });
+
+    $('body').on('click','#forlob-add-ovelse .add-btn',function(e){
+
+        e.preventDefault();
+        var id = $('input[name="ovelse-picker-id"]').val(),
+            typeselect = $(e.target).parents('fieldset.typeselect');
+
+        if(id && typeof id !== 'undefined' && typeof typeselect !== 'undefined' && !typeselect.hasClass('invalid')){
+
+            typeselect.addClass('loading');
+
+            jsRenderModule({
+                endpoint : 'ovelse/' + id,
+                target : '.attach-ovelse-list',
+                overwrite : false,
+                template : 'jsTemplate-attach-ovelse',
+
+            },function(){
+                var elem = $('#attach-ovelse-list .ovelse-item-'+id);
+
+                typeselect.removeClass('loading');
+
+                var offset = elem.offset().top,
+                    pageOffset = $(window).innerHeight() - elem.innerHeight() - 30;
+
+                console.log(offset,pageOffset,offset - pageOffset);
+                $('html,body').animate({scrollTop : offset - pageOffset},200);
+
+                setAttachInputNames();
+
+                setTimeout(function(){
+                    elem.addClass('blink-out');
+                },200);
+
+                setTimeout(function(){
+                    elem.removeClass('blink-out blink');
+                },800);
+            });
+        }
+    });
 });
 
 
@@ -2965,37 +4696,110 @@ function dropzoneInput(){
                 formData.append("action", "file_upload");
             },
 
-            success : function(e,response){
+            init : function(){
 
-                var id = response.files[0].id;
+                var dz = this,
+                    mockFile = {
+                    name: "myimage.jpg",
+                    size: 12345,
+                    type: 'image/jpeg',
+                    status: Dropzone.ADDED,
 
-                $(e.previewElement).attr('data-id',id);
+                    accepted: true,
+                    mock : true,
+                };
 
                 if(div.hasClass('cover-photo')){
 
-                    var fileInput = form.find('input[name="cover-photo"]');
+                    var coverphoto = form.find('input[name="coverphoto"]').attr('data-url'),
+                        id = form.find('input[name="coverphoto"]').val();
 
-                    if(!fileInput.length){
+                    if(typeof coverphoto !== 'undefined'){
+                        div.addClass('dz-max-files-reached');
+                        mockFile.url = coverphoto;
+                        mockFile.id = id;
 
-                        fileInput = $('<input type="hidden" name="coverphoto" id="image-'+id+'">');
-                        form.prepend(fileInput);
+                        dz.emit("addedfile", mockFile);
+                        dz.emit("complete", mockFile);
+                        dz.emit("success", mockFile);
+                        dz.emit("thumbnail", mockFile, coverphoto);
+
+                        dz.files.push(mockFile);
+
+                        form.find('input[name="coverphoto"]').removeAttr('data-url');
+
                     }
-
-                    fileInput.val(id);
-
                 }
+
                 else{
-                    var fileInput = $('<input type="hidden" name="images[]" id="image-'+id+'" value="'+id+'">');
-                    form.append(fileInput);
+                    var i = 0;
+                    form.find('input[name="images[]"]').each(function(){
+
+                        mockFile.url = $(this).attr('data-url') || undefined;
+                        mockFile.id = $(this).val() || undefined;
+
+                        if(typeof mockFile.url !== 'undefined' && typeof mockFile.url !== 'undefined' ){
+                            i++;
+                            dz.emit("addedfile", mockFile);
+                            dz.emit("complete", mockFile);
+                            dz.emit("success", mockFile);
+                            dz.emit("thumbnail", mockFile, mockFile.url);
+
+                            dz.files.push(mockFile);
+
+                            $(this).removeAttr('data-url');
+                        }
+
+                        else{
+                            $(this).remove();
+                        }
+
+                    });
+
+                    if(i >= 4){
+                        div.addClass('dz-max-files-reached');
+                    }
+                }
+            },
+
+            success : function(e,response){
+
+                if(!e.mock){
+                    var id = response.files[0].id;
+
+                    $(e.previewElement).attr('data-id',id);
+
+                    if(div.hasClass('cover-photo')){
+
+                        var fileInput = form.find('input[name="coverphoto"]');
+
+                        if(!fileInput.length){
+
+                            fileInput = $('<input type="hidden" name="coverphoto" class="image-id" id="image-'+id+'">');
+                            form.prepend(fileInput);
+                        }
+
+                        fileInput.val(id);
+
+                    }
+                    else{
+                        var fileInput = $('<input type="hidden" name="images[]" class="image-id" id="image-'+id+'" value="'+id+'">');
+                        form.append(fileInput);
+                    }
                 }
             },
 
             removedfile : function(e){
+
                 var preview = $(e.previewElement),
-                    id = preview.attr('data-id');
+                    id = preview.attr('data-id'),
+                    dz = preview.parents('.file-upload-dz');
+
+                if(typeof id === 'undefined'){id = e.id;}
 
                 $('input#image-'+id).remove();
-                        preview.remove();
+                preview.remove();
+                dz.removeClass('dz-max-files-reached');
 
                 $.ajax({
                     url : ajaxURL,
@@ -3014,6 +4818,299 @@ function dropzoneInput(){
 
 $(function(){
     dropzoneInput();
+});
+
+
+function dropzoneVideo(){
+    $('fieldset.video-upload').each(function(){
+        var fieldset = $(this),
+            div = fieldset.find('.video-upload-dz'),
+            url = div.attr('data-url'),
+            form = fieldset.parents('form');
+
+        var dz = div.dropzone({
+            url : ajaxURL,
+            maxFiles : div.attr('data-max'),
+            acceptedFiles : '.mp4,.mkv,.avi,.mv4',
+            addRemoveLinks : true,
+            dictRemoveFile : 'x',
+            sending : function(file, xhr, formData) {
+                formData.append("action", "video_upload");
+            }
+        });
+    });
+}
+
+$(function(){
+  dropzoneVideo();
+});
+
+
+var articlePageToggle = function(page,navTo){
+
+    $('.article-pages').attr('data-page',page);
+
+    if(typeof navTo !== 'undefined'){
+        setTimeout(function(){
+            if(navTo === 'top'){
+                $('html,body').animate({scrollTop : $('.article-pages').offset().top - $('.site-header').innerHeight()},200);
+            }
+
+            else{
+                $('html,body').animate({scrollTop : $('#'+navTo).offset().top - $('.site-header').innerHeight()},200);
+            }
+
+        },200);
+    }
+}
+
+$(function(){
+
+    $('.article-page-toggle').on('click',function(e){
+
+        e.preventDefault();
+
+        var page = $(this).attr('data-page'),
+            navTo = $(this).attr('data-nav-to');
+
+        articlePageToggle(page,navTo);
+    });
+});
+
+
+
+
+var notify = {
+    send : function(options){
+        var div = $('.site-notify');
+        if(!div.length){
+            div = $('<div class="site-notify hidden"></div>');
+            $('body').append(div);
+        }
+
+        if(typeof options.message !== 'undefined'){
+            div.append('<span>'+options.message+'</span>').removeClass('hidden').addClass('shown');
+
+            if(typeof options.timeout !== 'undefined'){
+
+                setTimeout(function(){
+                    div.addClass('hidden');
+                    setTimeout(function(){
+                        div.removeClass('shown').empty();
+                    },500);
+                }, options.timeout * 1000);
+            }
+        }
+    }
+}
+
+
+$(function(e){
+    // Fortryd indtastning og vend tilbage til forløb
+    $('.clear-ovelse-form').on('click',function(e){
+        e.preventDefault();
+        var form = $('.ovelse-form');
+        articlePageToggle('1','forlob-add-ovelse');
+        clearForm(form);
+    });
+
+    // Gem øvelse til forlob
+    $('.wp-save-to-forlob').on('click',function(e){
+        e.preventDefault();
+        var form = $(this).parents('form');
+
+        if(validateForm(form)){
+
+            form.addClass('loading');
+            var formData = form.serialize(),
+                action = form.attr('action');
+
+            formData += '&draft=draft';
+
+            $.ajax({
+                url : action,
+                type : 'POST',
+                data : formData,
+                dataType : 'json',
+                success : function(response){
+
+
+
+                    // indsæt i select og opret klon med tilvalg
+                    var id = response.post_id;
+                    jsRenderModule({
+                        endpoint : 'ovelse/' + id,
+                        target : '.attach-ovelse-list',
+                        overwrite : false,
+                        template : 'jsTemplate-attach-ovelse',
+
+                    },function(){
+                        var elem = $('#attach-ovelse-list .ovelse-item-'+id);
+
+                        var offset = elem.offset().top,
+                            pageOffset = $(window).innerHeight() - elem.innerHeight() - 30;
+
+                        console.log(offset,pageOffset,offset - pageOffset);
+                        $('html,body').animate({scrollTop : offset - pageOffset},200);
+
+                        setAttachInputNames();
+
+                        // ryd form og vend tilbage
+                        form.removeClass('loading');
+                        clearForm(form);
+                        articlePageToggle('1','forlob-add-ovelse');
+
+                        setTimeout(function(){
+                            elem.addClass('blink-out');
+                        },200);
+
+                        setTimeout(function(){
+                            elem.removeClass('blink-out blink');
+                        },800);
+                    });
+                },
+            });
+        }
+    });
+});
+
+$(window).on('formReturn',function(e){
+    if(e.response.post_status === 'publish'){
+        window.location.href = ajaxURL.replace('wp-admin/admin-ajax.php','?p='+e.response.post_id);
+    }
+});
+
+
+// typeselect
+function typeselect(f){
+    var i = f.children('input[type="text"]'),
+        h = f.children('input[type="hidden"]'),
+        a = f.children('.input-btn'),
+        l = f.children('ul');
+
+    a.off().on('click',function(e){
+        e.preventDefault();
+        l.children('li').addClass('visible').removeClass('hidden');
+        f.toggleClass('show-list').removeClass('invalid');
+        l.children('.no-match').addClass('hidden').removeClass('visible');
+    });
+
+    l.off().on('click li',function(e){
+
+        var t = $(e.target);
+        if(!t.hasClass('no-match')){
+            i.val(t.html());
+            h.val(t.attr('data-option'))
+            l.children('.selected').removeClass('selected');
+            t.addClass('selected');
+            f.removeClass('show-list');
+        }
+    });
+
+
+
+    i.off().on('keyup',function(e){
+
+        if (e.which === 13 || e.which === 32){
+
+        }
+
+        else if(e.which === 38){
+            e.preventDefault();
+            var sel = l.children('li.selected');
+            if(sel.length){
+                sel.removeClass('selected');
+                var prv = sel.prevAll('.visible').first();
+                if(prv.length ){
+                    prv.addClass('selected');
+                }
+                else{
+                    l.children('.visible').last().addClass('selected');
+                }
+
+            }
+            else{
+                l.children('li.visible').last().addClass('selected');
+            }
+        }
+        else if(e.which === 40){
+            e.preventDefault();
+            var sel = l.children('li.selected');
+            if(sel.length){
+                sel.removeClass('selected');
+                var nx = sel.nextAll('.visible').first();
+                if(nx.length ){
+                    nx.addClass('selected');
+                }
+                else{
+                    l.children('.visible').first().addClass('selected');
+                }
+
+            }
+            else{
+                l.children('li.visible').first().addClass('selected');
+            }
+
+        }
+
+        else{
+            var str = i.val();
+            if(str.length > 0){
+                l.children('.selected').removeClass('selected');
+                f.addClass('show-list').removeClass('invalid');
+                l.children('.no-match').addClass('hidden').removeClass('visible');
+                var count = 0;
+                l.children('li').each(function(e){
+                    if($(this).html().toLowerCase().indexOf(str.toLocaleLowerCase() || $(this).hasClass('no-match')) < 0){
+                        $(this).addClass('hidden').removeClass('visible');
+                    }
+                    else{
+                        $(this).addClass('visible').removeClass('hidden');
+                        count ++;
+                    }
+                });
+                if (count < 1){
+                    l.children('.no-match').addClass('visible').removeClass('hidden');
+                }
+
+            }
+            else{f.removeClass('show-list');}
+        }
+    });
+
+    i.on('keydown',function(e){
+        if (e.which === 13 || e.which === 32){
+            e.preventDefault();
+            var sel = l.children('li.selected');
+            if(sel.length){
+                i.val(sel.html());
+                h.val(sel.attr('data-option'))
+                f.removeClass('show-list');
+            }
+        }
+    });
+
+    i.on('blur',function(){
+        f.removeClass('show-list');
+        var str = i.val(),
+            count = 0;
+        l.children('li').each(function(){
+            if(!$(this).hasClass('no-match') && $(this).html() === str){
+                count ++;
+
+            }
+        });
+        if (count < 1){
+            f.addClass('invalid');
+        }
+    });
+}
+
+$(function(){
+    $('fieldset.typeselect').each(function(){
+        typeselect($(this));
+    });
+
 });
 
 

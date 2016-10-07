@@ -18,7 +18,7 @@ function jsRenderModule(vars, callback){
 
             var htmlOutput = template.render(response);
 
-            if(typeof vars.overwrite === 'undefined' || vars.overwrite !== 'false' ){
+            if(typeof vars.overwrite === 'undefined' || vars.overwrite !== false ){
                 $(vars.target).empty().html(htmlOutput).removeClass('loading');
             }
 
@@ -26,13 +26,11 @@ function jsRenderModule(vars, callback){
                 $(vars.target).append(htmlOutput).removeClass('loading');
             }
 
-            if(typeof callback !== 'undefined'){
+            if(typeof callback === 'function'){
 
-                callback;
 
+                callback();
             }
-
-            jio_data_img.scan();
         }
     });
 }

@@ -1,0 +1,93 @@
+fieldset.typeselect,
+.form-article .form-section fieldset.typeselect{
+
+    position: relative;
+
+    &.show-list ul{
+        display: block;
+    }
+
+    input[type="text"]{
+        width: calc(100% - 90px);
+    }
+
+    .input-btn,
+    .add-btn{
+        position: absolute;
+        height: 42px;
+        width: 45px;
+        right: 45px;
+        top: 23px;
+        background-color: rgba($color-gold,.35);
+        fill: rgba(black,.5);
+        cursor: pointer;
+        &:hover{
+            background-color: rgba($color-gold,.45);
+        }
+
+    }
+
+    .input-btn svg{
+        width: 24px;
+        height: 24px;
+        margin-top: 2px;
+        @include center(true,true);
+    }
+
+    .add-btn{
+        right: 0;
+
+        svg{
+            width: 20px;
+            height: 20px;
+            margin-top: 0;
+            @include center(true,true);
+        }
+    }
+
+    ul{
+        display:none;
+        position: absolute;
+        background-color: white;
+        border: solid white;
+        border-width:10px 0px;
+        width: 100%;
+        z-index: 4;
+        margin-top: 2px;
+        box-shadow: 1px 1px 3px rgba(black,.05);
+        width: calc(100% - 90px);
+        list-style: none;
+        padding: 0;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        li{
+            cursor: pointer;
+            height: 40px;
+            line-height: 40px;
+            margin: 0;
+            font-size: 90%;
+            padding: 0px 15px;
+            color: lighten($base-color,10);
+            white-space: nowrap;
+            overflow-x: hidden;
+
+            &.hidden{
+                display: none;
+            }
+
+            &:hover,
+            &.selected{
+                background-color: rgba(black,.05);
+            }
+
+            &.no-match,
+            &.no-match:hover{
+                cursor: default;
+                pointer-events: none;
+            }
+        }
+    }
+}
+

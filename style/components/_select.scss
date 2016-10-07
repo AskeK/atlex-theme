@@ -13,8 +13,10 @@ fieldset.select span{
     background-position: center right 5px;
     background-repeat: no-repeat;
     background-size: 20px;
-    width: calc(100% - 100px);
-    //max-width: 420px;
+    width: 100%;
+    &.select-clone{
+        width: calc(100% - 100px);
+    }
 
     select {
         width: 100%;

@@ -10,6 +10,9 @@ function jsGetJSON(link,ret){
         type : 'GET',
         data : null,
         dataType : 'json',
+        beforeSend: function ( xhr ) {
+            xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
+        },
         success : function(response){
             ret(response);
         },

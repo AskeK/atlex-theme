@@ -9,11 +9,10 @@ function smamo_make_u_rewrite() {
 
 }
 
-add_rewrite_rule('^u/([^/]*)/([^/]*)/?','index.php?author=$matches[1]&usr_page=$matches[2]','top');
-add_rewrite_endpoint( 'usr_page', EP_PERMALINK | EP_PAGES );
+add_rewrite_rule('^u/([^/]*)(/([^/]+))?(/([^/]+))?/?','index.php?author=$matches[1]&usr_page=$matches[3]&usr_subpage=$matches[5]','top');
 add_filter('query_vars', 'smamo_add_query_vars');
 function smamo_add_query_vars($vars) {
     $vars[] = "usr_page";
+    $vars[] = "usr_subpage";
     return $vars;
-
 }

@@ -4,7 +4,8 @@ get_functions_part(array(
     'scripts',
     'images',
     'page-state',
-    'user-url'
+    'user-url',
+    'pop-query',
 ));
 
 get_functions_part(array(
@@ -40,8 +41,11 @@ get_functions_part(array(
 
 get_functions_part(array(
     'ajax-upload',
+    //'ajax-youtube',
     'form-submit',
     'get_posts',
+    'save-user-meta',
+    'popularity',
 ),'ajax');
 
 

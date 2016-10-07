@@ -1,0 +1,108 @@
+.attach-ovelse-list{
+    list-style: none;
+    padding: 0!important;
+}
+
+.attach-ovelse-item{
+    @extend %font-size;
+    &.sortable-ghost{
+        opacity:.2;
+        filter: grayscale(1), blur(.3);
+    }
+
+    display: block;
+    background-color: white;
+    transition: background-color 120ms;
+    margin:5px 0px;
+    padding: 10px;
+    height: 100px;
+    overflow: hidden;
+    list-style: none;
+    cursor: -webkit-grab;
+    cursor: grab;
+    position: relative;
+
+    .ovelse-img{
+        width: 100px;
+        height: 80px;
+        @extend %fill-bg;
+        display: inline-block;
+    }
+
+    .ovelse-title{
+        padding-top:0!important;
+        text-transform: uppercase;
+        position: absolute!important;
+        top: 10px;
+        font-size: 90%!important;
+        left: 120px;
+    }
+
+    .ovelse-meta{
+        position: absolute;
+        top: 30px;
+        left: 120px;
+        font-size: 80%;
+
+        span{
+            margin: 3px 0px;
+            display: block;
+        }
+    }
+
+    .ovelse-delete {
+        position: absolute;
+        height: 100%;
+        right: 0;
+        top: 50%;
+        line-height: 1;
+        transform: translateY(-50%);
+        width: 60px;
+
+        svg{
+            @include center(true,true);
+            height: 20px;
+            width:20px;
+            z-index: 2;
+            stroke: white;
+        }
+
+
+        &:before{
+            content: '';
+            position: absolute;
+            z-index: -1;
+            background-color: $color-light;
+            transition:background-color 120ms color 120ms fill 120ms;
+            transition-delay:0s;
+            top: -50px;
+            left: -5px;
+            bottom: -60px;
+            right: -20px;
+            transform: rotate(13deg);
+        }
+
+        &:hover:before{
+            background-color: #ffcfcf;
+        }
+    }
+
+    &:hover{
+        background-color: lighten($color-light,10);
+    }
+
+    &.sortable-chosen{
+        cursor: -webkit-grabbing;
+        cursor: grabbing;
+    }
+
+    &.blink{
+        background-color: $color-green;
+        transition: background-color 0ms;
+    }
+
+    &.blink-out.blink{
+        background-color: white;
+        transition: background-color 800ms;
+    }
+}

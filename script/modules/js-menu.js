@@ -20,6 +20,10 @@ $(function(){
         else if(!li.is('.sub-menu li')){
             ul.find('li').removeClass('current-menu-item current-menu-parent');
             li.addClass('current-menu-item');
+
+            if($(this).is('.sub-nav')){
+                e.preventDefault();
+            }
         }
 
         // Click on active child
@@ -28,7 +32,7 @@ $(function(){
         }
 
         // Click on inactive child
-        else if(li.is('.sub-menu li')){
+        else if(li.is('.sub-menu li') && !$(this).is('.sub-nav')){
             ul.find('li').removeClass('current-menu-item current-menu-parent');
             li.addClass('current-menu-item').parents('li').addClass('current-menu-parent');
             e.preventDefault();

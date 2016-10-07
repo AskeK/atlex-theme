@@ -7,8 +7,11 @@ function smamo_rest_register_ovelse_meta() {
         'fb_link' => 'smamo_rest_get_fb_link',
         'tw_link' => 'smamo_rest_get_tw_link',
         'img' => 'smamo_rest_get_img_link',
-        'media' => null,
-        'images' => null,
+        'images' => 'smamo_rest_get_meta_array',
+        'saved_count' => null,
+        'author_name' => 'smamo_rest_get_author_name',
+        'time' => null,
+        'popularity' => null,
     );
 
 

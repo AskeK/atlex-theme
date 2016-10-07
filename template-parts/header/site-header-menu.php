@@ -1,13 +1,13 @@
 <nav class="site-header-menu">
     <ul>
         <li>
-            <a href="<?php echo get_bloginfo('url') ?>/ovelse/">
+            <a class="forlob-link" href="<?php echo get_bloginfo('url') ?>/ovelse/">
                 <svg viewBox="0 0 50 50"><use xlink:href="#icon-alle-ovelser"></use></svg>
                 <span>Alle øvelser</span>
             </a>
         </li>
         <li>
-            <a href="<?php echo get_bloginfo('url') ?>/forlob/">
+            <a class="forlob-link" href="<?php echo get_bloginfo('url') ?>/forlob/">
                 <svg viewBox="0 0 50 50"><use xlink:href="#icon-alle-forlob"></use></svg>
                 <span>Alle forløb</span>
             </a>
@@ -21,7 +21,7 @@
         }
         if ($u_href) : ?>
         <li>
-            <a href="<?php echo $u_href; ?>">
+            <a class="login-link" href="<?php echo $u_href; ?>">
                 <svg viewBox="0 0 50 50"><use xlink:href="#icon-mit-atlex"></use></svg>
                 <span>Mit atlex</span>
             </a>
@@ -32,7 +32,7 @@
         foreach($pages as $p){$app_href = get_permalink($p->ID);}
         if ($app_href) : ?>
         <li>
-            <a href="<?php echo $app_href ?>">
+            <a class="get-app-link" href="<?php echo $app_href ?>">
                 <svg viewBox="0 0 50 50"><use xlink:href="#icon-get-app"></use></svg>
                 <span>Hent app</span>
             </a>

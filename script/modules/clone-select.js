@@ -13,7 +13,7 @@ var cloneSelect = function(){
             e.preventDefault();
 
             if(select.children('option:selected').val() !== '0' && span.is(':last-child')){
-                span.clone().appendTo(span.parents('fieldset'));
+                span.clone().appendTo(span.parents('fieldset')).addClass('cloned');
                 cloneSelect();
             }
 

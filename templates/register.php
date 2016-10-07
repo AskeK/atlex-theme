@@ -18,9 +18,9 @@ get_template_part('template-parts/header/site-header');
             </header>
                 <section class="article-section">
                     <h2>Log ind på <?php bloginfo('title') ?></h2>
-                    <form action="http://192.168.1.4/atlex/wp-login.php" method="post">
+                    <form action="<?php echo wp_login_url(); ?>" method="post">
                         <input type="hidden" name="rememberme" value="forever">
-                        <input type="hidden" name="redirect_to" value="http://192.168.1.4/atlex/login/">
+                        <input type="hidden" name="redirect_to" value="<?php echo bloginfo('url') ?>/login/">
 
                         <fieldset class="half">
                             <label for="user_login">Brugernavn eller e-mail</label>

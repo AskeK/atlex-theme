@@ -2,7 +2,8 @@ $fileinputwidth: 140px;
 $fileinputheight: 130px;
 
 
-.file-upload-dz{
+.file-upload-dz,
+.video-upload-dz{
     min-width: $fileinputwidth;
     min-height: $fileinputheight;
     cursor: pointer;
@@ -114,3 +115,43 @@ $fileinputheight: 130px;
         }
     }
 }
+
+
+.video-upload-dz{
+    position: relative;
+    width:100%;
+    padding-bottom:56.25%;
+    height: 0;
+
+    @media only screen and(min-width:480px){
+        width:50%;
+        padding-bottom:28.125%;
+    }
+
+
+    &:after,
+    .dz-preview{
+
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

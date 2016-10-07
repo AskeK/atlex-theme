@@ -19,7 +19,17 @@ foreach($ovelse_q as $o){
     $ovelser[$o->ID] = $o->post_title;
 }
 
+piklist('field', array(
+    'type' => 'select',
+    'label' => __('Tilknyttede øvelser'),
+    'columns' => 12,
+    'add_more' => true,
+    'scope' => 'post_meta',
+    'field' => 'attach_ovelse',
+    'choices' => $ovelser,
+));
 
+/*
 $styrke_q = get_terms('styrke',array('hide_empty' => false));
 $styrker = array();
 foreach($styrke_q as $s){
@@ -101,3 +111,4 @@ piklist('field', array(
         ),
     )
 ));
+*/

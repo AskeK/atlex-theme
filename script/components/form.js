@@ -23,6 +23,49 @@ var formHandleResponse = function(response,form){
 
 }
 
+var clearForm = function(form){
+
+    // Ryd inputs og textareas
+    form.find('input, textarea').each(function(){
+        if(!$(this).is('input[type="hidden"]')){
+            $(this).val('');
+            $(this).removeProp('checked');
+        }
+    });
+
+    // Ryd kloner
+    form.find('.select-clone').each(function(){
+        if($(this).hasClass('cloned')){
+            $(this).remove();
+        }
+
+        else{
+            $(this).find('option').removeProp('selected');
+        }
+    });
+
+    // Ryd billedupload
+    form.find('.dz-preview').each(function(){
+        var prev = $(this),
+            id = prev.attr('data-id');
+        $.ajax({
+            url : ajaxURL,
+            type : 'POST',
+            data : {
+                action : 'file_upload',
+                delete : id,
+            },
+            dataType : 'json',
+            success : function(response){
+                prev.remove();
+            },
+        });
+    });
+
+    form.find('.image-id').remove();
+    form.find('.file-upload-dz').removeClass('dz-started dz-max-files-reached');
+}
+
 var validateForm = function(form){
 
     var ready = true;
@@ -118,7 +161,7 @@ var formJsInit = function(){
         click : function(e){
             var t = $(e.target);
 
-            if(t.is('.submit') || t.is('input[type="submit"]')){
+            if(t.is('input[type="submit"]')){
                 e.preventDefault();
 
 

@@ -10,6 +10,10 @@ $GLOBALS['jstemplates'] = false;
     <meta charset="UTF-8">
     <meta name="ajaxURL" content="<?php echo admin_url('admin-ajax.php'); ?>">
     <meta name="post-id" content="<?php echo $GLOBALS['current_id'] ?>">
+    <?php if (is_user_logged_in()) :?>
+    <meta name="user-id" content="<?php echo get_current_user_id(); ?>">
+    <?php endif; ?>
+    <meta name="post-id" content="<?php echo $GLOBALS['current_id'] ?>">
     <title><?php wp_title(' · ', true, 'right')?></title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <?php wp_head(); ?>

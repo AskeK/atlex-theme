@@ -9,8 +9,8 @@ fieldset{
         font-family: inherit;
         line-height: 1.5;
         padding: 10px;
-        background: linear-gradient( left, #{lighten($color-gold,34)}, #{lighten($color-gold,35)}, #{lighten($color-gold,33)});
-        display: block;
+        background: rgba($color-gold,.2);
+        transition: background 120ms;
 
         &:active,
         &:focus{
@@ -32,6 +32,7 @@ fieldset{
         margin-bottom: 20px;
         min-width: 200px;
         text-align: center;
+        text-decoration: none!important;
         padding: 15px 25px;
         font-size: 85%;
         font-weight: bold;
@@ -65,5 +66,21 @@ fieldset{
     input[type="password"].error,
     textarea.error{
         background-color: rgba(#ff9999,.3)!important;
+    }
+}
+
+
+.loading fieldset{
+    input[type="button"],
+    input[type="submit"],
+    a.submit,
+    a.button{
+        opacity: .9;
+        pointer-events: none;
+        color: transparent;
+        background-image: url(../statics/loading.gif);
+        background-size: 15px;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 }
