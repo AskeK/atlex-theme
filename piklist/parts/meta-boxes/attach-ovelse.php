@@ -4,7 +4,6 @@
 Title: Øvelser
 Post Type: forlob
 scope: post_meta
-order: 10
 */
 
 $ovelse_q = get_posts(array(

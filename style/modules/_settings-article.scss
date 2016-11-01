@@ -34,10 +34,17 @@
     .form-section{
         @extend %wp-styles;
         @extend %article-font-style;
+        text-align: center;
+
         >*{
             max-width: 720px;
             margin-left: auto;
             margin-right: auto;
+            text-align: left;
+
+            &.half{
+                max-width: 360px;
+            }
         }
 
         background-color: #fff;

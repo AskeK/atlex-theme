@@ -1,0 +1,132 @@
+.article-page-header{
+    background-color: $color-gold;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    height: 75px;
+
+    @media only screen and(min-width:480px){
+        height: 50px;
+    }
+
+    @media only screen and(min-width:640px){
+        height: 100px;
+
+    }
+
+    nav{
+        display: inline-block;
+        float: right;
+        margin-top: 25px;
+        @media only screen and(min-width:480px){
+            margin-top: 0;
+        }
+
+    }
+
+    h2{
+        background-color: inherit;
+        z-index: 2;
+        box-shadow: -4px 0px 10px rgba(black,.2);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0px 10px;
+        height: 25px;
+        line-height: 25px;
+        text-transform: uppercase;
+        font-style: italic;
+
+        @media only screen and(min-width:480px){
+            display: block;
+            padding: 12px 10px;
+            height: 50px;
+            width: 120px;
+            line-height: normal;
+        }
+
+        @media only screen and(min-width:640px){
+            padding: 30px 20px;
+            height: 100px;
+            width: 200px;
+            font-size: 18px;
+        }
+
+    }
+
+    a{
+        width: 90px;
+        padding: 10px;
+        display: inline-block;
+        text-align: center;
+        height: 50px;
+        transform: skew(-15deg);
+        vertical-align: top;
+        box-shadow: -4px 0px 4px 0px rgba(0,0,0,0.3);
+        transition: background-color 120ms;
+        backgorund-color: $color-gold;
+
+        &:last-child{
+            margin-right: -10px;
+            padding-right: 10px;
+            width: 100px;
+        }
+
+        &:hover{
+            background-color: lighten($color-gold,10);
+        }
+
+        @media only screen and(max-width:480px){
+            &:first-child{
+                box-shadow: none;
+            }
+
+        }
+
+        @media only screen and(min-width:640px){
+            height: 100px;
+            width: 150px;
+            padding: 20px;
+
+            &:last-child{
+                margin-right: -30px;
+                padding-right: 50px;
+                width: 160px;
+            }
+        }
+
+    }
+
+    svg{
+        transform: skew(15deg);
+        left: -5px;
+        position: relative;
+        height: 20px;
+        width: 20px;
+        display: inline-block;
+
+        @media only screen and(min-width:640px){
+            height: 30px;
+            width: 30px;
+        }
+
+    }
+
+    span{
+        transform: skew(15deg);
+        font-size: 9px;
+        display: block;
+        padding: 5px 0px 0px;
+        text-transform: uppercase;
+
+
+        @media only screen and(min-width:640px){
+            font-size: 12px;
+            padding: 10px 0px 0px;
+        }
+
+    }
+}

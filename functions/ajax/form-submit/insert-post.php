@@ -86,14 +86,14 @@ if ('ovelse' === $post_type){
     wp_set_post_terms( $p, $styrker, 'styrke', false );
 
     // Medier
-    $media_array = array();
     if(isset($_POST['images']) && is_array($_POST['images']) && !empty($_POST['images'])){
 
         delete_post_meta($p,'images');
-
         foreach($_POST['images'] as $img){
-            array_push($media_array,$img);
-            add_post_meta($p, 'images', $img, false);
+
+            if (wp_get_attachment_url( $img )){
+                add_post_meta($p, 'images', $img, false);
+            }
         }
     }
 }
@@ -101,7 +101,6 @@ if ('ovelse' === $post_type){
 
 // Felter til forløb
 if('forlob' === $post_type){
-
 
     // Øvelser
     $attach_ovelse = array();

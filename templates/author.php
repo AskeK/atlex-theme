@@ -1,6 +1,7 @@
 <section class="main-section">
     <main>
     <?php
+
         $usr_page = (isset($wp_query->query_vars['usr_page'])) ? esc_attr(urldecode($wp_query->query_vars['usr_page'])) : false;
         $locate = locate_template('template-parts/user/' . $usr_page . '.php');
 
@@ -11,7 +12,7 @@
         );
 
         $cur_user = (int)get_current_user_id();
-        global $post; $cur_author = (int)$post->post_author;
+        global $post; $cur_author = (int)get_query_var('author');
 
 
         if($cur_user === $cur_author && $locate !== ''){

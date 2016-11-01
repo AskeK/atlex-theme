@@ -8,10 +8,11 @@
         font-size: 12px;
         text-transform: uppercase;
         text-align: center;
-        border: 1px solid $color-dark-2;
         border-right: none;
-        color: white;
-        fill: white;
+        color: $color-light-2;
+        fill: $color-light-2;
+        background-color:$color-light-4;
+        transition: background-color 90ms, color 90ms, fill 90ms;
 
         svg{
             width:60px;
@@ -25,82 +26,67 @@
         }
 
         &:first-of-type{
-
             border-left: none;
         }
 
+        &:hover,
         &.active{
-            background-color: $color-light-4;
+            color: white;
+            fill: white;
         }
 
-        &.toggle-forlob.active{
-            background-color: darken($color-green-3,10);
+        &.active{
+            background-color: $color-dark-2;
+            cursor: default;
+
         }
+
 
     }
 
     .item-finder-list{
-        height: 120px;
-        line-height: 120px;
+        border:solid $color-gold;
+        border-width: 1px 0px 0px;
         position: relative;
         display: block;
-        background-color: $color-light-3;
-        font-size: 16px;
+        font-size: 12px;
         text-transform: uppercase;
         overflow: hidden;
-        color: white;
-        font-weight: 700;
+        font-weight: normal;
+
+        span{
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        i{
+            color: $color-gold;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
 
 
-        li{
-            position: absolute;
+        a{
+            position: relative;
             z-index: 1;
             display: block;
             width: 100%;
-            text-align: center;
-            height: inherit;
-            line-height: inherit;
-
-            top: -100%;
-            transition: top 200ms;
+            padding: 0px 20px;
+            height: 70px;
+            line-height: 70px;
+            border-bottom: 1px solid $color-gold;
+            background-color: $color-dark-2;
+            color: $color-light;
+            transition: background-color 120ms, color 120ms;
         }
 
-        li.active{
-            top: 0;
+        li:hover a,
+        li.active a{
+            color: white;
+            background-color: lighten($color-dark-2,5);
         }
-
-        li.active ~ li{
-            top: 100%;
-        }
-    }
-
-    .item-finder-list-nav{
-        z-index: 2;
-        display: block;
-        height: 30px;
-        position: absolute;
-        width: 100%;
-        top: 0;
-
-        &.next{
-            top: auto;
-            bottom: 0;
-        }
-
-        svg{
-            display: block;
-            fill: white;
-            height: inherit;
-            width: inherit;
-            position: relative;
-        }
-    }
-
-    .item-finder-ranges{
-        box-sizing:content-box;
-        position: relative;
-        padding: 30px 50px;
-        max-width: 300px;
-        margin: 0px auto;
     }
 }

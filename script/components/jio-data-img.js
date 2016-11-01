@@ -33,8 +33,22 @@ var jio_data_img = {
 
             jsGetJSON('media/'+$imgID, function(ret){
 
+                if(ret.status === 404){
+                    $img.parent('.image-container').remove();
+                    $img.remove();
+                }
+
                 if (ret.status !== 404){
-                    var imgsrc = ret.media_details.sizes[$imgIDSize].source_url;
+
+                    var imgsrc;
+                    if(typeof ret.media_details.sizes[$imgIDSize] !== 'undefined'){
+                        imgsrc = ret.media_details.sizes[$imgIDSize].source_url;
+                    }
+
+                    else{
+                        imgsrc = ret.source_url;
+                    }
+
 
                     $imgPlaceholder.src = imgsrc;
                     $imgPlaceholder.onload = function() {

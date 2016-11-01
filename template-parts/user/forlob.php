@@ -5,40 +5,36 @@
 
 $q = (isset($wp_query->query_vars['usr_subpage'])) ? esc_attr(urldecode($wp_query->query_vars['usr_subpage'])) : false;
 
-switch ($q){
+if('saved' === $q){
+    $posts__in = array();
+    $ids = get_user_meta((int)get_current_user_id(),'saved_posts',false);
+    foreach($ids as $id){
+        array_push($posts__in,$id);
+    }
 
-    case 'saved' :
-        $posts__in = array();
-        $ids = get_user_meta(get_current_user_id(),'saved_posts',false);
-        foreach($ids as $id){
-            array_push($posts__in,$id);
-        }
+    $query_vars = array(
+        'post_type' => 'forlob',
+        'post__in' => $posts__in,
+        'posts_per_page' => -1,
+    );
+}
 
-        $query_vars = array(
-            'post_type' => 'forlob',
-            'post__in' => $posts__in,
-            'posts_per_page' => -1,
-        );
+elseif('draft' === $q){
+   $query_vars = array(
+        'post_type' => 'forlob',
+        'post_status' => 'draft',
+        'author' => (int)get_current_user_id(),
+        'posts_per_page' => -1,
+    );
+}
 
-        break;
-
-    case 'draft' :
-        $query_vars = array(
-            'post_type' => 'forlob',
-            'post_status' => 'draft',
-            'post_author' => get_current_user_id(),
-            'posts_per_page' => -1,
-        );
-        break;
-
-    default :
-        $query_vars = array(
-            'post_type' => 'forlob',
-            'post_status' => 'publish',
-            'post_author' => get_the_author(),
-            'posts_per_page' => -1,
-        );
-        break;
+else{
+    $query_vars = array(
+        'post_type' => 'forlob',
+        'post_status' => 'publish',
+        'author' => (int)get_current_user_id(),
+        'posts_per_page' => -1,
+    );
 }
 
 

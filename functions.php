@@ -6,6 +6,7 @@ get_functions_part(array(
     'page-state',
     'user-url',
     'pop-query',
+    'login-error'
 ));
 
 get_functions_part(array(
@@ -36,6 +37,7 @@ get_functions_part(array(
 get_functions_part(array(
     'config',
     'front-video',
+    'info',
 ),'kirki');
 
 
@@ -43,6 +45,7 @@ get_functions_part(array(
     'ajax-upload',
     //'ajax-youtube',
     'form-submit',
+    'register',
     'get_posts',
     'save-user-meta',
     'popularity',

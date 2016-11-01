@@ -1,18 +1,18 @@
 var articlePageToggle = function(page,navTo){
-
+    var timing = 200;
     $('.article-pages').attr('data-page',page);
 
     if(typeof navTo !== 'undefined'){
         setTimeout(function(){
             if(navTo === 'top'){
-                $('html,body').animate({scrollTop : $('.article-pages').offset().top - $('.site-header').innerHeight()},200);
+                $('html,body').animate({scrollTop : $('.article-pages').offset().top - $('.site-header').innerHeight()},timing);
             }
 
             else{
-                $('html,body').animate({scrollTop : $('#'+navTo).offset().top - $('.site-header').innerHeight()},200);
+                $('html,body').animate({scrollTop : $('#'+navTo).offset().top - $('.site-header').innerHeight()},timing);
             }
 
-        },200);
+        },timing);
     }
 }
 

@@ -43,24 +43,67 @@
     }
 
 
-    &:after{
-        position: absolute;
-        content : 'Se øvelsen';
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 12px;
-        color: $color-dark-2;
+    @media only screen and(min-width:640px){
+
+        &:after{
+            position: absolute;
+            content : 'Se øvelsen';
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: $color-dark-2;
+        }
+
+        &:before{
+            content: '';
+            position: absolute;
+            background-color: $color-green-2;
+            width: 135px;
+            top: -70px;
+            bottom: -70px;
+            right: -30px;
+            transform: rotate(13deg);
+        }
+
     }
 
-    &:before{
-        content: '';
-        position: absolute;
-        background-color: $color-green-2;
-        width: 135px;
-        top: -70px;
-        bottom: -70px;
-        right: -30px;
-        transform: rotate(13deg);
+}
+
+
+.main-article .inner-article.collapsed{
+    height: 100px;
+
+    .article-img{
+        margin-left: 10px;
+    }
+
+    .article-title,
+    .article-author{
+        margin-left: 130px;
+        font-weight: normal;
+        font-size: 80%;
+    }
+
+    .article-author{
+        top: -60px;
+    }
+
+    .article-media-count{
+        top: -61px;
+        margin-left: 170px;
+    }
+
+    @media only screen and(min-width:640px){
+
+        height: 130px;
+
+        .article-title{
+            font-weight: bold;
+        }
+
+        .article-img{
+            margin-left: 0px;
+        }
     }
 }

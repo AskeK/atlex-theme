@@ -31,6 +31,13 @@ $(function(){
 
         saved_span.html( saved_value );
 
+        // Opdater menu
+        var menu_field = (article.hasClass('post-type-ovelse') ? $('.login-ovelse i') : $('.login-forlob i')),
+            menu_field_val = parseInt(menu_field.html()),
+            new_field_val = (check ? menu_field_val + 1 : menu_field_val - 1);
+
+        menu_field.html(new_field_val);
+
         $.ajax({
             url : ajaxURL,
             type : 'POST',

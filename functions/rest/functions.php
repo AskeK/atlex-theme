@@ -33,3 +33,6 @@ function smamo_rest_get_img_link($object, $field_name, $request){
     }
     return $ret;
 }
+function smamo_rest_has_cover($object,$field_name,$request){
+    return has_post_thumbnail($object['id']);
+}

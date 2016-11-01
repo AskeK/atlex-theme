@@ -18,14 +18,16 @@ if ($cur_author === $cur_user && in_array(get_post_type($post->ID),array('ovelse
     </a>
     <a class="article-close-link" href="#">
         <svg><use xlink:href="#icon-cross"></use></svg>
-        <span><?php echo ('ovelse' === get_post_type(get_the_ID())) ? 'Luk beskrivelsen': 'Luk forløbet';?></span>
+        <span class="open"><?php echo ('ovelse' === get_post_type(get_the_ID())) ? 'Åben beskrivelsen': 'Åben forløbet';?></span>
+        <span class="close"><?php echo ('ovelse' === get_post_type(get_the_ID())) ? 'Luk beskrivelsen': 'Luk forløbet';?></span>
     </a>
 </div>
 <?php elseif (in_array(get_post_type($post->ID),array('ovelse','forlob'))) : ?>
 <div class="article-close">
     <a class="article-close-link" href="#">
-    <svg><use xlink:href="#icon-cross"></use></svg>
-    <span><?php echo ('ovelse' === get_post_type(get_the_ID())) ? 'Luk beskrivelsen': 'Luk forløbet';?></span>
+        <svg><use xlink:href="#icon-cross"></use></svg>
+        <span class="open"><?php echo ('ovelse' === get_post_type(get_the_ID())) ? 'Åben beskrivelsen': 'Åben forløbet';?></span>
+        <span class="close"><?php echo ('ovelse' === get_post_type(get_the_ID())) ? 'Luk beskrivelsen': 'Luk forløbet';?></span>
     </a>
 </div>
 <?php endif; else : ?>
@@ -38,7 +40,8 @@ if ($cur_author === $cur_user && in_array(get_post_type($post->ID),array('ovelse
     {{/if}}
     <a class="article-close-link" href="#">
         <svg><use xlink:href="#icon-cross"></use></svg>
-        <span>{{if type == 'ovelse' }}Luk beskrivelsen{{else}}Luk forløbet{{/if}}</span>
+        <span class="open">{{if type == 'ovelse' }}Åben beskrivelsen{{else}}Åben forløbet{{/if}}</span>
+        <span class="close">{{if type == 'ovelse' }}Luk beskrivelsen{{else}}Luk forløbet{{/if}}</span>
     </a>
 </div>
 <?php endif; ?>

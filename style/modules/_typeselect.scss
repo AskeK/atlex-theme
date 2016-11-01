@@ -8,7 +8,8 @@ fieldset.typeselect,
     }
 
     input[type="text"]{
-        width: calc(100% - 90px);
+        width: calc(100% - 45px);
+        height: 42px;
     }
 
     .input-btn,
@@ -16,7 +17,6 @@ fieldset.typeselect,
         position: absolute;
         height: 42px;
         width: 45px;
-        right: 45px;
         top: 23px;
         background-color: rgba($color-gold,.35);
         fill: rgba(black,.5);

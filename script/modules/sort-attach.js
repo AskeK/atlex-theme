@@ -55,11 +55,7 @@ $(function(){
 
                 typeselect.removeClass('loading');
 
-                var offset = elem.offset().top,
-                    pageOffset = $(window).innerHeight() - elem.innerHeight() - 30;
-
-                console.log(offset,pageOffset,offset - pageOffset);
-                $('html,body').animate({scrollTop : offset - pageOffset},200);
+                $('html,body').animate({scrollTop : $('#forlob-added-ovelse').offset().top - $('.site-header').height()},200);
 
                 setAttachInputNames();
 

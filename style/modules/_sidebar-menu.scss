@@ -1,3 +1,7 @@
+$menu-bg: #dabd6e;
+$menu-open-bg: #d4d1d1;
+$menu-active-bg: #f5f5f5;
+
 .sidebar-menu{
 
     li{
@@ -12,7 +16,7 @@
         padding:0px 20px;
         text-transform: uppercase;
         color: $color-light-6;
-        background-color: $color-light-2;
+        background-color: $menu-bg;
         font-weight: 300;
     }
 
@@ -23,19 +27,27 @@
         top: 20px;
         right:20px;
         transition: transform 120ms;
+        pointer-events: none;
     }
 
     .current-menu-item>a,
+    .current-menu-parent.current-menu-item>a{
+        color: $color-dark-2;
+        background-color: $menu-active-bg;
+        font-style: italic;
+    }
+
     .current-menu-parent>a{
         color: $color-dark-2;
-        background-color: $color-gold;
+        background-color: $menu-open-bg;
         font-style: italic;
 
     }
 
     .current-menu-item>svg,
     .current-menu-parent>svg{
-        transform: rotate(45deg);
+        //transform: rotate(45deg);
+        opacity: 0;
     }
 
     .sub-menu{
@@ -45,8 +57,8 @@
 
         a{
             font-style: normal;
-            color: white;
-            background-color: $color-gold-2;
+            color: $color-dark-2;
+            background-color: $menu-open-bg;
         }
 
         svg{
@@ -54,7 +66,7 @@
         }
 
         .current-menu-item>a{
-            background-color: $color-gold;
+            background-color: $menu-active-bg;
             cursor: default;
         }
 

@@ -1,3 +1,4 @@
+$.views.settings.allowCode(true);
 function jsRenderModule(vars, callback){
 
     $(vars.target).addClass('loading');
@@ -26,13 +27,16 @@ function jsRenderModule(vars, callback){
                 $(vars.target).append(htmlOutput).removeClass('loading');
             }
 
+            if(typeof vars.addHeader !== 'undefined' || vars.addHeader === true ){
+                var headerObj = [{type : response[0].type}],
+                    htmlHeader = $.templates("#jsTemplate-article-page-header").render(headerObj);
+
+                $(vars.target).prepend(htmlHeader);
+            }
+
             if(typeof callback === 'function'){
-
-
                 callback();
             }
         }
     });
 }
-
-$.views.settings.allowCode(true);

@@ -36,41 +36,34 @@ get_template_part('template-parts/header/site-header');
                         </fieldset>
                     </form>
                     <span class="login-or"></span>
-                    <div class="fb-login">
+                    <fieldset class="fb-login align-center">
                         <?php smamo_flogin('true', __('Log ind med Facebook','smamo') ); ?>
-                    </div>
+                    </fieldset>
                 </section>
                 <section class="article-section">
                     <h2>Endnu ikke registreret? Opret en ny profil</h2>
                     <?php the_content(); ?>
-                    <form action="" method="post" class="registration-form">
+                    <form autocomplete="off" action="<?php echo admin_url('admin-ajax.php'); ?>" method="post" class="registration-form ajax-form">
+                        <input type="hidden" name="action" value="register">
                         <fieldset>
                             <label for="usr">Brugernavn</label>
-                            <input type="text" name="usr">
+                            <input type="text" name="usr" required>
                         </fieldset>
                         <fieldset>
                             <label for="email">Email</label>
-                            <input type="email" name="email">
-                        </fieldset>
-                        <fieldset>
-                            <label for="description">Profiltekst (valgfri)</label>
-                            <textarea name="description" rows="5"></textarea>
+                            <input type="email" name="email" required>
                         </fieldset>
                         <fieldset class="half">
                             <label for="fname">Fornavn</label>
-                            <input type="text" name="fname">
+                            <input type="text" name="fname" required>
                         </fieldset>
                         <fieldset class="half right">
                             <label for="lname">Efternavn</label>
-                            <input type="text" name="lname">
+                            <input type="text" name="lname" required>
                         </fieldset>
-                        <fieldset class="half">
+                        <fieldset>
                             <label for="pass">Adgangskode</label>
-                            <input type="password" name="pass">
-                        </fieldset>
-                        <fieldset class="half right">
-                            <label for="pass_2">Gentag adgangskode</label>
-                            <input type="password" name="pass_2">
+                            <input type="password" name="pass" required autocomplete="new-password">
                         </fieldset>
                         <fieldset class="align-center">
                             <input type="submit" name="submit" value="Opret profil og log ind" class="gold">

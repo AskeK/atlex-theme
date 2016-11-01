@@ -23,10 +23,10 @@ $query_vars = array(
     'posts_per_page' => -1,
 );
 
-$ovelse_count = count(get_posts($query_vars));
+$ovelse_count = (!empty($posts__in)) ? count(get_posts($query_vars)) : 0;
 
 $query_vars['post_type'] = 'forlob';
-$forlob_count = count(get_posts($query_vars));
+$forlob_count = (!empty($posts__in)) ? count(get_posts($query_vars)) : 0;
 
 ?>
 <nav class="site-login-menu">

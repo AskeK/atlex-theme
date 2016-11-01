@@ -56,6 +56,9 @@ function smamo_file_upload(){
 
         wp_die(json_encode($response));
 
+        if(isset($_POST['post_id'])){
+            delete_post_meta(esc_attr($_POST['post_id']), 'images', $id);
+        }
     }
 
 

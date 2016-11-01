@@ -85,10 +85,16 @@ function dropzoneInput(){
 
             success : function(e,response){
 
-                if(!e.mock){
-                    var id = response.files[0].id;
+                if(typeof e.id !== 'undefined'){
+                    $(e.previewElement).attr('data-id',e.id);
+                }
 
-                    $(e.previewElement).attr('data-id',id);
+                if(!e.mock){
+
+                    var id = response.files[0].id;
+                    if(typeof id !== 'undefined'){
+                        $(e.previewElement).attr('data-id',id);
+                    }
 
                     if(div.hasClass('cover-photo')){
 
@@ -108,32 +114,38 @@ function dropzoneInput(){
                         form.append(fileInput);
                     }
                 }
-            },
-
-            removedfile : function(e){
-
-                var preview = $(e.previewElement),
-                    id = preview.attr('data-id'),
-                    dz = preview.parents('.file-upload-dz');
-
-                if(typeof id === 'undefined'){id = e.id;}
-
-                $('input#image-'+id).remove();
-                preview.remove();
-                dz.removeClass('dz-max-files-reached');
-
-                $.ajax({
-                    url : ajaxURL,
-                    type : 'POST',
-                    data : {
-                        action : 'file_upload',
-                        delete : id,
-                    },
-                    dataType : 'json',
-                    success : function(response){},
-                });
             }
         });
+    });
+
+    $('body').on('click','.dz-preview',function(e){
+        var preview = $(e.target).parents('.dz-preview'),
+            id = preview.attr('data-id'),
+            dz = preview.parents('.file-upload-dz'),
+            form = preview.parents('form');
+
+        $('input#image-'+id).remove();
+
+        preview.remove();
+        dz.removeClass('dz-max-files-reached');
+
+        var data = {
+            action : 'file_upload',
+            delete : id,
+        };
+
+        if(form.find('input[name="post-id"]').val() !== '0'){
+            data.post_id = form.find('input[name="post-id"]').val();
+        }
+
+        $.ajax({
+            url : ajaxURL,
+            type : 'POST',
+            data : data,
+            dataType : 'json',
+            success : function(response){},
+        });
+
     });
 }
 

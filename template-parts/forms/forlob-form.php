@@ -1,17 +1,16 @@
 <?php
 
+$saved_o = get_user_meta(get_current_user_id(),'saved_ovelse',false);
+$lis = get_posts(array(
+    'post_type' => 'ovelse',
+    'post_author' => get_current_user_id(),
+    'posts__in' => $saved_o,
+    'posts_per_page' => -1,
+    'post_status' => array('draft','publish'),
+));
+
 if($p && 'forlob' !== $p->post_type){$p = false;}
 if($p && 'forlob' === $p->post_type){
-
-
-    $saved_o = get_user_meta(get_current_user_id(),'saved_ovelse',false);
-    $lis = get_posts(array(
-        'post_type' => 'ovelse',
-        'post_author' => get_current_user_id(),
-        'posts__in' => $saved_o,
-        'posts_per_page' => -1,
-        'post_status' => array('draft','publish'),
-    ));
 
     $att = get_post_meta($p->ID,'attach_ovelse',false);
     $a_o = false;
@@ -58,10 +57,17 @@ if($p && 'forlob' === $p->post_type){
             <textarea name="content" rows="4" placeholder="Beskriv med ord" maxlength="1500" required><?php echo ($p) ? $p->post_content : ''; ?></textarea>
         </fieldset>
     </section>
-
+    <section class="form-section" id="forlob-added-ovelse">
+        <p class="p-label">De øvelser du har tilføjet vises her</p>
+        <ul class="attach-ovelse-list" id="attach-ovelse-list">
+           <?php if($a_o && $a_o->have_posts()) : while($a_o->have_posts()) : $a_o->the_post(); ?>
+               <?php get_template_part('template-parts/modules/attach-ovelse'); ?>
+           <?php endwhile; endif; wp_reset_postdata(); ?>
+        </ul>
+    </section>
     <section class="form-section" id="forlob-add-ovelse">
         <fieldset class="typeselect">
-            <label for="ovelse-picker">Tilføj øvelse</label>
+            <label for="ovelse-picker">Tilføj øvelse eller opret en ny</label>
             <input type="text" name="ovelse-picker" placeholder="skriv et øvelsesnavn eller vælg på listen">
             <input type="hidden" name="ovelse-picker-id" value="">
             <ul>
@@ -70,20 +76,12 @@ if($p && 'forlob' === $p->post_type){
                 <?php endforeach; ?>
             </ul>
             <a class="input-btn"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-expand"></use></svg></a>
-            <a class="add-btn"><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-plus"></use></svg></a>
         </fieldset>
-        <span class="login-or"></span>
         <fieldset class="align-center">
-            <a class="submit article-page-toggle" data-page="2" data-nav-to="ovelse-title" href="#">Opret en ny øvelse</a>
+            <a class="submit gold add-btn">Tilføj den valgte øvelse</a>
+            <span class="inline-or">Eller</span>
+            <a class="submit article-page-toggle" data-page="2" data-nav-to="ovelse-title" href="#">Opret en helt ny øvelse</a>
         </fieldset>
-    </section>
-    <section class="form-section">
-        <p class="p-label">Tilføjede øvelser</p>
-       <ul class="attach-ovelse-list" id="attach-ovelse-list">
-           <?php if($a_o && $a_o->have_posts()) : while($a_o->have_posts()) : $a_o->the_post(); ?>
-               <?php get_template_part('template-parts/modules/attach-ovelse'); ?>
-           <?php endwhile; endif; wp_reset_postdata(); ?>
-       </ul>
     </section>
     <section class="form-section">
         <?php if (!$p || 'draft' === $p->post_status) : ?>

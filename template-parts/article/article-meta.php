@@ -5,7 +5,7 @@ if ( !$tpl && !in_array( get_post_type( get_the_ID() ), array('post','page') ) )
 $images = get_post_meta(get_the_ID(),'images',false);
 $video = get_post_meta(get_the_ID(),'video',false);
 $count_str = '';
-$img_count = 0;
+$img_count = (has_post_thumbnail()) ? 1 : 0;
 $vid_count = 0;
 if (is_array($images) && !empty($images[0])) {
     foreach($images as $m){
@@ -41,6 +41,9 @@ elseif('forlob' === get_post_type(get_the_ID())){
 <div class="article-media-count">
 {{if type === 'ovelse'}}
     {{* window.mc = 0; window.vc = 0; }}
+    {{if has_cover==true}}
+    {{* mc = 1;}}
+    {{/if}}
     {{for images}}
         {{* mc ++; }}
     {{/for}}

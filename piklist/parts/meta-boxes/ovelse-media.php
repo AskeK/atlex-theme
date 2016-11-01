@@ -4,7 +4,6 @@
 Title: Medier
 Post Type: ovelse
 scope: post_meta
-order: 20
 */
 
 piklist('field', array(

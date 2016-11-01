@@ -50,41 +50,39 @@ $fileinputheight: 130px;
         margin-right: 20px;
         margin-bottom: 20px;
         cursor: default;
+        position:relative;
 
         .dz-details,
         .dz-progress,
         .dz-error-message,
         .dz-success-mark,
-        .dz-error-mark{
+        .dz-error-mark,
+        .dz-remove{
             display: none;
         }
 
-        .dz-remove{
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 30px;
-            height: 30px;
-            border-radius: 30px;
-            font-size: 0px;
-            color: transparent;
-            background-color:rgba(black,.5);
+        &:hover{
+            cursor:pointer;
 
-            &:before,
-            &:after{
+            :before{
                 content: '';
-                height: 15px;
-                width: 2px;
-                display: block;
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                background-color: white;
-                transform: translate(-50%,-50%) rotate(45deg);
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+                background-color: rgba(black,.3);
+                x-index: 3;
             }
-
-            &:after{
-                transform: translate(-50%,-50%) rotate(-45deg);
+            :after{
+                content: '\00d7';
+                position: absolute;
+                top:50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                color: white;
+                font-size: 60px;
+                x-index: 4;
             }
         }
 

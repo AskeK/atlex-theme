@@ -35,6 +35,12 @@
             </fieldset>
         </div>
     </section>
+     <section class="form-section" id="ovelse-images">
+        <fieldset class="file-upload">
+           <input type="file">
+           <input type="button" name="Upload" id="video-upload-btn">
+        </fieldset>
+    </section>
     <!--<section class="form-section" id="ovelse-video">
         <fieldset>
             <p class="p-label">Tilføj en video (1)</p>
@@ -45,48 +51,13 @@
     </section> -->
     <section class="form-section" id="ovelse-type">
         <p class="p-label">Øvelsestype</p>
-        <fieldset class="select">
-            <span class="select-clone">
-                <select name="type[]">
-                    <option value="0">Vælg fra listen</option>
-                    <?php $terms = get_terms('type',array('hide_empty' => false)); foreach($terms as $t) : ?>
-                    <option value="<?php echo $t->term_id ?>"><?php echo $t->name ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <a href="#" class="clone-add"><svg><use xlink:href="#icon-plus"></use></svg></a>
-                <a href="#" class="clone-remove"><svg><use xlink:href="#icon-cross"></use></svg></a>
-            </span>
-        </fieldset>
-    </section>
-    <section class="form-section" id="ovelse-styrke">
-        <p class="p-label">Denne øvelse styrker</p>
-        <?php $terms = get_terms('styrke',array('hide_empty' => false)); foreach($terms as $t) : ?>
+        <?php $active_terms = array(); if ($p) {$p_terms = wp_get_post_terms($p->ID,'type'); foreach($p_terms as $p_term) { $active_terms[] = $p_term->term_id; }}?>
+        <?php $terms = get_terms('type',array('hide_empty' => false)); foreach($terms as $t) : ?>
         <fieldset class="cb">
-            <label for="styrke[]"><?php echo $t->name ?></label>
-            <input type="checkbox" name="styrke[]" value="<?php echo $t->term_id ?>">
+            <label for="type[]"><?php echo $t->name ?></label>
+            <input type="checkbox" name="type[]" value="<?php echo $t->term_id ?>"<?php if(in_array($t->term_id,$active_terms)){ echo ' checked';} ?>>
         </fieldset>
         <?php endforeach; ?>
-    </section>
-    <section class="form-section" id="ovelse-time">
-        <fieldset class="range range-postfix" data-postfix="minut;minutter">
-            <label for="time">Hvor lang tid tager øvelsen ca.</label>
-            <?php $val = ($p) ? get_post_meta($p->ID,'time',true) : 1; ?>
-            <output><?php echo $val . ' minut'; echo ($val !== 1) ? 'ter' : ''; ?></output>
-            <input data-meta="time" data-meta-compare=">" type="range" value="<?php echo $val ?>" min="1" max="90" name="time">
-        </fieldset>
-    </section>
-    <section class="form-section" id="ovelse-beacon">
-        <p class="p-label">Øvelsens placering</p>
-        <fieldset class="select">
-            <span>
-                <select name="beacon">
-                    <option value="0">Tilføj en placering på Atlex hvor øvelsen skal udføres (iBeacon)</option>
-                    <?php $b = get_posts(array('post_type' => 'beacon','posts_per_page' => -1)); foreach($b as $b) : ?>
-                    <option value="<?php echo $b->ID ?>"><?php echo $b->post_title ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </span>
-    </fieldset>
     </section>
     <section class="form-section">
         <?php if ($forlob_ovelse) : ?>

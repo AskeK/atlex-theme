@@ -4,7 +4,6 @@
 Title: Varighed
 Post Type: ovelse
 scope: post_meta
-order: 30
 */
 
 
@@ -13,4 +12,5 @@ piklist('field', array(
     'label' => __('Øvelsens varighed (i minutter)'),
     'scope' => 'post_meta',
     'field' => 'time',
+    'order' => 1,
 ));

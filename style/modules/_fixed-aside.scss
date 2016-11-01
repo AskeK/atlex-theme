@@ -13,7 +13,7 @@ $aside-toggle-icon-width: 22px;
 }
 
 .fixed-aside{
-    positon: relative;
+    position: relative;
     background-color: inherit;
     width: inherit;
     max-width: inherit;
@@ -51,7 +51,8 @@ $aside-toggle-icon-width: 22px;
         width: $aside-toggle-icon-width;
         height: $aside-toggle-icon-width;
         left:  ($aside-toggle-width - $aside-toggle-icon-width) / 2;
-        top: ($aside-toggle-width - $aside-toggle-icon-width) / 1.5;
+        top: 50%;
+        transform: translateY(-49%);
     }
 }
 

@@ -5,21 +5,26 @@ $(function(){
         var a = $(e.target),
             href = a.attr('href'),
             li = a.parent('li'),
-            ul = li.parents('ul');
+            ul = li.parents('ul'),
+            nav = ul.parents('nav');
+
+
 
         // Only fire on anchors
         if (!a.is('a, a *')){return;}
 
         // Click on active parent
-        if(li.is('.current-menu-parent, .current-menu-item') && !li.is('.sub-menu li')){
-            li.removeClass('current-menu-parent current-menu-item');
+        if(li.is('.current-menu-parent, .current-menu-item') && !li.is('.sub-menu li') && !nav.is('.sub-nav')){
             e.preventDefault();
+            toggleArticle(e,$('main').find('a[href="'+href+'"]').parents('article'));
+            ul.find('li').removeClass('current-menu-item');
+            li.addClass('current-menu-item');
         }
 
         // Click on inactive parent
-        else if(!li.is('.sub-menu li')){
+        else if(!li.is('.sub-menu li') ){
             ul.find('li').removeClass('current-menu-item current-menu-parent');
-            li.addClass('current-menu-item');
+            li.addClass('current-menu-item open');
 
             if($(this).is('.sub-nav')){
                 e.preventDefault();
@@ -32,9 +37,9 @@ $(function(){
         }
 
         // Click on inactive child
-        else if(li.is('.sub-menu li') && !$(this).is('.sub-nav')){
+        else if(li.is('.sub-menu li') && !nav.is('.sub-nav')){
             ul.find('li').removeClass('current-menu-item current-menu-parent');
-            li.addClass('current-menu-item').parents('li').addClass('current-menu-parent');
+            li.addClass('current-menu-item').parents('li').addClass('current-menu-parent open');
             e.preventDefault();
 
             toggleArticle(e,$('main').find('a[href="'+href+'"]').parents('article'));

@@ -5,7 +5,6 @@
 Title: Tilknyt beacon
 Post Type: ovelse
 scope: post_meta
-order: 40
 
 */
 

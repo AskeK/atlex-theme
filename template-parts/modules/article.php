@@ -26,6 +26,7 @@ $mv = array(
     'img'       => (!$tpl) ? get_image_link(get_the_ID(), 'widescreen') : '{{:img.widescreen}}',
     'content'   => (!$tpl) ? apply_filters('the_content', get_the_content()) : '{{:content.rendered}}',
     't'         => (!$tpl) ? get_post_meta(get_the_ID(),'time',true) : '{{:time}}',
+    'pop'       => (!$tpl) ? get_post_meta(get_the_ID(),'popularity',true) : '{{:popularity}}',
 );
 
 if($tpl){
@@ -60,8 +61,7 @@ else{
 
 ?>
 
-
-<article class="<?php echo $post_class ?>" id="post-<?php echo $mv['id'] ?>" data-s="<?php echo $mv['s'] ?>" data-t="<?php echo $mv['t'] ?>" data-a-o="<?php echo $mv['ao'] ?>">
+<article class="<?php echo $post_class ?>" id="post-<?php echo $mv['id'] ?>" data-s="<?php echo $mv['s'] ?>" data-t="<?php echo $mv['t'] ?>" data-a-o="<?php echo $mv['ao'] ?>" data-p="<?php echo $mv['pop'] ?>">
     <a href="<?php echo $mv['link']; ?>" class="article-link"></a>
     <div class="article-img loading" data-bg="<?php echo $mv['img']; ?>"></div>
     <header class="article-header loading" data-bg="<?php echo $mv['img'] ?>">

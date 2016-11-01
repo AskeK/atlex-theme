@@ -9,12 +9,9 @@
         <span>Forløb</span>
     </a>
     <div class="item-finder-list">
-        <a href="#" class="item-finder-list-nav prev"><svg><use xlink:href="#icon-collapse"></use></svg></a>
-        <a href="#" class="item-finder-list-nav next"><svg><use xlink:href="#icon-expand"></use></svg></a>
         <ul>
-
            <li data-slug="false"<?php if (!is_tax('type')){ echo 'class="active"';}?>>
-                <a href="#">
+                <a href="<?php echo esc_url(get_bloginfo('url')); ?>/ovelse/">
                     <span>Alle Øvelser</span>
                     <i><?php echo count(get_posts(array('post_type' => 'ovelse', 'numberposts' => -1))); ?></i>
                 </a>
@@ -28,20 +25,5 @@
             </li>
             <?php endforeach; ?>
         </ul>
-    </div>
-    <div class="item-finder-ranges">
-
-        <?php $terms = get_terms('styrke',array('hide_empty' => false)); foreach($terms as $t) : ?>
-        <fieldset class="range range-step">
-            <label for="<?php echo $t->slug ?>"><?php echo $t->name ?></label>
-            <output>nej</output>
-            <input data-term="styrke" data-term-id="<?php echo $t->term_id; ?>" type="range" value="0" name="<?php echo $t->slug ?>">
-        </fieldset>
-        <?php endforeach; ?>
-        <fieldset class="range range-postfix" data-postfix="minut;minutter">
-            <label for="time">Tid minimum</label>
-            <output>1 minut</output>
-            <input data-meta="time" data-meta-compare=">" type="range" value="1" min="1" max="90" name="time">
-        </fieldset>
     </div>
 </form>

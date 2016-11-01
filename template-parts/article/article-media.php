@@ -11,7 +11,7 @@ $video = get_post_meta(get_the_ID(),'video',true);
     <?php if (is_array($images)) : foreach($images as $m) : if ($m) :?>
     <li>
         <div class="image-container">
-            <img data-img-id="<?php echo esc_attr($m) ?>" data-id-size="widescreen-half" class="loading">
+            <img data-img-id="<?php echo esc_attr($m) ?>" data-id-size="widescreen" class="loading">
         </div>
     </li>
     <?php endif; endforeach; endif; ?>
@@ -23,7 +23,7 @@ $video = get_post_meta(get_the_ID(),'video',true);
 {{for images}}
     <li>
         <div class="image-container">
-            <img data-img-id="{{>#data}}" data-id-size="widescreen-half" class="loading">
+            <img data-img-id="{{>#data}}" data-id-size="widescreen" class="loading">
         </div>
     </li>
 {{/for}}
