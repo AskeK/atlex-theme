@@ -35,20 +35,6 @@
             </fieldset>
         </div>
     </section>
-     <section class="form-section" id="ovelse-images">
-        <fieldset class="file-upload">
-           <input type="file">
-           <input type="button" name="Upload" id="video-upload-btn">
-        </fieldset>
-    </section>
-    <!--<section class="form-section" id="ovelse-video">
-        <fieldset>
-            <p class="p-label">Tilføj en video (1)</p>
-            <fieldset class="video-upload">
-                <div class="video-upload-dz gold" data-max="1"></div>
-            </fieldset>
-        </fieldset>
-    </section> -->
     <section class="form-section" id="ovelse-type">
         <p class="p-label">Øvelsestype</p>
         <?php $active_terms = array(); if ($p) {$p_terms = wp_get_post_terms($p->ID,'type'); foreach($p_terms as $p_term) { $active_terms[] = $p_term->term_id; }}?>
