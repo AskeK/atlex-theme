@@ -5184,6 +5184,7 @@ $(function(){
     $('body').on('click','.article-page-header',function(e){
         e.preventDefault();
         var t = $(e.target),
+            a = t.parent('a');
             header = t.parents('.article-page-header'),
             page = header.parents('.article-page');
 
@@ -5205,7 +5206,11 @@ $(function(){
 
         if(t.is('.add-new, .add-new *')){
             var loc = $('.site-header-menu .login-link').attr('href');
-            if(typeof current_user !== 'undefined'){
+            if(a.attr('href') !== '#' && typeof a.attr('href') !== 'undefined'){
+                loc = a.attr('href');
+            }
+
+            else if(typeof current_user !== 'undefined'){
 
                 loc += '/edit/';
 
