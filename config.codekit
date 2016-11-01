@@ -74,6 +74,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/functions\/ajax\/google-api-token.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/functions\/ajax\/google-api-token.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/functions\/ajax\/popularity.php": {
 		"fileType": 8192,
 		"ignore": 0,
@@ -699,6 +708,28 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/script\/components\/json.js",
 		"outputAbbreviatedPath": "\/script\/components\/min\/json-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/script\/gettoken.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/script\/gettoken.js",
+		"outputAbbreviatedPath": "\/script\/min\/gettoken-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/script\/min\/gettoken-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/script\/min\/gettoken-min.js",
+		"outputAbbreviatedPath": "\/script\/min\/min\/gettoken-min-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
