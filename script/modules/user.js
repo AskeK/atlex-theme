@@ -10,6 +10,7 @@ $(function(){
         jsGetJSON('users/'+user_id, function(response){
 
             current_user = response;
+            console.log(response);
             $.views.helpers({
                 current_user: current_user,
             });
@@ -23,3 +24,5 @@ $(function(){
         });
     }
 });
+
+

@@ -10,9 +10,9 @@ function jsGetJSON(link,ret){
         type : 'GET',
         data : null,
         dataType : 'json',
-        beforeSend: function ( xhr ) {
+        /*beforeSend: function ( xhr ) {
             xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
-        },
+        },*/
         success : function(response){
             ret(response);
         },
@@ -4180,6 +4180,7 @@ $(function(){
         jsGetJSON('users/'+user_id, function(response){
 
             current_user = response;
+            console.log(response);
             $.views.helpers({
                 current_user: current_user,
             });
@@ -4193,6 +4194,8 @@ $(function(){
         });
     }
 });
+
+
 
 
 var rangeInput = function(e){
