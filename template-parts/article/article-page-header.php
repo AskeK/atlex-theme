@@ -8,7 +8,7 @@ if (!$tpl){
 
     $mv['add-url'] = '#';
     if(is_user_logged_in()){
-        $mv['add-url'] = $author_base = get_author_posts_url(get_current_user_id()) . '/edit/' . $mv['type'] . '/';
+        $mv['add-url'] = $author_base = get_author_posts_url(get_current_user_id()) . 'edit/' . $mv['type'] . '/';
     }
 
     else{
