@@ -4,7 +4,7 @@ $hb_video = get_theme_mod('front_banner_video');
 $hb_img = get_theme_mod('front_banner_img');
 
 if(!$hb_video){
-    $hb_video = 'https://www.youtu.be/wSHR0H9QXwY';
+    $hb_video = 'https://www.youtube.com/watch?v=f79-58hLLXs';
 }
 
 ?>

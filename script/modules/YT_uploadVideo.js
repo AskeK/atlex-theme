@@ -80,22 +80,24 @@ var YT_UploadVideo = function(file, clientID, clientSecret, refreshToken, callba
 }
 
 // Construct videohandler, init vars
-document.getElementById("video-upload-btn").addEventListener('click', function() {
-    if(!$('.ovelse-form').find('input[name="video-id"]').length){
-        YT_UploadVideo(
-            document.getElementById("video-file").files[0],
-            '277088904091-9i70tiqg90t53ev4mu3j6dlfel4ie1h9.apps.googleusercontent.com',
-            '4DwvzFwbw4vVrrrxbO0w_rE_',
-            '1/BsQrj8Mbtbe48_KBObfskwYtUwesTS-xz75bZIPW5Q8',
-            function(r){
-                $('.ovelse-form').prepend('<input type="hidden" name="video-id" value="'+r+'"/>');
-                $('.video-preview iframe').attr('src','https://youtube.com/embed/' + r);
-                $('.video-upload').addClass('has-video');
-            }
-        );
-    }
-});
-
+var videoUploadBtn = document.getElementById("video-upload-btn");
+if(null !== videoUploadBtn){
+    videoUploadBtn.addEventListener('click', function() {
+        if(!$('.ovelse-form').find('input[name="video-id"]').length){
+            YT_UploadVideo(
+                document.getElementById("video-file").files[0],
+                '277088904091-9i70tiqg90t53ev4mu3j6dlfel4ie1h9.apps.googleusercontent.com',
+                '4DwvzFwbw4vVrrrxbO0w_rE_',
+                '1/BsQrj8Mbtbe48_KBObfskwYtUwesTS-xz75bZIPW5Q8',
+                function(r){
+                    $('.ovelse-form').prepend('<input type="hidden" name="video-id" value="'+r+'"/>');
+                    $('.video-preview iframe').attr('src','https://youtube.com/embed/' + r);
+                    $('.video-upload').addClass('has-video');
+                }
+            );
+        }
+    });
+}
 // Remove that video
 $('.video-preview-delete').on('click',function(e){
     e.preventDefault();
