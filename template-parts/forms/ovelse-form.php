@@ -1,5 +1,13 @@
-<?php if($p && 'ovelse' !== $p->post_type){$p = false;} ?>
+<?php
+if($p && 'ovelse' !== $p->post_type){$p = false;}
+$video_id = ($p && get_post_meta($p->ID,'video-id',true)) ? esc_attr(get_post_meta($p->ID,'video-id',true)) : false;
+
+
+?>
 <form class="ajax-form ovelse-form" action="<?php echo admin_url('admin-ajax.php') ?>">
+    <?php if ($video_id) : ?>
+    <input type="hidden" name="video-id" value="<?php echo $video_id ?>">
+    <?php endif; ?>
     <input type="hidden" name="action" value="form_submit">
     <input type="hidden" name="do" value="insert-post">
     <input type="hidden" name="post-id" value="<?php echo ($p) ? esc_attr($p->ID): '0'; ?>">
@@ -34,6 +42,19 @@
                 <div class="file-upload-dz" data-max="4"></div>
             </fieldset>
         </div>
+    </section>
+    <section class="form-section" id="ovelse-video">
+        <fieldset class="video-upload<?php echo ($video_id) ? ' has-video': ''; ?>">
+            <label id="videotitle">Video <span id="video-statustext"></span></label>
+            <div class="video-input">
+                <input type="file" id="video-file" accept="video/*" >
+                <input type="button" name="Upload" value="Upload" id="video-upload-btn" >
+            </div>
+            <div class="video-preview">
+                <iframe src="<?php if ($video_id) { echo 'https://youtube.com/embed/' . $video_id; }?>" frameborder="0"></iframe>
+                <a href="#" class="video-preview-delete">Slet</a>
+            </div>
+        </fieldset>
     </section>
     <section class="form-section" id="ovelse-type">
         <p class="p-label">Øvelsestype</p>

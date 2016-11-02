@@ -47,8 +47,11 @@ function upload_user_file( $file = array() ) {
 add_action( 'wp_ajax_file_upload', 'smamo_file_upload' );
 
 function smamo_file_upload(){
+    if(isset($_POST['delete']) && 'video-id' === $_POST['delete']){
+        delete_post_meta($_POST['post_id'], 'video-id');
+    }
 
-    if(isset($_POST['delete'])){
+    elseif(isset($_POST['delete'])){
 
         $id = esc_attr($_POST['delete']);
 

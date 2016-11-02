@@ -13,6 +13,7 @@ function smamo_rest_register_ovelse_meta() {
         'time' => null,
         'popularity' => null,
         'has_cover' => 'smamo_rest_has_cover',
+        'video-id' => null,
     );
 
 

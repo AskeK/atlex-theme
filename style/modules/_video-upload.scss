@@ -1,0 +1,22 @@
+.video-upload{
+
+    .video-input{
+        display: block;
+    }
+
+    .video-preview{
+        display: none;
+    }
+
+    &.has-video{
+
+        .video-input{
+            display: none;
+        }
+
+        .video-preview{
+            display: block;
+        }
+
+    }
+}

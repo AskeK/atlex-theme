@@ -60,6 +60,12 @@ if ('ovelse' === $post_type){
         update_post_meta($p,'time',esc_attr($_POST['time']));
     }
 
+    // VIDEO
+    delete_post_meta($p,'video-id');
+    if(isset($_POST['video-id'])){
+        update_post_meta($p,'video-id',esc_attr($_POST['video-id']), true);
+    }
+
     // Øvelsestyper
     $typer = array();
     if(isset($_POST['type']) && is_array($_POST['type']) && !empty($_POST['type'])){

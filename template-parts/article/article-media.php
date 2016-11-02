@@ -5,7 +5,7 @@ if ( !$tpl && !in_array( get_post_type( get_the_ID() ), array('post','page') ) )
 
 
 $images = get_post_meta(get_the_ID(),'images',false);
-$video = get_post_meta(get_the_ID(),'video',true);
+$video = get_post_meta(get_the_ID(),'video-id',true);
 ?>
 <ul class="article-media">
     <?php if (is_array($images)) : foreach($images as $m) : if ($m) :?>
@@ -14,7 +14,13 @@ $video = get_post_meta(get_the_ID(),'video',true);
             <img data-img-id="<?php echo esc_attr($m) ?>" data-id-size="widescreen" class="loading">
         </div>
     </li>
-    <?php endif; endforeach; endif; ?>
+    <?php endif; endforeach; if ($video) : ?>
+    <li>
+        <div class="image-container type-video">
+            <iframe src="https://youtube.com/embed/<?php echo $video ?>" frameborder="0"></iframe>
+        </div>
+    </li>
+    <?php endif; endif; ?>
 </ul>
 <?php elseif($tpl) : // jsRender template ?>
 {{if type==='ovelse' || type==='forlob'}}
@@ -27,6 +33,13 @@ $video = get_post_meta(get_the_ID(),'video',true);
         </div>
     </li>
 {{/for}}
+{{if video-id}}
+    <li>
+        <div class="image-container type-video">
+            <iframe src="https://youtube.com/embed/{{:video-id}}" frameborder="0"></iframe>
+        </div>
+    </li>
+{{/if}}
 {{/if}}
 </ul>
 {{/if}}

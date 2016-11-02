@@ -15,10 +15,10 @@ piklist('field', array(
 ));
 
 piklist('field', array(
-    'type' => 'url',
-    'label' => __('Tilføj video'),
+    'type' => 'text',
+    'label' => __('Tilføj video (youtube video ID)'),
     'scope' => 'post_meta',
     'columns' => 9,
-    'field' => 'video',
+    'field' => 'video-id',
     'serialize' => 'true',
 ));
