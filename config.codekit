@@ -706,6 +706,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/script\/modules\/autosize.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/script\/modules\/autosize.js",
+		"outputAbbreviatedPath": "\/script\/modules\/min\/autosize-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/script\/modules\/clone-select.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -2223,152 +2234,158 @@
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/clone-select.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/autosize.js",
 			"position": 13,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/sync-scroll.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/clone-select.js",
 			"position": 14,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/register.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/sync-scroll.js",
 			"position": 15,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/front-video.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/register.js",
 			"position": 16,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/YT_uploadVideo.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/front-video.js",
 			"position": 17,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/item-finder.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/YT_uploadVideo.js",
 			"position": 18,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/user.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/item-finder.js",
 			"position": 19,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/range.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/user.js",
 			"position": 20,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/load-inners.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/range.js",
 			"position": 21,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/toggle-menu.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/load-inners.js",
 			"position": 22,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/toggle-aside.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/toggle-menu.js",
 			"position": 23,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/toggle-article.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/toggle-aside.js",
 			"position": 24,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/article-save-post.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/toggle-article.js",
 			"position": 25,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/js-menu.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/article-save-post.js",
 			"position": 26,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/jsquery.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/js-menu.js",
 			"position": 27,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/renderModule.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/jsquery.js",
 			"position": 28,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/flogin.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/renderModule.js",
 			"position": 29,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/limit.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/flogin.js",
 			"position": 30,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/sort-attach.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/limit.js",
 			"position": 31,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/file-upload.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/sort-attach.js",
 			"position": 32,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/article-page.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/file-upload.js",
 			"position": 33,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/notify.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/article-page.js",
 			"position": 34,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/edit.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/notify.js",
 			"position": 35,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/modules\/typeselect.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/edit.js",
 			"position": 36,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/script\/article-page-header.js",
+			"linkedFileAbbreviatedPath": "\/script\/modules\/typeselect.js",
 			"position": 37,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/script\/article-page-header.js",
+			"position": 38,
 			"type": 1
 			}
 		]
