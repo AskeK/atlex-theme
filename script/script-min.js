@@ -1,1970 +1,49 @@
-var jsonURL;
-$(function(){
-    jsonURL = $('link[rel="https://api.w.org/"]').attr('href') + 'wp/v2/';
-});
+// @koala-append 'assets/jsrender.js';
+// @koala-append 'assets/dropzone.js';
+// @koala-append 'assets/js.cookie.js';
+// @koala-append 'assets/sortable.js';
+// @koala-append 'assets/tinysort.js';
+// @koala-append 'assets/autosize.js';
 
+// @koala-append 'components/json.js';
+// @koala-append 'components/ajax.js';
+// @koala-append 'components/jio-data-img.js';
+// @koala-append 'components/form.js';
 
-function jsGetJSON(link,ret){
-    $.ajax({
-        url : jsonURL + link,
-        type : 'GET',
-        data : null,
-        dataType : 'json',
-        /*beforeSend: function ( xhr ) {
-            xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
-        },*/
-        success : function(response){
-            ret(response);
-        },
-    });
-};
-
-function jsGetPosts(query,ret){
-
-    console.log('getting posts from ' + ajaxURL);
-
-    query['action'] = 'get_posts';
-
-    $.ajax({
-        url : ajaxURL,
-        type : 'POST',
-        data : query,
-        dataType : 'json',
-        success : function(response){
-            ret(response);
-        },
-    });
-
-}
-
-
-var ajaxURL;
-$(function(){
-    ajaxURL = $('meta[name="ajaxURL"]').attr('content');
-});
+// @koala-append 'modules/update-pop.js';
+// @koala-append 'modules/autosize.js';
+// @koala-append 'modules/clone-select.js';
+// @koala-append 'modules/sync-scroll.js';
+// @koala-append 'modules/register.js';
+// @koala-append 'modules/front-video.js';
+// @koala-append 'modules/media-uploader.js';
+// @koala-append 'modules/YT_uploadVideo.js';
+// @koala-append 'modules/item-finder.js';
+// @koala-append 'modules/user.js';
+// @koala-append 'modules/range.js';
+// @koala-append 'modules/load-inners.js';
+// @koala-append 'modules/toggle-menu.js';
+// @koala-append 'modules/toggle-aside.js';
+// @koala-append 'modules/toggle-article.js';
+// @koala-append 'modules/article-save-post.js';
+// @koala-append 'modules/js-menu.js';
+// @koala-append 'modules/jsquery.js';
+// @koala-append 'modules/renderModule.js';
+// @koala-append 'modules/flogin.js';
+// @koala-append 'modules/limit.js';
+// @koala-append 'modules/sort-attach.js';
+// @koala-append 'modules/file-upload.js';
+// @koala-append 'modules/article-page.js';
+// @koala-append 'modules/notify.js';
+// @koala-append 'modules/edit.js';
+// @koala-append 'modules/typeselect.js';
+// @koala-append 'article-page-header.js';
 
 
 /*! JsRender v0.9.80 (Beta): http://jsviews.com/#jsrender */
 /*! **VERSION FOR WEB** (For NODE.JS see http://jsviews.com/download/jsrender-node.js) */
 !function(e,t){var n=t.jQuery;"object"==typeof exports?module.exports=n?e(t,n):function(n){if(n&&!n.fn)throw"Provide jQuery or null";return e(t,n)}:"function"==typeof define&&define.amd?define(function(){return e(t)}):e(t,!1)}(function(e,t){"use strict";function n(e,t){return function(){var n,r=this,i=r.base;return r.base=e,n=t.apply(r,arguments),r.base=i,n}}function r(e,t){return ee(t)&&(t=n(e?e._d?e:n(s,e):s,t),t._d=1),t}function i(e,t){for(var n in t.props)Ve.test(n)&&(e[n]=r(e[n],t.props[n]))}function o(e){return e}function s(){return""}function a(e){try{throw console.log("JsRender dbg breakpoint: "+e),"dbg breakpoint"}catch(t){}return this.base?this.baseApply(arguments):e}function d(e){this.name=(t.link?"JsViews":"JsRender")+" Error",this.message=e||this.name}function u(e,t){for(var n in t)e[n]=t[n];return e}function l(e,t,n){return e?te(e)?l.apply(X,e):(ae.delimiters=[e,t,ge=n?n.charAt(0):ge],le=e.charAt(0),pe=e.charAt(1),ce=t.charAt(0),fe=t.charAt(1),e="\\"+le+"(\\"+ge+")?\\"+pe,t="\\"+ce+"\\"+fe,G="(?:(\\w+(?=[\\/\\s\\"+ce+"]))|(\\w+)?(:)|(>)|(\\*))\\s*((?:[^\\"+ce+"]|\\"+ce+"(?!\\"+fe+"))*?)",se.rTag="(?:"+G+")",G=new RegExp("(?:"+e+G+"(\\/)?|\\"+le+"(\\"+ge+")?\\"+pe+"(?:(?:\\/(\\w+))\\s*|!--[\\s\\S]*?--))"+t,"g"),se.rTmpl=new RegExp("<.*>|([^\\\\]|^)[{}]|"+e+".*"+t),ue):ae.delimiters}function p(e,t){t||e===!0||(t=e,e=void 0);var n,r,i,o,s=this,a=!t||"root"===t;if(e){if(o=t&&s.type===t&&s,!o)if(n=s.views,s._.useKey){for(r in n)if(o=t?n[r].get(e,t):n[r])break}else for(r=0,i=n.length;!o&&i>r;r++)o=t?n[r].get(e,t):n[r]}else if(a)for(;s.parent;)o=s,s=s.parent;else for(;s&&!o;)o=s.type===t?s:void 0,s=s.parent;return o}function c(){var e=this.get("item");return e?e.index:void 0}function f(){return this.index}function g(t,n){var r,i,o=this,s=o.ctx;if(s&&(s=s[t]),void 0===s&&(s=ie[t]),s&&s._cp){if(n)return i=se._ceo(s[1].deps),i.unshift(s[0].data),i._cp=!0,i;s=X.getCtx(s)}return s&&ee(s)&&!s._wrp&&(r=function(){return s.apply(this&&this!==e?this:o,arguments)},r._wrp=o,u(r,s)),r||s}function v(e){return e&&(e.fn?e:this.getRsc("templates",e)||ne(e))}function h(e,t,n,r){var o,s,a="number"==typeof n&&t.tmpl.bnds[n-1],d=t.linkCtx;return void 0!==r?n=r={props:{},args:[r]}:a&&(n=a(t.data,t,se)),s=n.args[0],(e||a)&&(o=d&&d.tag,o||(o=u(new se._tg,{_:{inline:!d,bnd:a,unlinked:!0},tagName:":",cvt:e,flow:!0,tagCtx:n}),d&&(d.tag=o,o.linkCtx=d),n.ctx=L(n.ctx,(d?d.view:t).ctx)),o._er=r&&s,i(o,n),n.view=t,o.ctx=n.ctx||o.ctx||{},n.ctx=void 0,s=o.cvtArgs("true"!==e&&e)[0],s=a&&t._.onRender?t._.onRender(s,t,o):s),void 0!=s?s:""}function m(e){var t=this,n=t.tagCtx,r=n.view,i=n.args;return e=e||t.convert,e=e&&(""+e===e?r.getRsc("converters",e)||S("Unknown converter: '"+e+"'"):e),i=i.length||n.index?e?i.slice():i:[r.data],e&&(e.depends&&(t.depends=se.getDeps(t.depends,t,e.depends,e)),i[0]=e.apply(t,i)),i}function w(e,t){for(var n,r,i=this;void 0===n&&i;)r=i.tmpl&&i.tmpl[e],n=r&&r[t],i=i.parent;return n||X[e][t]}function x(e,t,n,r,o,s){t=t||W;var a,d,u,l,p,c,f,g,v,h,m,w,x,_,b,y,k,j,C,T="",A=t.linkCtx||0,V=t.ctx,R=n||t.tmpl,M="number"==typeof r&&t.tmpl.bnds[r-1];for("tag"===e._is?(a=e,e=a.tagName,r=a.tagCtxs,u=a.template):(d=t.getRsc("tags",e)||S("Unknown tag: {{"+e+"}} "),u=d.template),void 0!==s?(T+=s,r=s=[{props:{},args:[]}]):M&&(r=M(t.data,t,se)),g=r.length,f=0;g>f;f++)h=r[f],(!A||!A.tag||f&&!A.tag._.inline||a._er)&&((w=R.tmpls&&h.tmpl)&&(w=h.content=R.tmpls[w-1]),h.index=f,h.tmpl=w,h.render=N,h.view=t,h.ctx=L(h.ctx,V)),(n=h.props.tmpl)&&(h.tmpl=t.getTmpl(n)),a||(a=new d._ctr,x=!!a.init,a.parent=c=V&&V.tag,a.tagCtxs=r,C=a.dataMap,A&&(a._.inline=!1,A.tag=a,a.linkCtx=A),(a._.bnd=M||A.fn)?a._.arrVws={}:a.dataBoundOnly&&S("{^{"+e+"}} tag must be data-bound")),r=a.tagCtxs,C=a.dataMap,h.tag=a,C&&r&&(h.map=r[f].map),a.flow||(m=h.ctx=h.ctx||{},l=a.parents=m.parentTags=V&&L(m.parentTags,V.parentTags)||{},c&&(l[c.tagName]=c),l[a.tagName]=m.tag=a);if(!(a._er=s)){for(i(a,r[0]),a.rendering={},f=0;g>f;f++)h=a.tagCtx=r[f],k=h.props,y=a.cvtArgs(),(_=k.dataMap||C)&&(y.length||k.dataMap)&&(b=h.map,b&&b.src===y[0]&&!o||(b&&b.src&&b.unmap(),b=h.map=_.map(y[0],k,void 0,!a._.bnd)),y=[b.tgt]),a.ctx=h.ctx,f||(x&&(j=a.template,a.init(h,A,a.ctx),x=void 0),A&&(A.attr=a.attr=A.attr||a.attr),p=a.attr,a._.noVws=p&&p!==Ne),v=void 0,a.render&&(v=a.render.apply(a,y)),y.length||(y=[t]),void 0===v&&(v=h.render(y[0],!0)||(o?void 0:"")),T=T?T+(v||""):v;a.rendering=void 0}return a.tagCtx=r[0],a.ctx=a.tagCtx.ctx,a._.noVws&&a._.inline&&(T="text"===p?re.html(T):""),M&&t._.onRender?t._.onRender(T,t,a):T}function _(e,t,n,r,i,o,s,a){var d,u,l,p=this,f="array"===t;p.content=a,p.views=f?[]:{},p.parent=n,p.type=t||"top",p.data=r,p.tmpl=i,l=p._={key:0,useKey:f?0:1,id:""+Me++,onRender:s,bnds:{}},p.linked=!!s,n?(d=n.views,u=n._,u.useKey?(d[l.key="_"+u.useKey++]=p,p.index=Ie,p.getIndex=c):d.length===(l.key=p.index=o)?d.push(p):d.splice(o,0,p),p.ctx=e||n.ctx):p.ctx=e}function b(e){var t,n,r;for(t in Ke)n=t+"s",e[n]&&(r=e[n],e[n]={},X[n](r,e))}function y(e,t,n){function i(){var t=this;t._={inline:!0,unlinked:!0},t.tagName=e}var o,s,a,d=new se._tg;if(ee(t)?t={depends:t.depends,render:t}:""+t===t&&(t={template:t}),s=t.baseTag){t.flow=!!t.flow,t.baseTag=s=""+s===s?n&&n.tags[s]||oe[s]:s,d=u(d,s);for(a in t)d[a]=r(s[a],t[a])}else d=u(d,t);return void 0!==(o=d.template)&&(d.template=""+o===o?ne[o]||ne(o):o),d.init!==!1&&((i.prototype=d).constructor=d._ctr=i),n&&(d._parentTmpl=n),d}function k(e){return this.base.apply(this,e)}function j(e,n,r,i){function o(n){var o,a;if(""+n===n||n.nodeType>0&&(s=n)){if(!s)if(/^\.\/[^\\:*?"<>]*$/.test(n))(a=ne[e=e||n])?n=a:s=document.getElementById(n);else if(t.fn&&!se.rTmpl.test(n))try{s=t(document).find(n)[0]}catch(d){}s&&(i?n=s.innerHTML:(o=s.getAttribute(Fe),o?o!==Se?(n=ne[o],delete ne[o]):t.fn&&(n=t.data(s)[Se]):(e=e||(t.fn?Se:n),n=j(e,s.innerHTML,r,i)),n.tmplName=e=e||o,e!==Se&&(ne[e]=n),s.setAttribute(Fe,e),t.fn&&t.data(s,Se,n))),s=void 0}else n.fn||(n=void 0);return n}var s,a,d=n=n||"";return 0===i&&(i=void 0,d=o(d)),i=i||(n.markup?n:{}),i.tmplName=e,r&&(i._parentTmpl=r),!d&&n.markup&&(d=o(n.markup))&&d.fn&&(d=d.markup),void 0!==d?(d.fn||n.fn?d.fn&&(a=d):(n=V(d,i),U(d.replace(ye,"\\$&"),n)),a||(a=u(function(){return a.render.apply(a,arguments)},n),b(a)),e&&!r&&e!==Se&&(Ue[e]=a),a):void 0}function C(e,n){return t.isFunction(e)?e.call(n):e}function T(e){var t,n=[],r=e.length;for(t=0;r>t;t++)n.push(e[t].unmap());return n}function A(e,n){function r(e){l.apply(this,e)}function i(){return new r(arguments)}function o(e,t){var n,r,i,o,s,a=c.length;for(n=0;a>n;n++)o=c[n],r=void 0,o+""!==o&&(r=o,o=r.getter),void 0===(s=e[o])&&r&&void 0!==(i=r.defaultVal)&&(s=C(i,e)),t(s,r&&p[r.type],o)}function s(t){t=t+""===t?JSON.parse(t):t;var n,r,i,s=t,u=[];if(te(t)){for(t=t||[],r=t.length,n=0;r>n;n++)u.push(this.map(t[n]));return u._is=e,u.unmap=d,u.merge=a,u}if(t){o(t,function(e,t){t&&(e=t.map(e)),u.push(e)}),s=this.apply(this,u);for(i in t)i===Y||_[i]||(s[i]=t[i])}return s}function a(e){e=e+""===e?JSON.parse(e):e;var t,n,r,s,a,d,u,l,p,c,f=this;if(te(f)){for(l={},c=[],r=e.length,s=f.length,t=0;r>t;t++){for(p=e[t],u=!1,n=0;s>n&&!u;n++)l[n]||(d=f[n],g&&(l[n]=u=g+""===g?p[g]&&(_[g]?d[g]():d[g])===p[g]:g(d,p)));u?(d.merge(p),c.push(d)):c.push(i.map(p))}return void(x?x(f).refresh(c,!0):f.splice.apply(f,[0,f.length].concat(c)))}o(e,function(e,t,n){t?f[n]().merge(e):f[n](e)});for(a in e)a===Y||_[a]||(f[a]=e[a])}function d(){var e,n,r,i,o,s,a=this;if(te(a))return T(a);for(e={},i=c.length,r=0;i>r;r++)n=c[r],o=void 0,n+""!==n&&(o=n,n=o.getter),s=a[n](),e[n]=o&&s&&p[o.type]?te(s)?T(s):s.unmap():s;for(n in a)"_is"===n||_[n]||n===Y||"_"===n.charAt(0)&&_[n.slice(1)]||t.isFunction(a[n])||(e[n]=a[n]);return e}var u,l,p=this,c=n.getters,f=n.extend,g=n.id,v=t.extend({_is:e||"unnamed",unmap:d,merge:a},f),h="",m="",w=c?c.length:0,x=t.observable,_={};for(r.prototype=v,u=0;w>u;u++)!function(e){e=e.getter||e,_[e]=u+1;var t="_"+e;h+=(h?",":"")+e,m+="this."+t+" = "+e+";\n",v[e]=v[e]||function(n){return arguments.length?void(x?x(this).setProperty(e,n):this[t]=n):this[t]},x&&(v[e].set=v[e].set||function(e){this[t]=e})}(c[u]);return l=new Function(h,m.slice(0,-1)),l.prototype=v,v.constructor=l,i.map=s,i.getters=c,i.extend=f,i.id=g,i}function V(e,n){var r,i=de._wm||{},o=u({tmpls:[],links:{},bnds:[],_is:"template",render:N},n);return o.markup=e,n.htmlTag||(r=Ce.exec(e),o.htmlTag=r?r[1].toLowerCase():""),r=i[o.htmlTag],r&&r!==i.div&&(o.markup=t.trim(o.markup)),o}function R(e,t){function n(i,o,s){var a,d,u,l;if(i&&typeof i===Ee&&!i.nodeType&&!i.markup&&!i.getTgt&&!("viewModel"===e&&i.getters||i.extend)){for(u in i)n(u,i[u],o);return o||X}return void 0===o&&(o=i,i=void 0),i&&""+i!==i&&(s=o,o=i,i=void 0),l=s?"viewModel"===e?s:s[r]=s[r]||{}:n,d=t.compile,null===o?i&&delete l[i]:(o=d?d.call(l,i,o,s,0):o,i&&(l[i]=o)),d&&o&&(o._is=e),o&&(a=se.onStore[e])&&a(i,o,d),o}var r=e+"s";X[r]=n}function M(e){ue[e]=function(t){return arguments.length?(ae[e]=t,ue):ae[e]}}function $(e){function t(t,n){this.tgt=e.getTgt(t,n)}return ee(e)&&(e={getTgt:e}),e.baseMap&&(e=u(u({},e.baseMap),e)),e.map=function(e,n){return new t(e,n)},e}function N(e,t,n,r,i,o){var s,a,d,u,l,p,c,f,g=r,v="";if(t===!0?(n=t,t=void 0):typeof t!==Ee&&(t=void 0),(d=this.tag)?(l=this,g=g||l.view,u=g.getTmpl(d.template||l.tmpl),arguments.length||(e=g)):u=this,u){if(!g&&e&&"view"===e._is&&(g=e),g&&e===g&&(e=g.data),p=!g,he=he||p,g||((t=t||{}).root=e),!he||de.useViews||u.useViews||g&&g!==W)v=E(u,e,t,n,g,i,o,d);else{if(g?(c=g.data,f=g.index,g.index=Ie):(g=W,g.data=e,g.ctx=t),te(e)&&!n)for(s=0,a=e.length;a>s;s++)g.index=s,g.data=e[s],v+=u.fn(e[s],g,se);else g.data=e,v+=u.fn(e,g,se);g.data=c,g.index=f}p&&(he=void 0)}return v}function E(e,t,n,r,i,o,s,a){function d(e){b=u({},n),b[x]=e}var l,p,c,f,g,v,h,m,w,x,b,y,k="";if(a&&(w=a.tagName,y=a.tagCtx,n=n?L(n,a.ctx):a.ctx,e===i.content?h=e!==i.ctx._wrp?i.ctx._wrp:void 0:e!==y.content?e===a.template?(h=y.tmpl,n._wrp=y.content):h=y.content||i.content:h=i.content,y.props.link===!1&&(n=n||{},n.link=!1),(x=y.props.itemVar)&&("~"!==x.charAt(0)&&I("Use itemVar='~myItem'"),x=x.slice(1))),i&&(s=s||i._.onRender,n=L(n,i.ctx)),o===!0&&(v=!0,o=0),s&&(n&&n.link===!1||a&&a._.noVws)&&(s=void 0),m=s,s===!0&&(m=void 0,s=i._.onRender),n=e.helpers?L(e.helpers,n):n,b=n,te(t)&&!r)for(c=v?i:void 0!==o&&i||new _(n,"array",i,t,e,o,s),i&&i._.useKey&&(c._.bnd=!a||a._.bnd&&a),x&&(c.it=x),x=c.it,l=0,p=t.length;p>l;l++)x&&d(t[l]),f=new _(b,"item",c,t[l],e,(o||0)+l,s,h),g=e.fn(t[l],f,se),k+=c._.onRender?c._.onRender(g,f):g;else x&&d(t),c=v?i:new _(b,w||"data",i,t,e,o,s,h),a&&!a.flow&&(c.tag=a),k+=e.fn(t,c,se);return m?m(k,c):k}function F(e,t,n){var r=void 0!==n?ee(n)?n.call(t.data,e,t):n||"":"{Error: "+e.message+"}";return ae.onError&&void 0!==(n=ae.onError.call(t.data,e,n&&r,t))&&(r=n),t&&!t.linkCtx?re.html(r):r}function S(e){throw new se.Err(e)}function I(e){S("Syntax error\n"+e)}function U(e,t,n,r,i){function o(t){t-=v,t&&m.push(e.substr(v,t).replace(_e,"\\n"))}function s(t,n){t&&(t+="}}",I((n?"{{"+n+"}} block has {{/"+t+" without {{"+t:"Unmatched or missing {{/"+t)+", in template:\n"+e))}function a(a,d,u,c,g,x,_,b,y,k,j,C){(_&&d||y&&!u||b&&":"===b.slice(-1)||k)&&I(a),x&&(g=":",c=Ne),y=y||n&&!i;var T=(d||n)&&[[]],A="",V="",R="",M="",$="",N="",E="",F="",S=!y&&!g;u=u||(b=b||"#data",g),o(C),v=C+a.length,_?f&&m.push(["*","\n"+b.replace(/^:/,"ret+= ").replace(be,"$1")+";\n"]):u?("else"===u&&(je.test(b)&&I('for "{{else if expr}}" use "{{else expr}}"'),T=w[7]&&[[]],w[8]=e.substring(w[8],C),w=h.pop(),m=w[2],S=!0),b&&O(b.replace(_e," "),T,t).replace(ke,function(e,t,n,r,i,o,s,a){return r="'"+i+"':",s?(V+=o+",",M+="'"+a+"',"):n?(R+=r+"j._cp("+o+',"'+a+'",view),',N+=r+"'"+a+"',"):t?E+=o:("trigger"===i&&(F+=o),A+=r+o+",",$+=r+"'"+a+"',",p=p||Ve.test(i)),""}).slice(0,-1),T&&T[0]&&T.pop(),l=[u,c||!!r||p||"",S&&[],J(M||(":"===u?"'#data',":""),$,N),J(V||(":"===u?"data,":""),A,R),E,F,T||0],m.push(l),S&&(h.push(w),w=l,w[8]=v)):j&&(s(j!==w[0]&&"else"!==w[0]&&j,w[0]),w[8]=e.substring(w[8],C),w=h.pop()),s(!w&&j),m=w[2]}var d,u,l,p,c,f=ae.allowCode||t&&t.allowCode||ue.allowCode===!0,g=[],v=0,h=[],m=g,w=[,,g];if(f&&t._is&&(t.allowCode=f),n&&(void 0!==r&&(e=e.slice(0,-r.length-2)+fe),e=le+e+fe),s(h[0]&&h[0][2].pop()[0]),e.replace(G,a),o(e.length),(v=g[g.length-1])&&s(""+v!==v&&+v[8]===v[8]&&v[0]),n){for(u=B(g,e,n),c=[],d=g.length;d--;)c.unshift(g[d][7]);q(u,c)}else u=B(g,t);return u}function q(e,t){var n,r,i=0,o=t.length;for(e.deps=[];o>i;i++){r=t[i];for(n in r)"_jsvto"!==n&&r[n].length&&(e.deps=e.deps.concat(r[n]))}e.paths=r}function J(e,t,n){return[e.slice(0,-1),t.slice(0,-1),n.slice(0,-1)]}function K(e,t){return"\n	"+(t?t+":{":"")+"args:["+e[0]+"]"+(e[1]||!t?",\n	props:{"+e[1]+"}":"")+(e[2]?",\n	ctx:{"+e[2]+"}":"")}function O(e,t,n){function r(r,m,w,x,_,b,y,k,j,C,T,A,V,R,M,$,N,E,F,S){function q(e,n,r,s,a,d,p,c){var f="."===r;if(r&&(_=_.slice(n.length),/^\.?constructor$/.test(c||_)&&I(e),f||(e=(s?'view.hlp("'+s+'")':a?"view":"data")+(c?(d?"."+d:s?"":a?"":"."+r)+(p||""):(c=s?"":a?d||"":r,"")),e+=c?"."+c:"",e=n+("view.data"===e.slice(0,9)?e.slice(5):e)),u)){if(O="linkTo"===i?o=t._jsvto=t._jsvto||[]:l.bd,B=f&&O[O.length-1]){if(B._jsv){for(;B.sb;)B=B.sb;B.bnd&&(_="^"+_.slice(1)),B.sb=_,B.bnd=B.bnd||"^"===_.charAt(0)}}else O.push(_);h[g]=F+(f?1:0)}return e}x&&!k&&(_=x+_),b=b||"",w=w||m||A,_=_||j,C=C||N||"";var J,K,O,B,L,Q=")";if("["===C&&(C="[j._sq(",Q=")]"),!y||d||a){if(u&&$&&!d&&!a&&(!i||s||o)&&(J=h[g-1],S.length-1>F-(J||0))){if(J=S.slice(J,F+r.length),K!==!0)if(O=o||p[g-1].bd,B=O[O.length-1],B&&B.prm){for(;B.sb&&B.sb.prm;)B=B.sb;L=B.sb={path:B.sb,bnd:B.bnd}}else O.push(L={path:O.pop()});$=pe+":"+J+" onerror=''"+ce,K=f[$],K||(f[$]=!0,f[$]=K=U($,n,!0)),K!==!0&&L&&(L._jsv=K,L.prm=l.bd,L.bnd=L.bnd||L.path&&L.path.indexOf("^")>=0)}return d?(d=!V,d?r:A+'"'):a?(a=!R,a?r:A+'"'):(w?(h[g]=F++,l=p[++g]={bd:[]},w):"")+(E?g?"":(c=S.slice(c,F),(i?(i=s=o=!1,"\b"):"\b,")+c+(c=F+r.length,u&&t.push(l.bd=[]),"\b")):k?(g&&I(e),u&&t.pop(),i=_,s=x,c=F+r.length,x&&(u=l.bd=t[i]=[]),_+":"):_?_.split("^").join(".").replace(we,q)+(C?(l=p[++g]={bd:[]},v[g]=Q,C):b):b?b:M?(M=v[g]||M,v[g]=!1,l=p[--g],M+(C?(l=p[++g],v[g]=Q,C):"")):T?(v[g]||I(e),","):m?"":(d=V,a=R,'"'))}I(e)}var i,o,s,a,d,u=t&&t[0],l={bd:u},p={0:l},c=0,f=(n?n.links:u&&(u.links=u.links||{}))||W.tmpl.links,g=0,v={},h={},m=(e+(n?" ":"")).replace(xe,r);return!g&&m||I(e)}function B(e,t,n){var r,i,o,s,a,d,u,l,p,c,f,g,v,h,m,w,x,_,b,y,k,j,C,T,A,R,M,$,N,E,F=0,S=de.useViews||t.useViews||t.tags||t.templates||t.helpers||t.converters,U="",J={},O=e.length;for(""+t===t?(_=n?'data-link="'+t.replace(_e," ").slice(1,-1)+'"':t,t=0):(_=t.tmplName||"unnamed",t.allowCode&&(J.allowCode=!0),t.debug&&(J.debug=!0),f=t.bnds,x=t.tmpls),r=0;O>r;r++)if(i=e[r],""+i===i)U+='\n+"'+i+'"';else if(o=i[0],"*"===o)U+=";\n"+i[1]+"\nret=ret";else{if(s=i[1],k=!n&&i[2],a=K(i[3],"params")+"},"+K(v=i[4]),$=i[5],E=i[6],j=i[8]&&i[8].replace(be,"$1"),(A="else"===o)?g&&g.push(i[7]):(F=0,f&&(g=i[7])&&(g=[g],F=f.push(1))),S=S||v[1]||v[2]||g||/view.(?!index)/.test(v[0]),(R=":"===o)?s&&(o=s===Ne?">":s+o):(k&&(b=V(j,J),b.tmplName=_+"/"+o,b.useViews=b.useViews||S,B(k,b),S=b.useViews,x.push(b)),A||(y=o,S=S||o&&(!oe[o]||!oe[o].flow),T=U,U=""),C=e[r+1],C=C&&"else"===C[0]),N=$?";\ntry{\nret+=":"\n+",h="",m="",R&&(g||E||s&&s!==Ne)){if(M=new Function("data,view,j,u"," // "+_+" "+F+" "+o+"\nreturn {"+a+"};"),M._er=$,M._tag=o,n)return M;q(M,g),w='c("'+s+'",view,',c=!0,h=w+F+",",m=")"}if(U+=R?(n?($?"try{\n":"")+"return ":N)+(c?(c=void 0,S=p=!0,w+(g?(f[F-1]=M,F):"{"+a+"}")+")"):">"===o?(u=!0,"h("+v[0]+")"):(l=!0,"((v="+v[0]+")!=null?v:"+(n?"null)":'"")'))):(d=!0,"\n{view:view,tmpl:"+(k?x.length:"0")+","+a+"},"),y&&!C){if(U="["+U.slice(0,-1)+"]",w='t("'+y+'",view,this,',n||g){if(U=new Function("data,view,j,u"," // "+_+" "+F+" "+y+"\nreturn "+U+";"),U._er=$,U._tag=y,g&&q(f[F-1]=U,g),n)return U;h=w+F+",undefined,",m=")"}U=T+N+w+(F||U)+")",g=0,y=0}$&&(S=!0,U+=";\n}catch(e){ret"+(n?"urn ":"+=")+h+"j._err(e,view,"+$+")"+m+";}"+(n?"":"ret=ret"))}U="// "+_+"\nvar v"+(d?",t=j._tag":"")+(p?",c=j._cnvt":"")+(u?",h=j._html":"")+(n?";\n":',ret=""\n')+(J.debug?"debugger;":"")+U+(n?"\n":";\nreturn ret;"),ae.debugMode!==!1&&(U="try {\n"+U+"\n}catch(e){\nreturn j._err(e, view);\n}");try{U=new Function("data,view,j,u",U)}catch(L){I("Compiled template code:\n\n"+U+'\n: "'+L.message+'"')}return t&&(t.fn=U,t.useViews=!!S),U}function L(e,t){return e&&e!==t?t?u(u({},t),e):e:t&&u({},t)}function Q(e){return $e[e]||($e[e]="&#"+e.charCodeAt(0)+";")}function H(e){var t,n,r=[];if(typeof e===Ee)for(t in e)n=e[t],t===Y||ee(n)||r.push({key:t,prop:n});return r}function P(e,n,r){var i=this.jquery&&(this[0]||S('Unknown template: "'+this.selector+'"')),o=i.getAttribute(Fe);return N.call(o?t.data(i)[Se]:ne(i),e,n,r)}function D(e){return void 0!=e?Ae.test(e)&&(""+e).replace(Re,Q)||e:""}var Z=t===!1;t=t&&t.fn?t:e.jQuery;var z,G,W,X,Y,ee,te,ne,re,ie,oe,se,ae,de,ue,le,pe,ce,fe,ge,ve,he,me="v0.9.80",we=/^(!*?)(?:null|true|false|\d[\d.]*|([\w$]+|\.|~([\w$]+)|#(view|([\w$]+))?)([\w$.^]*?)(?:[.[^]([\w$]+)\]?)?)$/g,xe=/(\()(?=\s*\()|(?:([([])\s*)?(?:(\^?)(!*?[#~]?[\w$.^]+)?\s*((\+\+|--)|\+|-|&&|\|\||===|!==|==|!=|<=|>=|[<>%*:?\/]|(=))\s*|(!*?[#~]?[\w$.^]+)([([])?)|(,\s*)|(\(?)\\?(?:(')|("))|(?:\s*(([)\]])(?=\s*[.^]|\s*$|[^([])|[)\]])([([]?))|(\s+)/g,_e=/[ \t]*(\r\n|\n|\r)/g,be=/\\(['"])/g,ye=/['"\\]/g,ke=/(?:\x08|^)(onerror:)?(?:(~?)(([\w$_\.]+):)?([^\x08]+))\x08(,)?([^\x08]+)/gi,je=/^if\s/,Ce=/<(\w+)[>\s]/,Te=/[\x00`><"'&=]/g,Ae=/[\x00`><\"'&=]/,Ve=/^on[A-Z]|^convert(Back)?$/,Re=Te,Me=0,$e={"&":"&amp;","<":"&lt;",">":"&gt;","\x00":"&#0;","'":"&#39;",'"':"&#34;","`":"&#96;","=":"&#61;"},Ne="html",Ee="object",Fe="data-jsv-tmpl",Se="jsvTmpl",Ie="For #index in nested block use #getIndex().",Ue={},qe=e.jsrender,Je=qe&&t&&!t.render,Ke={template:{compile:j},tag:{compile:y},viewModel:{compile:A},helper:{},converter:{}};if(X={jsviews:me,sub:{View:_,Err:d,tmplFn:U,parse:O,extend:u,extendCtx:L,syntaxErr:I,onStore:{},addSetting:M,settings:{allowCode:!1},advSet:s,_ths:i,_tg:function(){},_cnvt:h,_tag:x,_er:S,_err:F,_html:D,_cp:o,_sq:function(e){return"constructor"===e&&I(""),e}},settings:{delimiters:l,advanced:function(e){return e?(u(de,e),se.advSet(),ue):de}},getCtx:o,map:$},(d.prototype=new Error).constructor=d,c.depends=function(){return[this.get("item"),"index"]},f.depends="index",_.prototype={get:p,getIndex:f,getRsc:w,getTmpl:v,hlp:g,_is:"view"},se=X.sub,ue=X.settings,!(qe||t&&t.render)){for(z in Ke)R(z,Ke[z]);re=X.converters,ie=X.helpers,oe=X.tags,se._tg.prototype={baseApply:k,cvtArgs:m},W=se.topView=new _,t?(t.fn.render=P,Y=t.expando,t.observable&&(u(se,t.views.sub),X.map=t.views.map)):(t={},Z&&(e.jsrender=t),t.renderFile=t.__express=t.compile=function(){throw"Node.js: use npm jsrender, or jsrender-node.js"},t.isFunction=function(e){return"function"==typeof e},t.isArray=Array.isArray||function(e){return"[object Array]"==={}.toString.call(e)},se._jq=function(e){e!==t&&(u(e,t),t=e,t.fn.render=P,delete t.jsrender,Y=t.expando)},t.jsrender=me),ae=se.settings,ae.allowCode=!1,ee=t.isFunction,t.render=Ue,t.views=X,t.templates=ne=X.templates;for(ve in ae)M(ve);(ue.debugMode=function(e){return void 0===e?ae.debugMode:(ae.debugMode=e,ae.onError=e+""===e?new Function("","return '"+e+"';"):ee(e)?e:void 0,ue)})(!1),de=ae.advanced={useViews:!1,_jsv:!1},oe({"if":{render:function(e){var t=this,n=t.tagCtx,r=t.rendering.done||!e&&(arguments.length||!n.index)?"":(t.rendering.done=!0,t.selected=n.index,n.render(n.view,!0));return r},flow:!0},"for":{render:function(e){var t,n=!arguments.length,r=this,i=r.tagCtx,o="",s=0;return r.rendering.done||(t=n?i.view.data:e,void 0!==t&&(o+=i.render(t,n),s+=te(t)?t.length:1),(r.rendering.done=s)&&(r.selected=i.index)),o},flow:!0},props:{baseTag:"for",dataMap:$(H),flow:!0},include:{flow:!0},"*":{render:o,flow:!0},":*":{render:o,flow:!0},dbg:ie.dbg=re.dbg=a}),re({html:D,attr:D,url:function(e){return void 0!=e?encodeURI(""+e):null===e?e:""}})}return ae=se.settings,te=t.isArray,ue.delimiters("{{","}}","^"),Je&&qe.views.sub._jq(t),t||qe},window);
 //# sourceMappingURL=jsrender.min.js.map
-
-
-var jio_data_img = {
-
-    // $img is in view (true | false)
-    inview : function($img){
-        var w = $(window);
-        if(w.scrollTop() + w.height() <= $img.offset().top){ return false; }
-        else if (w.scrollTop() >= $img.offset().top + $img.height()){ return false; }
-        else { return true; }
-    },
-
-    // placeholder load $img
-    replace: function($img) {
-        var $imgSrc = $img.attr('data-src'),
-            $imgBg = $img.attr('data-bg'),
-            $imgID = $img.attr('data-img-id'),
-
-            $imgIDSize = $img.attr('data-id-size'),
-            $imgSrcset = $img.attr('data-srcset'),
-            $imgSizes = $img.attr('data-sizes'),
-            $imgPlaceholder = new Image();
-
-        $img.removeAttr('data-src data-bg data-srcset data-sizes data-img-id data-id-size');
-
-        if (typeof $imgSrc !== 'undefined') {
-            $imgPlaceholder.src = $imgSrc;
-            $imgPlaceholder.onload = function() {
-                $img.removeClass('loading').attr('src', $imgSrc);
-            };
-        };
-
-        if (typeof $imgID !== 'undefined' && typeof jsonURL !== 'undefined') {
-            if(typeof $imgIDSize === 'undefined'){$imgIDSize = 'full';}
-
-            jsGetJSON('media/'+$imgID, function(ret){
-
-                if(ret.status === 404){
-                    $img.parent('.image-container').remove();
-                    $img.remove();
-                }
-
-                if (ret.status !== 404){
-
-                    var imgsrc;
-                    if(typeof ret.media_details.sizes[$imgIDSize] !== 'undefined'){
-                        imgsrc = ret.media_details.sizes[$imgIDSize].source_url;
-                    }
-
-                    else{
-                        imgsrc = ret.source_url;
-                    }
-
-
-                    $imgPlaceholder.src = imgsrc;
-                    $imgPlaceholder.onload = function() {
-                        $img.removeClass('loading').attr('src', imgsrc);
-                    };
-                };
-            });
-        };
-
-        if (typeof $imgSrcset !== 'undefined') {
-          $imgPlaceholder.srcset = $imgSrcset;
-          $imgPlaceholder.sizes = $imgSizes;
-          $imgPlaceholder.onload = function() {
-            $img.removeClass('loading').attr('srcset', $imgSrcset).attr('sizes', $imgSizes);
-          };
-        }
-
-        if (typeof $imgBg !== 'undefined') {
-            $imgPlaceholder.src = $imgBg;
-            $imgPlaceholder.onload = function() {
-                $img.removeClass('loading').css({
-                    backgroundImage: 'url(' + $imgBg + ')',
-                });
-            };
-        };
-    },
-
-    // scan DOM for replacable img srcses
-    scan : function(){
-        $('[data-src], [data-bg], [data-srcset], [data-sizes], [data-img-id]').each(function(e){
-            var $img = $(this);
-            if(jio_data_img.inview($img)){
-                jio_data_img.replace($img);
-            }
-        });
-    },
-
-    // Initiate on each event in array
-    init : function(events){
-        if ($.isArray(events)){
-            events.forEach(function(event){
-                $(window).on(event,function(){
-                    jio_data_img.scan();
-                });
-            });
-        }
-    }
-}
-
-// Lesgo!
-jio_data_img.init(['load','scroll','resize']);
-
-
-/*
-Copyright 2015 Google Inc. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-var DRIVE_UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v2/files/';
-
-
-/**
- * Helper for implementing retries with backoff. Initial retry
- * delay is 1 second, increasing by 2x (+jitter) for subsequent retries
- *
- * @constructor
- */
-var RetryHandler = function() {
-  this.interval = 1000; // Start at one second
-  this.maxInterval = 60 * 1000; // Don't wait longer than a minute
-};
-
-/**
- * Invoke the function after waiting
- *
- * @param {function} fn Function to invoke
- */
-RetryHandler.prototype.retry = function(fn) {
-  setTimeout(fn, this.interval);
-  this.interval = this.nextInterval_();
-};
-
-/**
- * Reset the counter (e.g. after successful request.)
- */
-RetryHandler.prototype.reset = function() {
-  this.interval = 1000;
-};
-
-/**
- * Calculate the next wait time.
- * @return {number} Next wait interval, in milliseconds
- *
- * @private
- */
-RetryHandler.prototype.nextInterval_ = function() {
-  var interval = this.interval * 2 + this.getRandomInt_(0, 1000);
-  return Math.min(interval, this.maxInterval);
-};
-
-/**
- * Get a random int in the range of min to max. Used to add jitter to wait times.
- *
- * @param {number} min Lower bounds
- * @param {number} max Upper bounds
- * @private
- */
-RetryHandler.prototype.getRandomInt_ = function(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-
-/**
- * Helper class for resumable uploads using XHR/CORS. Can upload any Blob-like item, whether
- * files or in-memory constructs.
- *
- * @example
- * var content = new Blob(["Hello world"], {"type": "text/plain"});
- * var uploader = new MediaUploader({
- *   file: content,
- *   token: accessToken,
- *   onComplete: function(data) { ... }
- *   onError: function(data) { ... }
- * });
- * uploader.upload();
- *
- * @constructor
- * @param {object} options Hash of options
- * @param {string} options.token Access token
- * @param {blob} options.file Blob-like item to upload
- * @param {string} [options.fileId] ID of file if replacing
- * @param {object} [options.params] Additional query parameters
- * @param {string} [options.contentType] Content-type, if overriding the type of the blob.
- * @param {object} [options.metadata] File metadata
- * @param {function} [options.onComplete] Callback for when upload is complete
- * @param {function} [options.onProgress] Callback for status for the in-progress upload
- * @param {function} [options.onError] Callback if upload fails
- */
-var MediaUploader = function(options) {
-  var noop = function() {};
-  this.file = options.file;
-  this.contentType = options.contentType || this.file.type || 'application/octet-stream';
-  this.metadata = options.metadata || {
-    'title': this.file.name,
-    'mimeType': this.contentType
-  };
-  this.token = options.token;
-  this.onComplete = options.onComplete || noop;
-  this.onProgress = options.onProgress || noop;
-  this.onError = options.onError || noop;
-  this.offset = options.offset || 0;
-  this.chunkSize = options.chunkSize || 0;
-  this.retryHandler = new RetryHandler();
-
-  this.url = options.url;
-  if (!this.url) {
-    var params = options.params || {};
-    params.uploadType = 'resumable';
-    this.url = this.buildUrl_(options.fileId, params, options.baseUrl);
-  }
-  this.httpMethod = options.fileId ? 'PUT' : 'POST';
-};
-
-/**
- * Initiate the upload.
- */
-MediaUploader.prototype.upload = function() {
-  var self = this;
-  var xhr = new XMLHttpRequest();
-
-  xhr.open(this.httpMethod, this.url, true);
-  xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.setRequestHeader('X-Upload-Content-Length', this.file.size);
-  xhr.setRequestHeader('X-Upload-Content-Type', this.contentType);
-
-  xhr.onload = function(e) {
-    if (e.target.status < 400) {
-      var location = e.target.getResponseHeader('Location');
-      this.url = location;
-      this.sendFile_();
-    } else {
-      this.onUploadError_(e);
-    }
-  }.bind(this);
-  xhr.onerror = this.onUploadError_.bind(this);
-  xhr.send(JSON.stringify(this.metadata));
-};
-
-/**
- * Send the actual file content.
- *
- * @private
- */
-MediaUploader.prototype.sendFile_ = function() {
-  var content = this.file;
-  var end = this.file.size;
-
-  if (this.offset || this.chunkSize) {
-    // Only bother to slice the file if we're either resuming or uploading in chunks
-    if (this.chunkSize) {
-      end = Math.min(this.offset + this.chunkSize, this.file.size);
-    }
-    content = content.slice(this.offset, end);
-  }
-
-  var xhr = new XMLHttpRequest();
-  xhr.open('PUT', this.url, true);
-  xhr.setRequestHeader('Content-Type', this.contentType);
-  xhr.setRequestHeader('Content-Range', 'bytes ' + this.offset + '-' + (end - 1) + '/' + this.file.size);
-  xhr.setRequestHeader('X-Upload-Content-Type', this.file.type);
-  if (xhr.upload) {
-    xhr.upload.addEventListener('progress', this.onProgress);
-  }
-  xhr.onload = this.onContentUploadSuccess_.bind(this);
-  xhr.onerror = this.onContentUploadError_.bind(this);
-  xhr.send(content);
-};
-
-/**
- * Query for the state of the file for resumption.
- *
- * @private
- */
-MediaUploader.prototype.resume_ = function() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('PUT', this.url, true);
-  xhr.setRequestHeader('Content-Range', 'bytes */' + this.file.size);
-  xhr.setRequestHeader('X-Upload-Content-Type', this.file.type);
-  if (xhr.upload) {
-    xhr.upload.addEventListener('progress', this.onProgress);
-  }
-  xhr.onload = this.onContentUploadSuccess_.bind(this);
-  xhr.onerror = this.onContentUploadError_.bind(this);
-  xhr.send();
-};
-
-/**
- * Extract the last saved range if available in the request.
- *
- * @param {XMLHttpRequest} xhr Request object
- */
-MediaUploader.prototype.extractRange_ = function(xhr) {
-  var range = xhr.getResponseHeader('Range');
-  if (range) {
-    this.offset = parseInt(range.match(/\d+/g).pop(), 10) + 1;
-  }
-};
-
-/**
- * Handle successful responses for uploads. Depending on the context,
- * may continue with uploading the next chunk of the file or, if complete,
- * invokes the caller's callback.
- *
- * @private
- * @param {object} e XHR event
- */
-MediaUploader.prototype.onContentUploadSuccess_ = function(e) {
-  if (e.target.status == 200 || e.target.status == 201) {
-    this.onComplete(e.target.response);
-  } else if (e.target.status == 308) {
-    this.extractRange_(e.target);
-    this.retryHandler.reset();
-    this.sendFile_();
-  }
-};
-
-/**
- * Handles errors for uploads. Either retries or aborts depending
- * on the error.
- *
- * @private
- * @param {object} e XHR event
- */
-MediaUploader.prototype.onContentUploadError_ = function(e) {
-  if (e.target.status && e.target.status < 500) {
-    this.onError(e.target.response);
-  } else {
-    this.retryHandler.retry(this.resume_.bind(this));
-  }
-};
-
-/**
- * Handles errors for the initial request.
- *
- * @private
- * @param {object} e XHR event
- */
-MediaUploader.prototype.onUploadError_ = function(e) {
-  this.onError(e.target.response); // TODO - Retries for initial upload
-};
-
-/**
- * Construct a query string from a hash/object
- *
- * @private
- * @param {object} [params] Key/value pairs for query string
- * @return {string} query string
- */
-MediaUploader.prototype.buildQuery_ = function(params) {
-  params = params || {};
-  return Object.keys(params).map(function(key) {
-    return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
-  }).join('&');
-};
-
-/**
- * Build the drive upload URL
- *
- * @private
- * @param {string} [id] File ID if replacing
- * @param {object} [params] Query parameters
- * @return {string} URL
- */
-MediaUploader.prototype.buildUrl_ = function(id, params, baseUrl) {
-  var url = baseUrl || DRIVE_UPLOAD_URL;
-  if (id) {
-    url += id;
-  }
-  var query = this.buildQuery_(params);
-  if (query) {
-    url += '?' + query;
-  }
-  return url;
-};
-
-
-function getHistory(){}
-
-function setHistory(){}
-
-
-/**!
- * Sortable
- * @author	RubaXa   <trash@rubaxa.org>
- * @license MIT
- */
-
-(function sortableModule(factory) {
-	"use strict";
-
-	if (typeof define === "function" && define.amd) {
-		define(factory);
-	}
-	else if (typeof module != "undefined" && typeof module.exports != "undefined") {
-		module.exports = factory();
-	}
-	else if (typeof Package !== "undefined") {
-		//noinspection JSUnresolvedVariable
-		Sortable = factory();  // export for Meteor.js
-	}
-	else {
-		/* jshint sub:true */
-		window["Sortable"] = factory();
-	}
-})(function sortableFactory() {
-	"use strict";
-
-	if (typeof window == "undefined" || !window.document) {
-		return function sortableError() {
-			throw new Error("Sortable.js requires a window with a document");
-		};
-	}
-
-	var dragEl,
-		parentEl,
-		ghostEl,
-		cloneEl,
-		rootEl,
-		nextEl,
-
-		scrollEl,
-		scrollParentEl,
-		scrollCustomFn,
-
-		lastEl,
-		lastCSS,
-		lastParentCSS,
-
-		oldIndex,
-		newIndex,
-
-		activeGroup,
-		putSortable,
-
-		autoScroll = {},
-
-		tapEvt,
-		touchEvt,
-
-		moved,
-
-		/** @const */
-		RSPACE = /\s+/g,
-
-		expando = 'Sortable' + (new Date).getTime(),
-
-		win = window,
-		document = win.document,
-		parseInt = win.parseInt,
-
-		$ = win.jQuery || win.Zepto,
-		Polymer = win.Polymer,
-
-		supportDraggable = !!('draggable' in document.createElement('div')),
-		supportCssPointerEvents = (function (el) {
-			// false when IE11
-			if (!!navigator.userAgent.match(/Trident.*rv[ :]?11\./)) {
-				return false;
-			}
-			el = document.createElement('x');
-			el.style.cssText = 'pointer-events:auto';
-			return el.style.pointerEvents === 'auto';
-		})(),
-
-		_silent = false,
-
-		abs = Math.abs,
-		min = Math.min,
-		slice = [].slice,
-
-		touchDragOverListeners = [],
-
-		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl) {
-			// Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
-			if (rootEl && options.scroll) {
-				var el,
-					rect,
-					sens = options.scrollSensitivity,
-					speed = options.scrollSpeed,
-
-					x = evt.clientX,
-					y = evt.clientY,
-
-					winWidth = window.innerWidth,
-					winHeight = window.innerHeight,
-
-					vx,
-					vy,
-
-					scrollOffsetX,
-					scrollOffsetY
-				;
-
-				// Delect scrollEl
-				if (scrollParentEl !== rootEl) {
-					scrollEl = options.scroll;
-					scrollParentEl = rootEl;
-					scrollCustomFn = options.scrollFn;
-
-					if (scrollEl === true) {
-						scrollEl = rootEl;
-
-						do {
-							if ((scrollEl.offsetWidth < scrollEl.scrollWidth) ||
-								(scrollEl.offsetHeight < scrollEl.scrollHeight)
-							) {
-								break;
-							}
-							/* jshint boss:true */
-						} while (scrollEl = scrollEl.parentNode);
-					}
-				}
-
-				if (scrollEl) {
-					el = scrollEl;
-					rect = scrollEl.getBoundingClientRect();
-					vx = (abs(rect.right - x) <= sens) - (abs(rect.left - x) <= sens);
-					vy = (abs(rect.bottom - y) <= sens) - (abs(rect.top - y) <= sens);
-				}
-
-
-				if (!(vx || vy)) {
-					vx = (winWidth - x <= sens) - (x <= sens);
-					vy = (winHeight - y <= sens) - (y <= sens);
-
-					/* jshint expr:true */
-					(vx || vy) && (el = win);
-				}
-
-
-				if (autoScroll.vx !== vx || autoScroll.vy !== vy || autoScroll.el !== el) {
-					autoScroll.el = el;
-					autoScroll.vx = vx;
-					autoScroll.vy = vy;
-
-					clearInterval(autoScroll.pid);
-
-					if (el) {
-						autoScroll.pid = setInterval(function () {
-							scrollOffsetY = vy ? vy * speed : 0;
-							scrollOffsetX = vx ? vx * speed : 0;
-
-							if ('function' === typeof(scrollCustomFn)) {
-								return scrollCustomFn.call(_this, scrollOffsetX, scrollOffsetY, evt);
-							}
-
-							if (el === win) {
-								win.scrollTo(win.pageXOffset + scrollOffsetX, win.pageYOffset + scrollOffsetY);
-							} else {
-								el.scrollTop += scrollOffsetY;
-								el.scrollLeft += scrollOffsetX;
-							}
-						}, 24);
-					}
-				}
-			}
-		}, 30),
-
-		_prepareGroup = function (options) {
-			function toFn(value, pull) {
-				if (value === void 0 || value === true) {
-					value = group.name;
-				}
-
-				if (typeof value === 'function') {
-					return value;
-				} else {
-					return function (to, from) {
-						var fromGroup = from.options.group.name;
-
-						return pull
-							? value
-							: value && (value.join
-								? value.indexOf(fromGroup) > -1
-								: (fromGroup == value)
-							);
-					};
-				}
-			}
-
-			var group = {};
-			var originalGroup = options.group;
-
-			if (!originalGroup || typeof originalGroup != 'object') {
-				originalGroup = {name: originalGroup};
-			}
-
-			group.name = originalGroup.name;
-			group.checkPull = toFn(originalGroup.pull, true);
-			group.checkPut = toFn(originalGroup.put);
-
-			options.group = group;
-		}
-	;
-
-
-
-	/**
-	 * @class  Sortable
-	 * @param  {HTMLElement}  el
-	 * @param  {Object}       [options]
-	 */
-	function Sortable(el, options) {
-		if (!(el && el.nodeType && el.nodeType === 1)) {
-			throw 'Sortable: `el` must be HTMLElement, and not ' + {}.toString.call(el);
-		}
-
-		this.el = el; // root element
-		this.options = options = _extend({}, options);
-
-
-		// Export instance
-		el[expando] = this;
-
-
-		// Default options
-		var defaults = {
-			group: Math.random(),
-			sort: true,
-			disabled: false,
-			store: null,
-			handle: null,
-			scroll: true,
-			scrollSensitivity: 30,
-			scrollSpeed: 10,
-			draggable: /[uo]l/i.test(el.nodeName) ? 'li' : '>*',
-			ghostClass: 'sortable-ghost',
-			chosenClass: 'sortable-chosen',
-			dragClass: 'sortable-drag',
-			ignore: 'a, img',
-			filter: null,
-			animation: 0,
-			setData: function (dataTransfer, dragEl) {
-				dataTransfer.setData('Text', dragEl.textContent);
-			},
-			dropBubble: false,
-			dragoverBubble: false,
-			dataIdAttr: 'data-id',
-			delay: 0,
-			forceFallback: false,
-			fallbackClass: 'sortable-fallback',
-			fallbackOnBody: false,
-			fallbackTolerance: 0,
-			fallbackOffset: {x: 0, y: 0}
-		};
-
-
-		// Set default options
-		for (var name in defaults) {
-			!(name in options) && (options[name] = defaults[name]);
-		}
-
-		_prepareGroup(options);
-
-		// Bind all private methods
-		for (var fn in this) {
-			if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
-				this[fn] = this[fn].bind(this);
-			}
-		}
-
-		// Setup drag mode
-		this.nativeDraggable = options.forceFallback ? false : supportDraggable;
-
-		// Bind events
-		_on(el, 'mousedown', this._onTapStart);
-		_on(el, 'touchstart', this._onTapStart);
-
-		if (this.nativeDraggable) {
-			_on(el, 'dragover', this);
-			_on(el, 'dragenter', this);
-		}
-
-		touchDragOverListeners.push(this._onDragOver);
-
-		// Restore sorting
-		options.store && this.sort(options.store.get(this));
-	}
-
-
-	Sortable.prototype = /** @lends Sortable.prototype */ {
-		constructor: Sortable,
-
-		_onTapStart: function (/** Event|TouchEvent */evt) {
-			var _this = this,
-				el = this.el,
-				options = this.options,
-				type = evt.type,
-				touch = evt.touches && evt.touches[0],
-				target = (touch || evt).target,
-				originalTarget = evt.target.shadowRoot && evt.path[0] || target,
-				filter = options.filter,
-				startIndex;
-
-			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
-			if (dragEl) {
-				return;
-			}
-
-			if (type === 'mousedown' && evt.button !== 0 || options.disabled) {
-				return; // only left button or enabled
-			}
-
-			if (options.handle && !_closest(originalTarget, options.handle, el)) {
-				return;
-			}
-
-			target = _closest(target, options.draggable, el);
-
-			if (!target) {
-				return;
-			}
-
-			// Get the index of the dragged element within its parent
-			startIndex = _index(target, options.draggable);
-
-			// Check filter
-			if (typeof filter === 'function') {
-				if (filter.call(this, evt, target, this)) {
-					_dispatchEvent(_this, originalTarget, 'filter', target, el, startIndex);
-					evt.preventDefault();
-					return; // cancel dnd
-				}
-			}
-			else if (filter) {
-				filter = filter.split(',').some(function (criteria) {
-					criteria = _closest(originalTarget, criteria.trim(), el);
-
-					if (criteria) {
-						_dispatchEvent(_this, criteria, 'filter', target, el, startIndex);
-						return true;
-					}
-				});
-
-				if (filter) {
-					evt.preventDefault();
-					return; // cancel dnd
-				}
-			}
-
-			// Prepare `dragstart`
-			this._prepareDragStart(evt, touch, target, startIndex);
-		},
-
-		_prepareDragStart: function (/** Event */evt, /** Touch */touch, /** HTMLElement */target, /** Number */startIndex) {
-			var _this = this,
-				el = _this.el,
-				options = _this.options,
-				ownerDocument = el.ownerDocument,
-				dragStartFn;
-
-			if (target && !dragEl && (target.parentNode === el)) {
-				tapEvt = evt;
-
-				rootEl = el;
-				dragEl = target;
-				parentEl = dragEl.parentNode;
-				nextEl = dragEl.nextSibling;
-				activeGroup = options.group;
-				oldIndex = startIndex;
-
-				this._lastX = (touch || evt).clientX;
-				this._lastY = (touch || evt).clientY;
-
-				dragEl.style['will-change'] = 'transform';
-
-				dragStartFn = function () {
-					// Delayed drag has been triggered
-					// we can re-enable the events: touchmove/mousemove
-					_this._disableDelayedDrag();
-
-					// Make the element draggable
-					dragEl.draggable = _this.nativeDraggable;
-
-					// Chosen item
-					_toggleClass(dragEl, options.chosenClass, true);
-
-					// Bind the events: dragstart/dragend
-					_this._triggerDragStart(touch);
-
-					// Drag start event
-					_dispatchEvent(_this, rootEl, 'choose', dragEl, rootEl, oldIndex);
-				};
-
-				// Disable "draggable"
-				options.ignore.split(',').forEach(function (criteria) {
-					_find(dragEl, criteria.trim(), _disableDraggable);
-				});
-
-				_on(ownerDocument, 'mouseup', _this._onDrop);
-				_on(ownerDocument, 'touchend', _this._onDrop);
-				_on(ownerDocument, 'touchcancel', _this._onDrop);
-
-				if (options.delay) {
-					// If the user moves the pointer or let go the click or touch
-					// before the delay has been reached:
-					// disable the delayed drag
-					_on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
-					_on(ownerDocument, 'touchend', _this._disableDelayedDrag);
-					_on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
-					_on(ownerDocument, 'mousemove', _this._disableDelayedDrag);
-					_on(ownerDocument, 'touchmove', _this._disableDelayedDrag);
-
-					_this._dragStartTimer = setTimeout(dragStartFn, options.delay);
-				} else {
-					dragStartFn();
-				}
-			}
-		},
-
-		_disableDelayedDrag: function () {
-			var ownerDocument = this.el.ownerDocument;
-
-			clearTimeout(this._dragStartTimer);
-			_off(ownerDocument, 'mouseup', this._disableDelayedDrag);
-			_off(ownerDocument, 'touchend', this._disableDelayedDrag);
-			_off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
-			_off(ownerDocument, 'mousemove', this._disableDelayedDrag);
-			_off(ownerDocument, 'touchmove', this._disableDelayedDrag);
-		},
-
-		_triggerDragStart: function (/** Touch */touch) {
-			if (touch) {
-				// Touch device support
-				tapEvt = {
-					target: dragEl,
-					clientX: touch.clientX,
-					clientY: touch.clientY
-				};
-
-				this._onDragStart(tapEvt, 'touch');
-			}
-			else if (!this.nativeDraggable) {
-				this._onDragStart(tapEvt, true);
-			}
-			else {
-				_on(dragEl, 'dragend', this);
-				_on(rootEl, 'dragstart', this._onDragStart);
-			}
-
-			try {
-				if (document.selection) {
-					// Timeout neccessary for IE9
-					setTimeout(function () {
-						document.selection.empty();
-					});
-				} else {
-					window.getSelection().removeAllRanges();
-				}
-			} catch (err) {
-			}
-		},
-
-		_dragStarted: function () {
-			if (rootEl && dragEl) {
-				var options = this.options;
-
-				// Apply effect
-				_toggleClass(dragEl, options.ghostClass, true);
-				_toggleClass(dragEl, options.dragClass, false);
-
-				Sortable.active = this;
-
-				// Drag start event
-				_dispatchEvent(this, rootEl, 'start', dragEl, rootEl, oldIndex);
-			}
-		},
-
-		_emulateDragOver: function () {
-			if (touchEvt) {
-				if (this._lastX === touchEvt.clientX && this._lastY === touchEvt.clientY) {
-					return;
-				}
-
-				this._lastX = touchEvt.clientX;
-				this._lastY = touchEvt.clientY;
-
-				if (!supportCssPointerEvents) {
-					_css(ghostEl, 'display', 'none');
-				}
-
-				var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY),
-					parent = target,
-					i = touchDragOverListeners.length;
-
-				if (parent) {
-					do {
-						if (parent[expando]) {
-							while (i--) {
-								touchDragOverListeners[i]({
-									clientX: touchEvt.clientX,
-									clientY: touchEvt.clientY,
-									target: target,
-									rootEl: parent
-								});
-							}
-
-							break;
-						}
-
-						target = parent; // store last element
-					}
-					/* jshint boss:true */
-					while (parent = parent.parentNode);
-				}
-
-				if (!supportCssPointerEvents) {
-					_css(ghostEl, 'display', '');
-				}
-			}
-		},
-
-
-		_onTouchMove: function (/**TouchEvent*/evt) {
-			if (tapEvt) {
-				var	options = this.options,
-					fallbackTolerance = options.fallbackTolerance,
-					fallbackOffset = options.fallbackOffset,
-					touch = evt.touches ? evt.touches[0] : evt,
-					dx = (touch.clientX - tapEvt.clientX) + fallbackOffset.x,
-					dy = (touch.clientY - tapEvt.clientY) + fallbackOffset.y,
-					translate3d = evt.touches ? 'translate3d(' + dx + 'px,' + dy + 'px,0)' : 'translate(' + dx + 'px,' + dy + 'px)';
-
-				// only set the status to dragging, when we are actually dragging
-				if (!Sortable.active) {
-					if (fallbackTolerance &&
-						min(abs(touch.clientX - this._lastX), abs(touch.clientY - this._lastY)) < fallbackTolerance
-					) {
-						return;
-					}
-
-					this._dragStarted();
-				}
-
-				// as well as creating the ghost element on the document body
-				this._appendGhost();
-
-				moved = true;
-				touchEvt = touch;
-
-				_css(ghostEl, 'webkitTransform', translate3d);
-				_css(ghostEl, 'mozTransform', translate3d);
-				_css(ghostEl, 'msTransform', translate3d);
-				_css(ghostEl, 'transform', translate3d);
-
-				evt.preventDefault();
-			}
-		},
-
-		_appendGhost: function () {
-			if (!ghostEl) {
-				var rect = dragEl.getBoundingClientRect(),
-					css = _css(dragEl),
-					options = this.options,
-					ghostRect;
-
-				ghostEl = dragEl.cloneNode(true);
-
-				_toggleClass(ghostEl, options.ghostClass, false);
-				_toggleClass(ghostEl, options.fallbackClass, true);
-				_toggleClass(ghostEl, options.dragClass, true);
-
-				_css(ghostEl, 'top', rect.top - parseInt(css.marginTop, 10));
-				_css(ghostEl, 'left', rect.left - parseInt(css.marginLeft, 10));
-				_css(ghostEl, 'width', rect.width);
-				_css(ghostEl, 'height', rect.height);
-				_css(ghostEl, 'opacity', '0.8');
-				_css(ghostEl, 'position', 'fixed');
-				_css(ghostEl, 'zIndex', '100000');
-				_css(ghostEl, 'pointerEvents', 'none');
-
-				options.fallbackOnBody && document.body.appendChild(ghostEl) || rootEl.appendChild(ghostEl);
-
-				// Fixing dimensions.
-				ghostRect = ghostEl.getBoundingClientRect();
-				_css(ghostEl, 'width', rect.width * 2 - ghostRect.width);
-				_css(ghostEl, 'height', rect.height * 2 - ghostRect.height);
-			}
-		},
-
-		_onDragStart: function (/**Event*/evt, /**boolean*/useFallback) {
-			var dataTransfer = evt.dataTransfer,
-				options = this.options;
-
-			this._offUpEvents();
-
-			if (activeGroup.checkPull(this, this, dragEl, evt) == 'clone') {
-				cloneEl = _clone(dragEl);
-				_css(cloneEl, 'display', 'none');
-				rootEl.insertBefore(cloneEl, dragEl);
-				_dispatchEvent(this, rootEl, 'clone', dragEl);
-			}
-
-			_toggleClass(dragEl, options.dragClass, true);
-
-			if (useFallback) {
-				if (useFallback === 'touch') {
-					// Bind touch events
-					_on(document, 'touchmove', this._onTouchMove);
-					_on(document, 'touchend', this._onDrop);
-					_on(document, 'touchcancel', this._onDrop);
-				} else {
-					// Old brwoser
-					_on(document, 'mousemove', this._onTouchMove);
-					_on(document, 'mouseup', this._onDrop);
-				}
-
-				this._loopId = setInterval(this._emulateDragOver, 50);
-			}
-			else {
-				if (dataTransfer) {
-					dataTransfer.effectAllowed = 'move';
-					options.setData && options.setData.call(this, dataTransfer, dragEl);
-				}
-
-				_on(document, 'drop', this);
-				setTimeout(this._dragStarted, 0);
-			}
-		},
-
-		_onDragOver: function (/**Event*/evt) {
-			var el = this.el,
-				target,
-				dragRect,
-				targetRect,
-				revert,
-				options = this.options,
-				group = options.group,
-				activeSortable = Sortable.active,
-				isOwner = (activeGroup === group),
-				canSort = options.sort;
-
-			if (evt.preventDefault !== void 0) {
-				evt.preventDefault();
-				!options.dragoverBubble && evt.stopPropagation();
-			}
-
-			moved = true;
-
-			if (activeGroup && !options.disabled &&
-				(isOwner
-					? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
-					: (
-						putSortable === this ||
-						activeGroup.checkPull(this, activeSortable, dragEl, evt) && group.checkPut(this, activeSortable, dragEl, evt)
-					)
-				) &&
-				(evt.rootEl === void 0 || evt.rootEl === this.el) // touch fallback
-			) {
-				// Smart auto-scrolling
-				_autoScroll(evt, options, this.el);
-
-				if (_silent) {
-					return;
-				}
-
-				target = _closest(evt.target, options.draggable, el);
-				dragRect = dragEl.getBoundingClientRect();
-				putSortable = this;
-
-				if (revert) {
-					_cloneHide(true);
-					parentEl = rootEl; // actualization
-
-					if (cloneEl || nextEl) {
-						rootEl.insertBefore(dragEl, cloneEl || nextEl);
-					}
-					else if (!canSort) {
-						rootEl.appendChild(dragEl);
-					}
-
-					return;
-				}
-
-
-				if ((el.children.length === 0) || (el.children[0] === ghostEl) ||
-					(el === evt.target) && (target = _ghostIsLast(el, evt))
-				) {
-					if (target) {
-						if (target.animated) {
-							return;
-						}
-
-						targetRect = target.getBoundingClientRect();
-					}
-
-					_cloneHide(isOwner);
-
-					if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt) !== false) {
-						if (!dragEl.contains(el)) {
-							el.appendChild(dragEl);
-							parentEl = el; // actualization
-						}
-
-						this._animate(dragRect, dragEl);
-						target && this._animate(targetRect, target);
-					}
-				}
-				else if (target && !target.animated && target !== dragEl && (target.parentNode[expando] !== void 0)) {
-					if (lastEl !== target) {
-						lastEl = target;
-						lastCSS = _css(target);
-						lastParentCSS = _css(target.parentNode);
-					}
-
-					targetRect = target.getBoundingClientRect();
-
-					var width = targetRect.right - targetRect.left,
-						height = targetRect.bottom - targetRect.top,
-						floating = /left|right|inline/.test(lastCSS.cssFloat + lastCSS.display)
-							|| (lastParentCSS.display == 'flex' && lastParentCSS['flex-direction'].indexOf('row') === 0),
-						isWide = (target.offsetWidth > dragEl.offsetWidth),
-						isLong = (target.offsetHeight > dragEl.offsetHeight),
-						halfway = (floating ? (evt.clientX - targetRect.left) / width : (evt.clientY - targetRect.top) / height) > 0.5,
-						nextSibling = target.nextElementSibling,
-						moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt),
-						after
-					;
-
-					if (moveVector !== false) {
-						_silent = true;
-						setTimeout(_unsilent, 30);
-
-						_cloneHide(isOwner);
-
-						if (moveVector === 1 || moveVector === -1) {
-							after = (moveVector === 1);
-						}
-						else if (floating) {
-							var elTop = dragEl.offsetTop,
-								tgTop = target.offsetTop;
-
-							if (elTop === tgTop) {
-								after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
-							}
-							else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
-								after = (evt.clientY - targetRect.top) / height > 0.5;
-							} else {
-								after = tgTop > elTop;
-							}
-						} else {
-							after = (nextSibling !== dragEl) && !isLong || halfway && isLong;
-						}
-
-						if (!dragEl.contains(el)) {
-							if (after && !nextSibling) {
-								el.appendChild(dragEl);
-							} else {
-								target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
-							}
-						}
-
-						parentEl = dragEl.parentNode; // actualization
-
-						this._animate(dragRect, dragEl);
-						this._animate(targetRect, target);
-					}
-				}
-			}
-		},
-
-		_animate: function (prevRect, target) {
-			var ms = this.options.animation;
-
-			if (ms) {
-				var currentRect = target.getBoundingClientRect();
-
-				_css(target, 'transition', 'none');
-				_css(target, 'transform', 'translate3d('
-					+ (prevRect.left - currentRect.left) + 'px,'
-					+ (prevRect.top - currentRect.top) + 'px,0)'
-				);
-
-				target.offsetWidth; // repaint
-
-				_css(target, 'transition', 'all ' + ms + 'ms');
-				_css(target, 'transform', 'translate3d(0,0,0)');
-
-				clearTimeout(target.animated);
-				target.animated = setTimeout(function () {
-					_css(target, 'transition', '');
-					_css(target, 'transform', '');
-					target.animated = false;
-				}, ms);
-			}
-		},
-
-		_offUpEvents: function () {
-			var ownerDocument = this.el.ownerDocument;
-
-			_off(document, 'touchmove', this._onTouchMove);
-			_off(ownerDocument, 'mouseup', this._onDrop);
-			_off(ownerDocument, 'touchend', this._onDrop);
-			_off(ownerDocument, 'touchcancel', this._onDrop);
-		},
-
-		_onDrop: function (/**Event*/evt) {
-			var el = this.el,
-				options = this.options;
-
-			clearInterval(this._loopId);
-			clearInterval(autoScroll.pid);
-			clearTimeout(this._dragStartTimer);
-
-			// Unbind events
-			_off(document, 'mousemove', this._onTouchMove);
-
-			if (this.nativeDraggable) {
-				_off(document, 'drop', this);
-				_off(el, 'dragstart', this._onDragStart);
-			}
-
-			this._offUpEvents();
-
-			if (evt) {
-				if (moved) {
-					evt.preventDefault();
-					!options.dropBubble && evt.stopPropagation();
-				}
-
-				ghostEl && ghostEl.parentNode.removeChild(ghostEl);
-
-				if (dragEl) {
-					if (this.nativeDraggable) {
-						_off(dragEl, 'dragend', this);
-					}
-
-					_disableDraggable(dragEl);
-					dragEl.style['will-change'] = '';
-
-					// Remove class's
-					_toggleClass(dragEl, this.options.ghostClass, false);
-					_toggleClass(dragEl, this.options.chosenClass, false);
-
-					if (rootEl !== parentEl) {
-						newIndex = _index(dragEl, options.draggable);
-
-						if (newIndex >= 0) {
-
-							// Add event
-							_dispatchEvent(null, parentEl, 'add', dragEl, rootEl, oldIndex, newIndex);
-
-							// Remove event
-							_dispatchEvent(this, rootEl, 'remove', dragEl, rootEl, oldIndex, newIndex);
-
-							// drag from one list and drop into another
-							_dispatchEvent(null, parentEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
-							_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
-						}
-					}
-					else {
-						// Remove clone
-						cloneEl && cloneEl.parentNode.removeChild(cloneEl);
-
-						if (dragEl.nextSibling !== nextEl) {
-							// Get the index of the dragged element within its parent
-							newIndex = _index(dragEl, options.draggable);
-
-							if (newIndex >= 0) {
-								// drag & drop within the same list
-								_dispatchEvent(this, rootEl, 'update', dragEl, rootEl, oldIndex, newIndex);
-								_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
-							}
-						}
-					}
-
-					if (Sortable.active) {
-						/* jshint eqnull:true */
-						if (newIndex == null || newIndex === -1) {
-							newIndex = oldIndex;
-						}
-
-						_dispatchEvent(this, rootEl, 'end', dragEl, rootEl, oldIndex, newIndex);
-
-						// Save sorting
-						this.save();
-					}
-				}
-
-			}
-
-			this._nulling();
-		},
-
-		_nulling: function() {
-			rootEl =
-			dragEl =
-			parentEl =
-			ghostEl =
-			nextEl =
-			cloneEl =
-
-			scrollEl =
-			scrollParentEl =
-
-			tapEvt =
-			touchEvt =
-
-			moved =
-			newIndex =
-
-			lastEl =
-			lastCSS =
-
-			putSortable =
-			activeGroup =
-			Sortable.active = null;
-		},
-
-		handleEvent: function (/**Event*/evt) {
-			var type = evt.type;
-
-			if (type === 'dragover' || type === 'dragenter') {
-				if (dragEl) {
-					this._onDragOver(evt);
-					_globalDragOver(evt);
-				}
-			}
-			else if (type === 'drop' || type === 'dragend') {
-				this._onDrop(evt);
-			}
-		},
-
-
-		/**
-		 * Serializes the item into an array of string.
-		 * @returns {String[]}
-		 */
-		toArray: function () {
-			var order = [],
-				el,
-				children = this.el.children,
-				i = 0,
-				n = children.length,
-				options = this.options;
-
-			for (; i < n; i++) {
-				el = children[i];
-				if (_closest(el, options.draggable, this.el)) {
-					order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
-				}
-			}
-
-			return order;
-		},
-
-
-		/**
-		 * Sorts the elements according to the array.
-		 * @param  {String[]}  order  order of the items
-		 */
-		sort: function (order) {
-			var items = {}, rootEl = this.el;
-
-			this.toArray().forEach(function (id, i) {
-				var el = rootEl.children[i];
-
-				if (_closest(el, this.options.draggable, rootEl)) {
-					items[id] = el;
-				}
-			}, this);
-
-			order.forEach(function (id) {
-				if (items[id]) {
-					rootEl.removeChild(items[id]);
-					rootEl.appendChild(items[id]);
-				}
-			});
-		},
-
-
-		/**
-		 * Save the current sorting
-		 */
-		save: function () {
-			var store = this.options.store;
-			store && store.set(this);
-		},
-
-
-		/**
-		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
-		 * @param   {HTMLElement}  el
-		 * @param   {String}       [selector]  default: `options.draggable`
-		 * @returns {HTMLElement|null}
-		 */
-		closest: function (el, selector) {
-			return _closest(el, selector || this.options.draggable, this.el);
-		},
-
-
-		/**
-		 * Set/get option
-		 * @param   {string} name
-		 * @param   {*}      [value]
-		 * @returns {*}
-		 */
-		option: function (name, value) {
-			var options = this.options;
-
-			if (value === void 0) {
-				return options[name];
-			} else {
-				options[name] = value;
-
-				if (name === 'group') {
-					_prepareGroup(options);
-				}
-			}
-		},
-
-
-		/**
-		 * Destroy
-		 */
-		destroy: function () {
-			var el = this.el;
-
-			el[expando] = null;
-
-			_off(el, 'mousedown', this._onTapStart);
-			_off(el, 'touchstart', this._onTapStart);
-
-			if (this.nativeDraggable) {
-				_off(el, 'dragover', this);
-				_off(el, 'dragenter', this);
-			}
-
-			// Remove draggable attributes
-			Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
-				el.removeAttribute('draggable');
-			});
-
-			touchDragOverListeners.splice(touchDragOverListeners.indexOf(this._onDragOver), 1);
-
-			this._onDrop();
-
-			this.el = el = null;
-		}
-	};
-
-
-	function _cloneHide(state) {
-		if (cloneEl && (cloneEl.state !== state)) {
-			_css(cloneEl, 'display', state ? 'none' : '');
-			!state && cloneEl.state && rootEl.insertBefore(cloneEl, dragEl);
-			cloneEl.state = state;
-		}
-	}
-
-
-	function _closest(/**HTMLElement*/el, /**String*/selector, /**HTMLElement*/ctx) {
-		if (el) {
-			ctx = ctx || document;
-
-			do {
-				if ((selector === '>*' && el.parentNode === ctx) || _matches(el, selector)) {
-					return el;
-				}
-				/* jshint boss:true */
-			} while (el = _getParentOrHost(el));
-		}
-
-		return null;
-	}
-
-
-	function _getParentOrHost(el) {
-		var parent = el.host;
-
-		return (parent && parent.nodeType) ? parent : el.parentNode;
-	}
-
-
-	function _globalDragOver(/**Event*/evt) {
-		if (evt.dataTransfer) {
-			evt.dataTransfer.dropEffect = 'move';
-		}
-		evt.preventDefault();
-	}
-
-
-	function _on(el, event, fn) {
-		el.addEventListener(event, fn, false);
-	}
-
-
-	function _off(el, event, fn) {
-		el.removeEventListener(event, fn, false);
-	}
-
-
-	function _toggleClass(el, name, state) {
-		if (el) {
-			if (el.classList) {
-				el.classList[state ? 'add' : 'remove'](name);
-			}
-			else {
-				var className = (' ' + el.className + ' ').replace(RSPACE, ' ').replace(' ' + name + ' ', ' ');
-				el.className = (className + (state ? ' ' + name : '')).replace(RSPACE, ' ');
-			}
-		}
-	}
-
-
-	function _css(el, prop, val) {
-		var style = el && el.style;
-
-		if (style) {
-			if (val === void 0) {
-				if (document.defaultView && document.defaultView.getComputedStyle) {
-					val = document.defaultView.getComputedStyle(el, '');
-				}
-				else if (el.currentStyle) {
-					val = el.currentStyle;
-				}
-
-				return prop === void 0 ? val : val[prop];
-			}
-			else {
-				if (!(prop in style)) {
-					prop = '-webkit-' + prop;
-				}
-
-				style[prop] = val + (typeof val === 'string' ? '' : 'px');
-			}
-		}
-	}
-
-
-	function _find(ctx, tagName, iterator) {
-		if (ctx) {
-			var list = ctx.getElementsByTagName(tagName), i = 0, n = list.length;
-
-			if (iterator) {
-				for (; i < n; i++) {
-					iterator(list[i], i);
-				}
-			}
-
-			return list;
-		}
-
-		return [];
-	}
-
-
-
-	function _dispatchEvent(sortable, rootEl, name, targetEl, fromEl, startIndex, newIndex) {
-		sortable = (sortable || rootEl[expando]);
-
-		var evt = document.createEvent('Event'),
-			options = sortable.options,
-			onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1);
-
-		evt.initEvent(name, true, true);
-
-		evt.to = rootEl;
-		evt.from = fromEl || rootEl;
-		evt.item = targetEl || rootEl;
-		evt.clone = cloneEl;
-
-		evt.oldIndex = startIndex;
-		evt.newIndex = newIndex;
-
-		rootEl.dispatchEvent(evt);
-
-		if (options[onName]) {
-			options[onName].call(sortable, evt);
-		}
-	}
-
-
-	function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvt) {
-		var evt,
-			sortable = fromEl[expando],
-			onMoveFn = sortable.options.onMove,
-			retVal;
-
-		evt = document.createEvent('Event');
-		evt.initEvent('move', true, true);
-
-		evt.to = toEl;
-		evt.from = fromEl;
-		evt.dragged = dragEl;
-		evt.draggedRect = dragRect;
-		evt.related = targetEl || toEl;
-		evt.relatedRect = targetRect || toEl.getBoundingClientRect();
-
-		fromEl.dispatchEvent(evt);
-
-		if (onMoveFn) {
-			retVal = onMoveFn.call(sortable, evt, originalEvt);
-		}
-
-		return retVal;
-	}
-
-
-	function _disableDraggable(el) {
-		el.draggable = false;
-	}
-
-
-	function _unsilent() {
-		_silent = false;
-	}
-
-
-	/** @returns {HTMLElement|false} */
-	function _ghostIsLast(el, evt) {
-		var lastEl = el.lastElementChild,
-			rect = lastEl.getBoundingClientRect();
-
-		// 5 — min delta
-		// abs — нельзя добавлять, а то глюки при наведении сверху
-		return (
-			(evt.clientY - (rect.top + rect.height) > 5) ||
-			(evt.clientX - (rect.right + rect.width) > 5)
-		) && lastEl;
-	}
-
-
-	/**
-	 * Generate id
-	 * @param   {HTMLElement} el
-	 * @returns {String}
-	 * @private
-	 */
-	function _generateId(el) {
-		var str = el.tagName + el.className + el.src + el.href + el.textContent,
-			i = str.length,
-			sum = 0;
-
-		while (i--) {
-			sum += str.charCodeAt(i);
-		}
-
-		return sum.toString(36);
-	}
-
-	/**
-	 * Returns the index of an element within its parent for a selected set of
-	 * elements
-	 * @param  {HTMLElement} el
-	 * @param  {selector} selector
-	 * @return {number}
-	 */
-	function _index(el, selector) {
-		var index = 0;
-
-		if (!el || !el.parentNode) {
-			return -1;
-		}
-
-		while (el && (el = el.previousElementSibling)) {
-			if ((el.nodeName.toUpperCase() !== 'TEMPLATE') && (selector === '>*' || _matches(el, selector))) {
-				index++;
-			}
-		}
-
-		return index;
-	}
-
-	function _matches(/**HTMLElement*/el, /**String*/selector) {
-		if (el) {
-			selector = selector.split('.');
-
-			var tag = selector.shift().toUpperCase(),
-				re = new RegExp('\\s(' + selector.join('|') + ')(?=\\s)', 'g');
-
-			return (
-				(tag === '' || el.nodeName.toUpperCase() == tag) &&
-				(!selector.length || ((' ' + el.className + ' ').match(re) || []).length == selector.length)
-			);
-		}
-
-		return false;
-	}
-
-	function _throttle(callback, ms) {
-		var args, _this;
-
-		return function () {
-			if (args === void 0) {
-				args = arguments;
-				_this = this;
-
-				setTimeout(function () {
-					if (args.length === 1) {
-						callback.call(_this, args[0]);
-					} else {
-						callback.apply(_this, args);
-					}
-
-					args = void 0;
-				}, ms);
-			}
-		};
-	}
-
-	function _extend(dst, src) {
-		if (dst && src) {
-			for (var key in src) {
-				if (src.hasOwnProperty(key)) {
-					dst[key] = src[key];
-				}
-			}
-		}
-
-		return dst;
-	}
-
-	function _clone(el) {
-		return $
-			? $(el).clone(true)[0]
-			: (Polymer && Polymer.dom
-				? Polymer.dom(el).cloneNode(true)
-				: el.cloneNode(true)
-			);
-	}
-
-
-	// Export utils
-	Sortable.utils = {
-		on: _on,
-		off: _off,
-		css: _css,
-		find: _find,
-		is: function (el, selector) {
-			return !!_closest(el, selector, el);
-		},
-		extend: _extend,
-		throttle: _throttle,
-		closest: _closest,
-		toggleClass: _toggleClass,
-		clone: _clone,
-		index: _index
-	};
-
-
-	/**
-	 * Create sortable instance
-	 * @param {HTMLElement}  el
-	 * @param {Object}      [options]
-	 */
-	Sortable.create = function (el, options) {
-		return new Sortable(el, options);
-	};
-
-
-	// Export
-	Sortable.version = '1.4.2';
-	return Sortable;
-});
-
-
-(function (root, factory) {
-	'use strict';
-
-	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as an anonymous module.
-		define([], factory);
-	} else if (typeof exports === 'object') {
-		// Node. Does not work with strict CommonJS, but
-		// only CommonJS-like environments that support module.exports,
-		// like Node.
-		module.exports = factory();
-	} else {
-		// Browser globals (root is window)
-		root.autosize = factory();
-  }
-}(this, function () {
-	function main(ta) {
-		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || ta.hasAttribute('data-autosize-on')) { return; }
-
-		var maxHeight;
-		var heightOffset;
-
-		function init() {
-			var style = window.getComputedStyle(ta, null);
-
-			if (style.resize === 'vertical') {
-				ta.style.resize = 'none';
-			} else if (style.resize === 'both') {
-				ta.style.resize = 'horizontal';
-			}
-
-			// horizontal overflow is hidden, so break-word is necessary for handling words longer than the textarea width
-			ta.style.wordWrap = 'break-word';
-
-			// Chrome/Safari-specific fix:
-			// When the textarea y-overflow is hidden, Chrome/Safari doesn't reflow the text to account for the space
-			// made available by removing the scrollbar. This workaround will cause the text to reflow.
-			var width = ta.style.width;
-			ta.style.width = '0px';
-			// Force reflow:
-			/* jshint ignore:start */
-			ta.offsetWidth;
-			/* jshint ignore:end */
-			ta.style.width = width;
-
-			maxHeight = style.maxHeight !== 'none' ? parseFloat(style.maxHeight) : false;
-
-			if (style.boxSizing === 'content-box') {
-				heightOffset = -(parseFloat(style.paddingTop)+parseFloat(style.paddingBottom));
-			} else {
-				heightOffset = parseFloat(style.borderTopWidth)+parseFloat(style.borderBottomWidth);
-			}
-
-			adjust();
-		}
-
-		function adjust() {
-			var startHeight = ta.style.height;
-			var htmlTop = document.documentElement.scrollTop;
-			var bodyTop = document.body.scrollTop;
-
-			ta.style.height = 'auto';
-
-			var endHeight = ta.scrollHeight+heightOffset;
-
-			if (maxHeight !== false && maxHeight < endHeight) {
-				endHeight = maxHeight;
-				if (ta.style.overflowY !== 'scroll') {
-					ta.style.overflowY = 'scroll';
-				}
-			} else if (ta.style.overflowY !== 'hidden') {
-				ta.style.overflowY = 'hidden';
-			}
-
-			ta.style.height = endHeight+'px';
-
-			// prevents scroll-position jumping
-			document.documentElement.scrollTop = htmlTop;
-			document.body.scrollTop = bodyTop;
-
-			if (startHeight !== ta.style.height) {
-				var evt = document.createEvent('Event');
-				evt.initEvent('autosize.resized', true, false);
-				ta.dispatchEvent(evt);
-			}
-		}
-
-		// IE9 does not fire onpropertychange or oninput for deletions,
-		// so binding to onkeyup to catch most of those events.
-		// There is no way that I know of to detect something like 'cut' in IE9.
-		if ('onpropertychange' in ta && 'oninput' in ta) {
-			ta.addEventListener('keyup', adjust);
-		}
-
-		window.addEventListener('resize', adjust);
-		ta.addEventListener('input', adjust);
-
-		ta.addEventListener('autosize.update', adjust);
-
-		ta.addEventListener('autosize.destroy', function(style){
-			window.removeEventListener('resize', adjust);
-			ta.removeEventListener('input', adjust);
-			ta.removeEventListener('keyup', adjust);
-			ta.removeEventListener('autosize.destroy');
-
-			Object.keys(style).forEach(function(key){
-				ta.style[key] = style[key];
-			});
-
-			ta.removeAttribute('data-autosize-on');
-		}.bind(ta, {
-			height: ta.style.height,
-			overflow: ta.style.overflow,
-			overflowY: ta.style.overflowY,
-			wordWrap: ta.style.wordWrap,
-			resize: ta.style.resize
-		}));
-
-		ta.setAttribute('data-autosize-on', true);
-		ta.style.overflow = 'hidden';
-		ta.style.overflowY = 'hidden';
-
-		init();
-	}
-
-	// Do nothing in IE8 or lower
-	if (typeof window.getComputedStyle !== 'function') {
-		return function(elements) {
-			return elements;
-		};
-	} else {
-		return function(elements) {
-			if (elements && elements.length) {
-				Array.prototype.forEach.call(elements, main);
-			} else if (elements && elements.nodeName) {
-				main(elements);
-			}
-			return elements;
-		};
-	}
-}));
-
-
-!function(e,t){"use strict";function r(){return t}"function"==typeof define&&define.amd?define("tinysort",r):e.tinysort=t}(this,function(){"use strict";function e(e,n){function s(){0===arguments.length?v({}):t(arguments,function(e){v(x(e)?{selector:e}:e)}),d=$.length}function v(e){var t=!!e.selector,n=t&&":"===e.selector[0],o=r(e||{},m);$.push(r({hasSelector:t,hasAttr:!(o.attr===l||""===o.attr),hasData:o.data!==l,hasFilter:n,sortReturnNumber:"asc"===o.order?1:-1},o))}function S(){t(e,function(e,t){M?M!==e.parentNode&&(k=!1):M=e.parentNode;var r=$[0],n=r.hasFilter,o=r.selector,a=!o||n&&e.matchesSelector(o)||o&&e.querySelector(o),l=a?R:V,s={elm:e,pos:t,posn:l.length};B.push(s),l.push(s)}),D=R.slice(0)}function y(e,t,r){for(var n=r(e.toString()),o=r(t.toString()),a=0;n[a]&&o[a];a++)if(n[a]!==o[a]){var l=Number(n[a]),s=Number(o[a]);return l==n[a]&&s==o[a]?l-s:n[a]>o[a]?1:-1}return n.length-o.length}function N(e){for(var t,r,n=[],o=0,a=-1,l=0;t=(r=e.charAt(o++)).charCodeAt(0);){var s=46==t||t>=48&&57>=t;s!==l&&(n[++a]="",l=s),n[a]+=r}return n}function C(e,r){var n=0;for(0!==p&&(p=0);0===n&&d>p;){var l=$[p],s=l.ignoreDashes?f:u;if(t(h,function(e){var t=e.prepare;t&&t(l)}),l.sortFunction)n=l.sortFunction(e,r);else if("rand"==l.order)n=Math.random()<.5?1:-1;else{var c=a,g=w(e,l),m=w(r,l),v=""===g||g===o,S=""===m||m===o;if(g===m)n=0;else if(l.emptyEnd&&(v||S))n=v&&S?0:v?1:-1;else{if(!l.forceStrings){var C=x(g)?g&&g.match(s):a,b=x(m)?m&&m.match(s):a;if(C&&b){var A=g.substr(0,g.length-C[0].length),F=m.substr(0,m.length-b[0].length);A==F&&(c=!a,g=i(C[0]),m=i(b[0]))}}n=g===o||m===o?0:l.natural&&(isNaN(g)||isNaN(m))?y(g,m,N):m>g?-1:g>m?1:0}}t(h,function(e){var t=e.sort;t&&(n=t(l,c,g,m,n))}),n*=l.sortReturnNumber,0===n&&p++}return 0===n&&(n=e.pos>r.pos?1:-1),n}function b(){var e=R.length===B.length;if(k&&e)O?R.forEach(function(e,t){e.elm.style.order=t}):M?M.appendChild(A()):console.warn("parentNode has been removed");else{var t=$[0],r=t.place,n="org"===r,o="start"===r,a="end"===r,l="first"===r,s="last"===r;if(n)R.forEach(F),R.forEach(function(e,t){E(D[t],e.elm)});else if(o||a){var c=D[o?0:D.length-1],i=c&&c.elm.parentNode,u=i&&(o&&i.firstChild||i.lastChild);u&&(u!==c.elm&&(c={elm:u}),F(c),a&&i.appendChild(c.ghost),E(c,A()))}else if(l||s){var f=D[l?0:D.length-1];E(F(f),A())}}}function A(){return R.forEach(function(e){q.appendChild(e.elm)}),q}function F(e){var t=e.elm,r=c.createElement("div");return e.ghost=r,t.parentNode.insertBefore(r,t),e}function E(e,t){var r=e.ghost,n=r.parentNode;n.insertBefore(t,r),n.removeChild(r),delete e.ghost}function w(e,t){var r,n=e.elm;return t.selector&&(t.hasFilter?n.matchesSelector(t.selector)||(n=l):n=n.querySelector(t.selector)),t.hasAttr?r=n.getAttribute(t.attr):t.useVal?r=n.value||n.getAttribute("value"):t.hasData?r=n.getAttribute("data-"+t.data):n&&(r=n.textContent),x(r)&&(t.cases||(r=r.toLowerCase()),r=r.replace(/\s+/g," ")),null===r&&(r=g),r}function x(e){return"string"==typeof e}x(e)&&(e=c.querySelectorAll(e)),0===e.length&&console.warn("No elements to sort");var D,M,q=c.createDocumentFragment(),B=[],R=[],V=[],$=[],k=!0,z=e.length&&e[0].parentNode,L=z.rootNode!==document,O=e.length&&(n===o||n.useFlex!==!1)&&!L&&-1!==getComputedStyle(z,null).display.indexOf("flex");return s.apply(l,Array.prototype.slice.call(arguments,1)),S(),R.sort(C),b(),R.map(function(e){return e.elm})}function t(e,t){for(var r,n=e.length,o=n;o--;)r=n-o-1,t(e[r],r)}function r(e,t,r){for(var n in t)(r||e[n]===o)&&(e[n]=t[n]);return e}function n(e,t,r){h.push({prepare:e,sort:t,sortBy:r})}var o,a=!1,l=null,s=window,c=s.document,i=parseFloat,u=/(-?\d+\.?\d*)\s*$/g,f=/(\d+\.?\d*)\s*$/g,h=[],d=0,p=0,g=String.fromCharCode(4095),m={selector:l,order:"asc",attr:l,data:l,useVal:a,place:"org",returns:a,cases:a,natural:a,forceStrings:a,ignoreDashes:a,sortFunction:l,useFlex:a,emptyEnd:a};return s.Element&&function(e){e.matchesSelector=e.matchesSelector||e.mozMatchesSelector||e.msMatchesSelector||e.oMatchesSelector||e.webkitMatchesSelector||function(e){for(var t=this,r=(t.parentNode||t.document).querySelectorAll(e),n=-1;r[++n]&&r[n]!=t;);return!!r[n]}}(Element.prototype),r(n,{loop:t}),r(e,{plugin:n,defaults:m})}());
-!function(t){"use strict";"function"==typeof define&&define.amd?define(["jquery","tinysort"],t):jQuery&&!jQuery.fn.tsort&&t(jQuery,tinysort)}(function(t,n){"use strict";t.tinysort={defaults:n.defaults},t.fn.extend({tinysort:function(){var t,e,i=Array.prototype.slice.call(arguments);i.unshift(this),t=n.apply(null,i),e=t.length;for(var r=0,s=this.length;s>r;r++)e>r?this[r]=t[r]:delete this[r];return this.length=e,this}}),t.fn.tsort=t.fn.tinysort});
 
 
 
@@ -3885,6 +1964,1679 @@ function setHistory(){}
 }));
 
 
+/**!
+ * Sortable
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @license MIT
+ */
+
+(function sortableModule(factory) {
+	"use strict";
+
+	if (typeof define === "function" && define.amd) {
+		define(factory);
+	}
+	else if (typeof module != "undefined" && typeof module.exports != "undefined") {
+		module.exports = factory();
+	}
+	else if (typeof Package !== "undefined") {
+		//noinspection JSUnresolvedVariable
+		Sortable = factory();  // export for Meteor.js
+	}
+	else {
+		/* jshint sub:true */
+		window["Sortable"] = factory();
+	}
+})(function sortableFactory() {
+	"use strict";
+
+	if (typeof window == "undefined" || !window.document) {
+		return function sortableError() {
+			throw new Error("Sortable.js requires a window with a document");
+		};
+	}
+
+	var dragEl,
+		parentEl,
+		ghostEl,
+		cloneEl,
+		rootEl,
+		nextEl,
+
+		scrollEl,
+		scrollParentEl,
+		scrollCustomFn,
+
+		lastEl,
+		lastCSS,
+		lastParentCSS,
+
+		oldIndex,
+		newIndex,
+
+		activeGroup,
+		putSortable,
+
+		autoScroll = {},
+
+		tapEvt,
+		touchEvt,
+
+		moved,
+
+		/** @const */
+		RSPACE = /\s+/g,
+
+		expando = 'Sortable' + (new Date).getTime(),
+
+		win = window,
+		document = win.document,
+		parseInt = win.parseInt,
+
+		$ = win.jQuery || win.Zepto,
+		Polymer = win.Polymer,
+
+		supportDraggable = !!('draggable' in document.createElement('div')),
+		supportCssPointerEvents = (function (el) {
+			// false when IE11
+			if (!!navigator.userAgent.match(/Trident.*rv[ :]?11\./)) {
+				return false;
+			}
+			el = document.createElement('x');
+			el.style.cssText = 'pointer-events:auto';
+			return el.style.pointerEvents === 'auto';
+		})(),
+
+		_silent = false,
+
+		abs = Math.abs,
+		min = Math.min,
+		slice = [].slice,
+
+		touchDragOverListeners = [],
+
+		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl) {
+			// Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
+			if (rootEl && options.scroll) {
+				var el,
+					rect,
+					sens = options.scrollSensitivity,
+					speed = options.scrollSpeed,
+
+					x = evt.clientX,
+					y = evt.clientY,
+
+					winWidth = window.innerWidth,
+					winHeight = window.innerHeight,
+
+					vx,
+					vy,
+
+					scrollOffsetX,
+					scrollOffsetY
+				;
+
+				// Delect scrollEl
+				if (scrollParentEl !== rootEl) {
+					scrollEl = options.scroll;
+					scrollParentEl = rootEl;
+					scrollCustomFn = options.scrollFn;
+
+					if (scrollEl === true) {
+						scrollEl = rootEl;
+
+						do {
+							if ((scrollEl.offsetWidth < scrollEl.scrollWidth) ||
+								(scrollEl.offsetHeight < scrollEl.scrollHeight)
+							) {
+								break;
+							}
+							/* jshint boss:true */
+						} while (scrollEl = scrollEl.parentNode);
+					}
+				}
+
+				if (scrollEl) {
+					el = scrollEl;
+					rect = scrollEl.getBoundingClientRect();
+					vx = (abs(rect.right - x) <= sens) - (abs(rect.left - x) <= sens);
+					vy = (abs(rect.bottom - y) <= sens) - (abs(rect.top - y) <= sens);
+				}
+
+
+				if (!(vx || vy)) {
+					vx = (winWidth - x <= sens) - (x <= sens);
+					vy = (winHeight - y <= sens) - (y <= sens);
+
+					/* jshint expr:true */
+					(vx || vy) && (el = win);
+				}
+
+
+				if (autoScroll.vx !== vx || autoScroll.vy !== vy || autoScroll.el !== el) {
+					autoScroll.el = el;
+					autoScroll.vx = vx;
+					autoScroll.vy = vy;
+
+					clearInterval(autoScroll.pid);
+
+					if (el) {
+						autoScroll.pid = setInterval(function () {
+							scrollOffsetY = vy ? vy * speed : 0;
+							scrollOffsetX = vx ? vx * speed : 0;
+
+							if ('function' === typeof(scrollCustomFn)) {
+								return scrollCustomFn.call(_this, scrollOffsetX, scrollOffsetY, evt);
+							}
+
+							if (el === win) {
+								win.scrollTo(win.pageXOffset + scrollOffsetX, win.pageYOffset + scrollOffsetY);
+							} else {
+								el.scrollTop += scrollOffsetY;
+								el.scrollLeft += scrollOffsetX;
+							}
+						}, 24);
+					}
+				}
+			}
+		}, 30),
+
+		_prepareGroup = function (options) {
+			function toFn(value, pull) {
+				if (value === void 0 || value === true) {
+					value = group.name;
+				}
+
+				if (typeof value === 'function') {
+					return value;
+				} else {
+					return function (to, from) {
+						var fromGroup = from.options.group.name;
+
+						return pull
+							? value
+							: value && (value.join
+								? value.indexOf(fromGroup) > -1
+								: (fromGroup == value)
+							);
+					};
+				}
+			}
+
+			var group = {};
+			var originalGroup = options.group;
+
+			if (!originalGroup || typeof originalGroup != 'object') {
+				originalGroup = {name: originalGroup};
+			}
+
+			group.name = originalGroup.name;
+			group.checkPull = toFn(originalGroup.pull, true);
+			group.checkPut = toFn(originalGroup.put);
+
+			options.group = group;
+		}
+	;
+
+
+
+	/**
+	 * @class  Sortable
+	 * @param  {HTMLElement}  el
+	 * @param  {Object}       [options]
+	 */
+	function Sortable(el, options) {
+		if (!(el && el.nodeType && el.nodeType === 1)) {
+			throw 'Sortable: `el` must be HTMLElement, and not ' + {}.toString.call(el);
+		}
+
+		this.el = el; // root element
+		this.options = options = _extend({}, options);
+
+
+		// Export instance
+		el[expando] = this;
+
+
+		// Default options
+		var defaults = {
+			group: Math.random(),
+			sort: true,
+			disabled: false,
+			store: null,
+			handle: null,
+			scroll: true,
+			scrollSensitivity: 30,
+			scrollSpeed: 10,
+			draggable: /[uo]l/i.test(el.nodeName) ? 'li' : '>*',
+			ghostClass: 'sortable-ghost',
+			chosenClass: 'sortable-chosen',
+			dragClass: 'sortable-drag',
+			ignore: 'a, img',
+			filter: null,
+			animation: 0,
+			setData: function (dataTransfer, dragEl) {
+				dataTransfer.setData('Text', dragEl.textContent);
+			},
+			dropBubble: false,
+			dragoverBubble: false,
+			dataIdAttr: 'data-id',
+			delay: 0,
+			forceFallback: false,
+			fallbackClass: 'sortable-fallback',
+			fallbackOnBody: false,
+			fallbackTolerance: 0,
+			fallbackOffset: {x: 0, y: 0}
+		};
+
+
+		// Set default options
+		for (var name in defaults) {
+			!(name in options) && (options[name] = defaults[name]);
+		}
+
+		_prepareGroup(options);
+
+		// Bind all private methods
+		for (var fn in this) {
+			if (fn.charAt(0) === '_' && typeof this[fn] === 'function') {
+				this[fn] = this[fn].bind(this);
+			}
+		}
+
+		// Setup drag mode
+		this.nativeDraggable = options.forceFallback ? false : supportDraggable;
+
+		// Bind events
+		_on(el, 'mousedown', this._onTapStart);
+		_on(el, 'touchstart', this._onTapStart);
+
+		if (this.nativeDraggable) {
+			_on(el, 'dragover', this);
+			_on(el, 'dragenter', this);
+		}
+
+		touchDragOverListeners.push(this._onDragOver);
+
+		// Restore sorting
+		options.store && this.sort(options.store.get(this));
+	}
+
+
+	Sortable.prototype = /** @lends Sortable.prototype */ {
+		constructor: Sortable,
+
+		_onTapStart: function (/** Event|TouchEvent */evt) {
+			var _this = this,
+				el = this.el,
+				options = this.options,
+				type = evt.type,
+				touch = evt.touches && evt.touches[0],
+				target = (touch || evt).target,
+				originalTarget = evt.target.shadowRoot && evt.path[0] || target,
+				filter = options.filter,
+				startIndex;
+
+			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
+			if (dragEl) {
+				return;
+			}
+
+			if (type === 'mousedown' && evt.button !== 0 || options.disabled) {
+				return; // only left button or enabled
+			}
+
+			if (options.handle && !_closest(originalTarget, options.handle, el)) {
+				return;
+			}
+
+			target = _closest(target, options.draggable, el);
+
+			if (!target) {
+				return;
+			}
+
+			// Get the index of the dragged element within its parent
+			startIndex = _index(target, options.draggable);
+
+			// Check filter
+			if (typeof filter === 'function') {
+				if (filter.call(this, evt, target, this)) {
+					_dispatchEvent(_this, originalTarget, 'filter', target, el, startIndex);
+					evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+			else if (filter) {
+				filter = filter.split(',').some(function (criteria) {
+					criteria = _closest(originalTarget, criteria.trim(), el);
+
+					if (criteria) {
+						_dispatchEvent(_this, criteria, 'filter', target, el, startIndex);
+						return true;
+					}
+				});
+
+				if (filter) {
+					evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+
+			// Prepare `dragstart`
+			this._prepareDragStart(evt, touch, target, startIndex);
+		},
+
+		_prepareDragStart: function (/** Event */evt, /** Touch */touch, /** HTMLElement */target, /** Number */startIndex) {
+			var _this = this,
+				el = _this.el,
+				options = _this.options,
+				ownerDocument = el.ownerDocument,
+				dragStartFn;
+
+			if (target && !dragEl && (target.parentNode === el)) {
+				tapEvt = evt;
+
+				rootEl = el;
+				dragEl = target;
+				parentEl = dragEl.parentNode;
+				nextEl = dragEl.nextSibling;
+				activeGroup = options.group;
+				oldIndex = startIndex;
+
+				this._lastX = (touch || evt).clientX;
+				this._lastY = (touch || evt).clientY;
+
+				dragEl.style['will-change'] = 'transform';
+
+				dragStartFn = function () {
+					// Delayed drag has been triggered
+					// we can re-enable the events: touchmove/mousemove
+					_this._disableDelayedDrag();
+
+					// Make the element draggable
+					dragEl.draggable = _this.nativeDraggable;
+
+					// Chosen item
+					_toggleClass(dragEl, options.chosenClass, true);
+
+					// Bind the events: dragstart/dragend
+					_this._triggerDragStart(touch);
+
+					// Drag start event
+					_dispatchEvent(_this, rootEl, 'choose', dragEl, rootEl, oldIndex);
+				};
+
+				// Disable "draggable"
+				options.ignore.split(',').forEach(function (criteria) {
+					_find(dragEl, criteria.trim(), _disableDraggable);
+				});
+
+				_on(ownerDocument, 'mouseup', _this._onDrop);
+				_on(ownerDocument, 'touchend', _this._onDrop);
+				_on(ownerDocument, 'touchcancel', _this._onDrop);
+
+				if (options.delay) {
+					// If the user moves the pointer or let go the click or touch
+					// before the delay has been reached:
+					// disable the delayed drag
+					_on(ownerDocument, 'mouseup', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchend', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchcancel', _this._disableDelayedDrag);
+					_on(ownerDocument, 'mousemove', _this._disableDelayedDrag);
+					_on(ownerDocument, 'touchmove', _this._disableDelayedDrag);
+
+					_this._dragStartTimer = setTimeout(dragStartFn, options.delay);
+				} else {
+					dragStartFn();
+				}
+			}
+		},
+
+		_disableDelayedDrag: function () {
+			var ownerDocument = this.el.ownerDocument;
+
+			clearTimeout(this._dragStartTimer);
+			_off(ownerDocument, 'mouseup', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchend', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchcancel', this._disableDelayedDrag);
+			_off(ownerDocument, 'mousemove', this._disableDelayedDrag);
+			_off(ownerDocument, 'touchmove', this._disableDelayedDrag);
+		},
+
+		_triggerDragStart: function (/** Touch */touch) {
+			if (touch) {
+				// Touch device support
+				tapEvt = {
+					target: dragEl,
+					clientX: touch.clientX,
+					clientY: touch.clientY
+				};
+
+				this._onDragStart(tapEvt, 'touch');
+			}
+			else if (!this.nativeDraggable) {
+				this._onDragStart(tapEvt, true);
+			}
+			else {
+				_on(dragEl, 'dragend', this);
+				_on(rootEl, 'dragstart', this._onDragStart);
+			}
+
+			try {
+				if (document.selection) {
+					// Timeout neccessary for IE9
+					setTimeout(function () {
+						document.selection.empty();
+					});
+				} else {
+					window.getSelection().removeAllRanges();
+				}
+			} catch (err) {
+			}
+		},
+
+		_dragStarted: function () {
+			if (rootEl && dragEl) {
+				var options = this.options;
+
+				// Apply effect
+				_toggleClass(dragEl, options.ghostClass, true);
+				_toggleClass(dragEl, options.dragClass, false);
+
+				Sortable.active = this;
+
+				// Drag start event
+				_dispatchEvent(this, rootEl, 'start', dragEl, rootEl, oldIndex);
+			}
+		},
+
+		_emulateDragOver: function () {
+			if (touchEvt) {
+				if (this._lastX === touchEvt.clientX && this._lastY === touchEvt.clientY) {
+					return;
+				}
+
+				this._lastX = touchEvt.clientX;
+				this._lastY = touchEvt.clientY;
+
+				if (!supportCssPointerEvents) {
+					_css(ghostEl, 'display', 'none');
+				}
+
+				var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY),
+					parent = target,
+					i = touchDragOverListeners.length;
+
+				if (parent) {
+					do {
+						if (parent[expando]) {
+							while (i--) {
+								touchDragOverListeners[i]({
+									clientX: touchEvt.clientX,
+									clientY: touchEvt.clientY,
+									target: target,
+									rootEl: parent
+								});
+							}
+
+							break;
+						}
+
+						target = parent; // store last element
+					}
+					/* jshint boss:true */
+					while (parent = parent.parentNode);
+				}
+
+				if (!supportCssPointerEvents) {
+					_css(ghostEl, 'display', '');
+				}
+			}
+		},
+
+
+		_onTouchMove: function (/**TouchEvent*/evt) {
+			if (tapEvt) {
+				var	options = this.options,
+					fallbackTolerance = options.fallbackTolerance,
+					fallbackOffset = options.fallbackOffset,
+					touch = evt.touches ? evt.touches[0] : evt,
+					dx = (touch.clientX - tapEvt.clientX) + fallbackOffset.x,
+					dy = (touch.clientY - tapEvt.clientY) + fallbackOffset.y,
+					translate3d = evt.touches ? 'translate3d(' + dx + 'px,' + dy + 'px,0)' : 'translate(' + dx + 'px,' + dy + 'px)';
+
+				// only set the status to dragging, when we are actually dragging
+				if (!Sortable.active) {
+					if (fallbackTolerance &&
+						min(abs(touch.clientX - this._lastX), abs(touch.clientY - this._lastY)) < fallbackTolerance
+					) {
+						return;
+					}
+
+					this._dragStarted();
+				}
+
+				// as well as creating the ghost element on the document body
+				this._appendGhost();
+
+				moved = true;
+				touchEvt = touch;
+
+				_css(ghostEl, 'webkitTransform', translate3d);
+				_css(ghostEl, 'mozTransform', translate3d);
+				_css(ghostEl, 'msTransform', translate3d);
+				_css(ghostEl, 'transform', translate3d);
+
+				evt.preventDefault();
+			}
+		},
+
+		_appendGhost: function () {
+			if (!ghostEl) {
+				var rect = dragEl.getBoundingClientRect(),
+					css = _css(dragEl),
+					options = this.options,
+					ghostRect;
+
+				ghostEl = dragEl.cloneNode(true);
+
+				_toggleClass(ghostEl, options.ghostClass, false);
+				_toggleClass(ghostEl, options.fallbackClass, true);
+				_toggleClass(ghostEl, options.dragClass, true);
+
+				_css(ghostEl, 'top', rect.top - parseInt(css.marginTop, 10));
+				_css(ghostEl, 'left', rect.left - parseInt(css.marginLeft, 10));
+				_css(ghostEl, 'width', rect.width);
+				_css(ghostEl, 'height', rect.height);
+				_css(ghostEl, 'opacity', '0.8');
+				_css(ghostEl, 'position', 'fixed');
+				_css(ghostEl, 'zIndex', '100000');
+				_css(ghostEl, 'pointerEvents', 'none');
+
+				options.fallbackOnBody && document.body.appendChild(ghostEl) || rootEl.appendChild(ghostEl);
+
+				// Fixing dimensions.
+				ghostRect = ghostEl.getBoundingClientRect();
+				_css(ghostEl, 'width', rect.width * 2 - ghostRect.width);
+				_css(ghostEl, 'height', rect.height * 2 - ghostRect.height);
+			}
+		},
+
+		_onDragStart: function (/**Event*/evt, /**boolean*/useFallback) {
+			var dataTransfer = evt.dataTransfer,
+				options = this.options;
+
+			this._offUpEvents();
+
+			if (activeGroup.checkPull(this, this, dragEl, evt) == 'clone') {
+				cloneEl = _clone(dragEl);
+				_css(cloneEl, 'display', 'none');
+				rootEl.insertBefore(cloneEl, dragEl);
+				_dispatchEvent(this, rootEl, 'clone', dragEl);
+			}
+
+			_toggleClass(dragEl, options.dragClass, true);
+
+			if (useFallback) {
+				if (useFallback === 'touch') {
+					// Bind touch events
+					_on(document, 'touchmove', this._onTouchMove);
+					_on(document, 'touchend', this._onDrop);
+					_on(document, 'touchcancel', this._onDrop);
+				} else {
+					// Old brwoser
+					_on(document, 'mousemove', this._onTouchMove);
+					_on(document, 'mouseup', this._onDrop);
+				}
+
+				this._loopId = setInterval(this._emulateDragOver, 50);
+			}
+			else {
+				if (dataTransfer) {
+					dataTransfer.effectAllowed = 'move';
+					options.setData && options.setData.call(this, dataTransfer, dragEl);
+				}
+
+				_on(document, 'drop', this);
+				setTimeout(this._dragStarted, 0);
+			}
+		},
+
+		_onDragOver: function (/**Event*/evt) {
+			var el = this.el,
+				target,
+				dragRect,
+				targetRect,
+				revert,
+				options = this.options,
+				group = options.group,
+				activeSortable = Sortable.active,
+				isOwner = (activeGroup === group),
+				canSort = options.sort;
+
+			if (evt.preventDefault !== void 0) {
+				evt.preventDefault();
+				!options.dragoverBubble && evt.stopPropagation();
+			}
+
+			moved = true;
+
+			if (activeGroup && !options.disabled &&
+				(isOwner
+					? canSort || (revert = !rootEl.contains(dragEl)) // Reverting item into the original list
+					: (
+						putSortable === this ||
+						activeGroup.checkPull(this, activeSortable, dragEl, evt) && group.checkPut(this, activeSortable, dragEl, evt)
+					)
+				) &&
+				(evt.rootEl === void 0 || evt.rootEl === this.el) // touch fallback
+			) {
+				// Smart auto-scrolling
+				_autoScroll(evt, options, this.el);
+
+				if (_silent) {
+					return;
+				}
+
+				target = _closest(evt.target, options.draggable, el);
+				dragRect = dragEl.getBoundingClientRect();
+				putSortable = this;
+
+				if (revert) {
+					_cloneHide(true);
+					parentEl = rootEl; // actualization
+
+					if (cloneEl || nextEl) {
+						rootEl.insertBefore(dragEl, cloneEl || nextEl);
+					}
+					else if (!canSort) {
+						rootEl.appendChild(dragEl);
+					}
+
+					return;
+				}
+
+
+				if ((el.children.length === 0) || (el.children[0] === ghostEl) ||
+					(el === evt.target) && (target = _ghostIsLast(el, evt))
+				) {
+					if (target) {
+						if (target.animated) {
+							return;
+						}
+
+						targetRect = target.getBoundingClientRect();
+					}
+
+					_cloneHide(isOwner);
+
+					if (_onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt) !== false) {
+						if (!dragEl.contains(el)) {
+							el.appendChild(dragEl);
+							parentEl = el; // actualization
+						}
+
+						this._animate(dragRect, dragEl);
+						target && this._animate(targetRect, target);
+					}
+				}
+				else if (target && !target.animated && target !== dragEl && (target.parentNode[expando] !== void 0)) {
+					if (lastEl !== target) {
+						lastEl = target;
+						lastCSS = _css(target);
+						lastParentCSS = _css(target.parentNode);
+					}
+
+					targetRect = target.getBoundingClientRect();
+
+					var width = targetRect.right - targetRect.left,
+						height = targetRect.bottom - targetRect.top,
+						floating = /left|right|inline/.test(lastCSS.cssFloat + lastCSS.display)
+							|| (lastParentCSS.display == 'flex' && lastParentCSS['flex-direction'].indexOf('row') === 0),
+						isWide = (target.offsetWidth > dragEl.offsetWidth),
+						isLong = (target.offsetHeight > dragEl.offsetHeight),
+						halfway = (floating ? (evt.clientX - targetRect.left) / width : (evt.clientY - targetRect.top) / height) > 0.5,
+						nextSibling = target.nextElementSibling,
+						moveVector = _onMove(rootEl, el, dragEl, dragRect, target, targetRect, evt),
+						after
+					;
+
+					if (moveVector !== false) {
+						_silent = true;
+						setTimeout(_unsilent, 30);
+
+						_cloneHide(isOwner);
+
+						if (moveVector === 1 || moveVector === -1) {
+							after = (moveVector === 1);
+						}
+						else if (floating) {
+							var elTop = dragEl.offsetTop,
+								tgTop = target.offsetTop;
+
+							if (elTop === tgTop) {
+								after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
+							}
+							else if (target.previousElementSibling === dragEl || dragEl.previousElementSibling === target) {
+								after = (evt.clientY - targetRect.top) / height > 0.5;
+							} else {
+								after = tgTop > elTop;
+							}
+						} else {
+							after = (nextSibling !== dragEl) && !isLong || halfway && isLong;
+						}
+
+						if (!dragEl.contains(el)) {
+							if (after && !nextSibling) {
+								el.appendChild(dragEl);
+							} else {
+								target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+							}
+						}
+
+						parentEl = dragEl.parentNode; // actualization
+
+						this._animate(dragRect, dragEl);
+						this._animate(targetRect, target);
+					}
+				}
+			}
+		},
+
+		_animate: function (prevRect, target) {
+			var ms = this.options.animation;
+
+			if (ms) {
+				var currentRect = target.getBoundingClientRect();
+
+				_css(target, 'transition', 'none');
+				_css(target, 'transform', 'translate3d('
+					+ (prevRect.left - currentRect.left) + 'px,'
+					+ (prevRect.top - currentRect.top) + 'px,0)'
+				);
+
+				target.offsetWidth; // repaint
+
+				_css(target, 'transition', 'all ' + ms + 'ms');
+				_css(target, 'transform', 'translate3d(0,0,0)');
+
+				clearTimeout(target.animated);
+				target.animated = setTimeout(function () {
+					_css(target, 'transition', '');
+					_css(target, 'transform', '');
+					target.animated = false;
+				}, ms);
+			}
+		},
+
+		_offUpEvents: function () {
+			var ownerDocument = this.el.ownerDocument;
+
+			_off(document, 'touchmove', this._onTouchMove);
+			_off(ownerDocument, 'mouseup', this._onDrop);
+			_off(ownerDocument, 'touchend', this._onDrop);
+			_off(ownerDocument, 'touchcancel', this._onDrop);
+		},
+
+		_onDrop: function (/**Event*/evt) {
+			var el = this.el,
+				options = this.options;
+
+			clearInterval(this._loopId);
+			clearInterval(autoScroll.pid);
+			clearTimeout(this._dragStartTimer);
+
+			// Unbind events
+			_off(document, 'mousemove', this._onTouchMove);
+
+			if (this.nativeDraggable) {
+				_off(document, 'drop', this);
+				_off(el, 'dragstart', this._onDragStart);
+			}
+
+			this._offUpEvents();
+
+			if (evt) {
+				if (moved) {
+					evt.preventDefault();
+					!options.dropBubble && evt.stopPropagation();
+				}
+
+				ghostEl && ghostEl.parentNode.removeChild(ghostEl);
+
+				if (dragEl) {
+					if (this.nativeDraggable) {
+						_off(dragEl, 'dragend', this);
+					}
+
+					_disableDraggable(dragEl);
+					dragEl.style['will-change'] = '';
+
+					// Remove class's
+					_toggleClass(dragEl, this.options.ghostClass, false);
+					_toggleClass(dragEl, this.options.chosenClass, false);
+
+					if (rootEl !== parentEl) {
+						newIndex = _index(dragEl, options.draggable);
+
+						if (newIndex >= 0) {
+
+							// Add event
+							_dispatchEvent(null, parentEl, 'add', dragEl, rootEl, oldIndex, newIndex);
+
+							// Remove event
+							_dispatchEvent(this, rootEl, 'remove', dragEl, rootEl, oldIndex, newIndex);
+
+							// drag from one list and drop into another
+							_dispatchEvent(null, parentEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+							_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+						}
+					}
+					else {
+						// Remove clone
+						cloneEl && cloneEl.parentNode.removeChild(cloneEl);
+
+						if (dragEl.nextSibling !== nextEl) {
+							// Get the index of the dragged element within its parent
+							newIndex = _index(dragEl, options.draggable);
+
+							if (newIndex >= 0) {
+								// drag & drop within the same list
+								_dispatchEvent(this, rootEl, 'update', dragEl, rootEl, oldIndex, newIndex);
+								_dispatchEvent(this, rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+							}
+						}
+					}
+
+					if (Sortable.active) {
+						/* jshint eqnull:true */
+						if (newIndex == null || newIndex === -1) {
+							newIndex = oldIndex;
+						}
+
+						_dispatchEvent(this, rootEl, 'end', dragEl, rootEl, oldIndex, newIndex);
+
+						// Save sorting
+						this.save();
+					}
+				}
+
+			}
+
+			this._nulling();
+		},
+
+		_nulling: function() {
+			rootEl =
+			dragEl =
+			parentEl =
+			ghostEl =
+			nextEl =
+			cloneEl =
+
+			scrollEl =
+			scrollParentEl =
+
+			tapEvt =
+			touchEvt =
+
+			moved =
+			newIndex =
+
+			lastEl =
+			lastCSS =
+
+			putSortable =
+			activeGroup =
+			Sortable.active = null;
+		},
+
+		handleEvent: function (/**Event*/evt) {
+			var type = evt.type;
+
+			if (type === 'dragover' || type === 'dragenter') {
+				if (dragEl) {
+					this._onDragOver(evt);
+					_globalDragOver(evt);
+				}
+			}
+			else if (type === 'drop' || type === 'dragend') {
+				this._onDrop(evt);
+			}
+		},
+
+
+		/**
+		 * Serializes the item into an array of string.
+		 * @returns {String[]}
+		 */
+		toArray: function () {
+			var order = [],
+				el,
+				children = this.el.children,
+				i = 0,
+				n = children.length,
+				options = this.options;
+
+			for (; i < n; i++) {
+				el = children[i];
+				if (_closest(el, options.draggable, this.el)) {
+					order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
+				}
+			}
+
+			return order;
+		},
+
+
+		/**
+		 * Sorts the elements according to the array.
+		 * @param  {String[]}  order  order of the items
+		 */
+		sort: function (order) {
+			var items = {}, rootEl = this.el;
+
+			this.toArray().forEach(function (id, i) {
+				var el = rootEl.children[i];
+
+				if (_closest(el, this.options.draggable, rootEl)) {
+					items[id] = el;
+				}
+			}, this);
+
+			order.forEach(function (id) {
+				if (items[id]) {
+					rootEl.removeChild(items[id]);
+					rootEl.appendChild(items[id]);
+				}
+			});
+		},
+
+
+		/**
+		 * Save the current sorting
+		 */
+		save: function () {
+			var store = this.options.store;
+			store && store.set(this);
+		},
+
+
+		/**
+		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
+		 * @param   {HTMLElement}  el
+		 * @param   {String}       [selector]  default: `options.draggable`
+		 * @returns {HTMLElement|null}
+		 */
+		closest: function (el, selector) {
+			return _closest(el, selector || this.options.draggable, this.el);
+		},
+
+
+		/**
+		 * Set/get option
+		 * @param   {string} name
+		 * @param   {*}      [value]
+		 * @returns {*}
+		 */
+		option: function (name, value) {
+			var options = this.options;
+
+			if (value === void 0) {
+				return options[name];
+			} else {
+				options[name] = value;
+
+				if (name === 'group') {
+					_prepareGroup(options);
+				}
+			}
+		},
+
+
+		/**
+		 * Destroy
+		 */
+		destroy: function () {
+			var el = this.el;
+
+			el[expando] = null;
+
+			_off(el, 'mousedown', this._onTapStart);
+			_off(el, 'touchstart', this._onTapStart);
+
+			if (this.nativeDraggable) {
+				_off(el, 'dragover', this);
+				_off(el, 'dragenter', this);
+			}
+
+			// Remove draggable attributes
+			Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
+				el.removeAttribute('draggable');
+			});
+
+			touchDragOverListeners.splice(touchDragOverListeners.indexOf(this._onDragOver), 1);
+
+			this._onDrop();
+
+			this.el = el = null;
+		}
+	};
+
+
+	function _cloneHide(state) {
+		if (cloneEl && (cloneEl.state !== state)) {
+			_css(cloneEl, 'display', state ? 'none' : '');
+			!state && cloneEl.state && rootEl.insertBefore(cloneEl, dragEl);
+			cloneEl.state = state;
+		}
+	}
+
+
+	function _closest(/**HTMLElement*/el, /**String*/selector, /**HTMLElement*/ctx) {
+		if (el) {
+			ctx = ctx || document;
+
+			do {
+				if ((selector === '>*' && el.parentNode === ctx) || _matches(el, selector)) {
+					return el;
+				}
+				/* jshint boss:true */
+			} while (el = _getParentOrHost(el));
+		}
+
+		return null;
+	}
+
+
+	function _getParentOrHost(el) {
+		var parent = el.host;
+
+		return (parent && parent.nodeType) ? parent : el.parentNode;
+	}
+
+
+	function _globalDragOver(/**Event*/evt) {
+		if (evt.dataTransfer) {
+			evt.dataTransfer.dropEffect = 'move';
+		}
+		evt.preventDefault();
+	}
+
+
+	function _on(el, event, fn) {
+		el.addEventListener(event, fn, false);
+	}
+
+
+	function _off(el, event, fn) {
+		el.removeEventListener(event, fn, false);
+	}
+
+
+	function _toggleClass(el, name, state) {
+		if (el) {
+			if (el.classList) {
+				el.classList[state ? 'add' : 'remove'](name);
+			}
+			else {
+				var className = (' ' + el.className + ' ').replace(RSPACE, ' ').replace(' ' + name + ' ', ' ');
+				el.className = (className + (state ? ' ' + name : '')).replace(RSPACE, ' ');
+			}
+		}
+	}
+
+
+	function _css(el, prop, val) {
+		var style = el && el.style;
+
+		if (style) {
+			if (val === void 0) {
+				if (document.defaultView && document.defaultView.getComputedStyle) {
+					val = document.defaultView.getComputedStyle(el, '');
+				}
+				else if (el.currentStyle) {
+					val = el.currentStyle;
+				}
+
+				return prop === void 0 ? val : val[prop];
+			}
+			else {
+				if (!(prop in style)) {
+					prop = '-webkit-' + prop;
+				}
+
+				style[prop] = val + (typeof val === 'string' ? '' : 'px');
+			}
+		}
+	}
+
+
+	function _find(ctx, tagName, iterator) {
+		if (ctx) {
+			var list = ctx.getElementsByTagName(tagName), i = 0, n = list.length;
+
+			if (iterator) {
+				for (; i < n; i++) {
+					iterator(list[i], i);
+				}
+			}
+
+			return list;
+		}
+
+		return [];
+	}
+
+
+
+	function _dispatchEvent(sortable, rootEl, name, targetEl, fromEl, startIndex, newIndex) {
+		sortable = (sortable || rootEl[expando]);
+
+		var evt = document.createEvent('Event'),
+			options = sortable.options,
+			onName = 'on' + name.charAt(0).toUpperCase() + name.substr(1);
+
+		evt.initEvent(name, true, true);
+
+		evt.to = rootEl;
+		evt.from = fromEl || rootEl;
+		evt.item = targetEl || rootEl;
+		evt.clone = cloneEl;
+
+		evt.oldIndex = startIndex;
+		evt.newIndex = newIndex;
+
+		rootEl.dispatchEvent(evt);
+
+		if (options[onName]) {
+			options[onName].call(sortable, evt);
+		}
+	}
+
+
+	function _onMove(fromEl, toEl, dragEl, dragRect, targetEl, targetRect, originalEvt) {
+		var evt,
+			sortable = fromEl[expando],
+			onMoveFn = sortable.options.onMove,
+			retVal;
+
+		evt = document.createEvent('Event');
+		evt.initEvent('move', true, true);
+
+		evt.to = toEl;
+		evt.from = fromEl;
+		evt.dragged = dragEl;
+		evt.draggedRect = dragRect;
+		evt.related = targetEl || toEl;
+		evt.relatedRect = targetRect || toEl.getBoundingClientRect();
+
+		fromEl.dispatchEvent(evt);
+
+		if (onMoveFn) {
+			retVal = onMoveFn.call(sortable, evt, originalEvt);
+		}
+
+		return retVal;
+	}
+
+
+	function _disableDraggable(el) {
+		el.draggable = false;
+	}
+
+
+	function _unsilent() {
+		_silent = false;
+	}
+
+
+	/** @returns {HTMLElement|false} */
+	function _ghostIsLast(el, evt) {
+		var lastEl = el.lastElementChild,
+			rect = lastEl.getBoundingClientRect();
+
+		// 5 — min delta
+		// abs — нельзя добавлять, а то глюки при наведении сверху
+		return (
+			(evt.clientY - (rect.top + rect.height) > 5) ||
+			(evt.clientX - (rect.right + rect.width) > 5)
+		) && lastEl;
+	}
+
+
+	/**
+	 * Generate id
+	 * @param   {HTMLElement} el
+	 * @returns {String}
+	 * @private
+	 */
+	function _generateId(el) {
+		var str = el.tagName + el.className + el.src + el.href + el.textContent,
+			i = str.length,
+			sum = 0;
+
+		while (i--) {
+			sum += str.charCodeAt(i);
+		}
+
+		return sum.toString(36);
+	}
+
+	/**
+	 * Returns the index of an element within its parent for a selected set of
+	 * elements
+	 * @param  {HTMLElement} el
+	 * @param  {selector} selector
+	 * @return {number}
+	 */
+	function _index(el, selector) {
+		var index = 0;
+
+		if (!el || !el.parentNode) {
+			return -1;
+		}
+
+		while (el && (el = el.previousElementSibling)) {
+			if ((el.nodeName.toUpperCase() !== 'TEMPLATE') && (selector === '>*' || _matches(el, selector))) {
+				index++;
+			}
+		}
+
+		return index;
+	}
+
+	function _matches(/**HTMLElement*/el, /**String*/selector) {
+		if (el) {
+			selector = selector.split('.');
+
+			var tag = selector.shift().toUpperCase(),
+				re = new RegExp('\\s(' + selector.join('|') + ')(?=\\s)', 'g');
+
+			return (
+				(tag === '' || el.nodeName.toUpperCase() == tag) &&
+				(!selector.length || ((' ' + el.className + ' ').match(re) || []).length == selector.length)
+			);
+		}
+
+		return false;
+	}
+
+	function _throttle(callback, ms) {
+		var args, _this;
+
+		return function () {
+			if (args === void 0) {
+				args = arguments;
+				_this = this;
+
+				setTimeout(function () {
+					if (args.length === 1) {
+						callback.call(_this, args[0]);
+					} else {
+						callback.apply(_this, args);
+					}
+
+					args = void 0;
+				}, ms);
+			}
+		};
+	}
+
+	function _extend(dst, src) {
+		if (dst && src) {
+			for (var key in src) {
+				if (src.hasOwnProperty(key)) {
+					dst[key] = src[key];
+				}
+			}
+		}
+
+		return dst;
+	}
+
+	function _clone(el) {
+		return $
+			? $(el).clone(true)[0]
+			: (Polymer && Polymer.dom
+				? Polymer.dom(el).cloneNode(true)
+				: el.cloneNode(true)
+			);
+	}
+
+
+	// Export utils
+	Sortable.utils = {
+		on: _on,
+		off: _off,
+		css: _css,
+		find: _find,
+		is: function (el, selector) {
+			return !!_closest(el, selector, el);
+		},
+		extend: _extend,
+		throttle: _throttle,
+		closest: _closest,
+		toggleClass: _toggleClass,
+		clone: _clone,
+		index: _index
+	};
+
+
+	/**
+	 * Create sortable instance
+	 * @param {HTMLElement}  el
+	 * @param {Object}      [options]
+	 */
+	Sortable.create = function (el, options) {
+		return new Sortable(el, options);
+	};
+
+
+	// Export
+	Sortable.version = '1.4.2';
+	return Sortable;
+});
+
+
+!function(e,t){"use strict";function r(){return t}"function"==typeof define&&define.amd?define("tinysort",r):e.tinysort=t}(this,function(){"use strict";function e(e,n){function s(){0===arguments.length?v({}):t(arguments,function(e){v(x(e)?{selector:e}:e)}),d=$.length}function v(e){var t=!!e.selector,n=t&&":"===e.selector[0],o=r(e||{},m);$.push(r({hasSelector:t,hasAttr:!(o.attr===l||""===o.attr),hasData:o.data!==l,hasFilter:n,sortReturnNumber:"asc"===o.order?1:-1},o))}function S(){t(e,function(e,t){M?M!==e.parentNode&&(k=!1):M=e.parentNode;var r=$[0],n=r.hasFilter,o=r.selector,a=!o||n&&e.matchesSelector(o)||o&&e.querySelector(o),l=a?R:V,s={elm:e,pos:t,posn:l.length};B.push(s),l.push(s)}),D=R.slice(0)}function y(e,t,r){for(var n=r(e.toString()),o=r(t.toString()),a=0;n[a]&&o[a];a++)if(n[a]!==o[a]){var l=Number(n[a]),s=Number(o[a]);return l==n[a]&&s==o[a]?l-s:n[a]>o[a]?1:-1}return n.length-o.length}function N(e){for(var t,r,n=[],o=0,a=-1,l=0;t=(r=e.charAt(o++)).charCodeAt(0);){var s=46==t||t>=48&&57>=t;s!==l&&(n[++a]="",l=s),n[a]+=r}return n}function C(e,r){var n=0;for(0!==p&&(p=0);0===n&&d>p;){var l=$[p],s=l.ignoreDashes?f:u;if(t(h,function(e){var t=e.prepare;t&&t(l)}),l.sortFunction)n=l.sortFunction(e,r);else if("rand"==l.order)n=Math.random()<.5?1:-1;else{var c=a,g=w(e,l),m=w(r,l),v=""===g||g===o,S=""===m||m===o;if(g===m)n=0;else if(l.emptyEnd&&(v||S))n=v&&S?0:v?1:-1;else{if(!l.forceStrings){var C=x(g)?g&&g.match(s):a,b=x(m)?m&&m.match(s):a;if(C&&b){var A=g.substr(0,g.length-C[0].length),F=m.substr(0,m.length-b[0].length);A==F&&(c=!a,g=i(C[0]),m=i(b[0]))}}n=g===o||m===o?0:l.natural&&(isNaN(g)||isNaN(m))?y(g,m,N):m>g?-1:g>m?1:0}}t(h,function(e){var t=e.sort;t&&(n=t(l,c,g,m,n))}),n*=l.sortReturnNumber,0===n&&p++}return 0===n&&(n=e.pos>r.pos?1:-1),n}function b(){var e=R.length===B.length;if(k&&e)O?R.forEach(function(e,t){e.elm.style.order=t}):M?M.appendChild(A()):console.warn("parentNode has been removed");else{var t=$[0],r=t.place,n="org"===r,o="start"===r,a="end"===r,l="first"===r,s="last"===r;if(n)R.forEach(F),R.forEach(function(e,t){E(D[t],e.elm)});else if(o||a){var c=D[o?0:D.length-1],i=c&&c.elm.parentNode,u=i&&(o&&i.firstChild||i.lastChild);u&&(u!==c.elm&&(c={elm:u}),F(c),a&&i.appendChild(c.ghost),E(c,A()))}else if(l||s){var f=D[l?0:D.length-1];E(F(f),A())}}}function A(){return R.forEach(function(e){q.appendChild(e.elm)}),q}function F(e){var t=e.elm,r=c.createElement("div");return e.ghost=r,t.parentNode.insertBefore(r,t),e}function E(e,t){var r=e.ghost,n=r.parentNode;n.insertBefore(t,r),n.removeChild(r),delete e.ghost}function w(e,t){var r,n=e.elm;return t.selector&&(t.hasFilter?n.matchesSelector(t.selector)||(n=l):n=n.querySelector(t.selector)),t.hasAttr?r=n.getAttribute(t.attr):t.useVal?r=n.value||n.getAttribute("value"):t.hasData?r=n.getAttribute("data-"+t.data):n&&(r=n.textContent),x(r)&&(t.cases||(r=r.toLowerCase()),r=r.replace(/\s+/g," ")),null===r&&(r=g),r}function x(e){return"string"==typeof e}x(e)&&(e=c.querySelectorAll(e)),0===e.length&&console.warn("No elements to sort");var D,M,q=c.createDocumentFragment(),B=[],R=[],V=[],$=[],k=!0,z=e.length&&e[0].parentNode,L=z.rootNode!==document,O=e.length&&(n===o||n.useFlex!==!1)&&!L&&-1!==getComputedStyle(z,null).display.indexOf("flex");return s.apply(l,Array.prototype.slice.call(arguments,1)),S(),R.sort(C),b(),R.map(function(e){return e.elm})}function t(e,t){for(var r,n=e.length,o=n;o--;)r=n-o-1,t(e[r],r)}function r(e,t,r){for(var n in t)(r||e[n]===o)&&(e[n]=t[n]);return e}function n(e,t,r){h.push({prepare:e,sort:t,sortBy:r})}var o,a=!1,l=null,s=window,c=s.document,i=parseFloat,u=/(-?\d+\.?\d*)\s*$/g,f=/(\d+\.?\d*)\s*$/g,h=[],d=0,p=0,g=String.fromCharCode(4095),m={selector:l,order:"asc",attr:l,data:l,useVal:a,place:"org",returns:a,cases:a,natural:a,forceStrings:a,ignoreDashes:a,sortFunction:l,useFlex:a,emptyEnd:a};return s.Element&&function(e){e.matchesSelector=e.matchesSelector||e.mozMatchesSelector||e.msMatchesSelector||e.oMatchesSelector||e.webkitMatchesSelector||function(e){for(var t=this,r=(t.parentNode||t.document).querySelectorAll(e),n=-1;r[++n]&&r[n]!=t;);return!!r[n]}}(Element.prototype),r(n,{loop:t}),r(e,{plugin:n,defaults:m})}());
+!function(t){"use strict";"function"==typeof define&&define.amd?define(["jquery","tinysort"],t):jQuery&&!jQuery.fn.tsort&&t(jQuery,tinysort)}(function(t,n){"use strict";t.tinysort={defaults:n.defaults},t.fn.extend({tinysort:function(){var t,e,i=Array.prototype.slice.call(arguments);i.unshift(this),t=n.apply(null,i),e=t.length;for(var r=0,s=this.length;s>r;r++)e>r?this[r]=t[r]:delete this[r];return this.length=e,this}}),t.fn.tsort=t.fn.tinysort});
+
+
+(function (root, factory) {
+	'use strict';
+
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define([], factory);
+	} else if (typeof exports === 'object') {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	} else {
+		// Browser globals (root is window)
+		root.autosize = factory();
+  }
+}(this, function () {
+	function main(ta) {
+		if (!ta || !ta.nodeName || ta.nodeName !== 'TEXTAREA' || ta.hasAttribute('data-autosize-on')) { return; }
+
+		var maxHeight;
+		var heightOffset;
+
+		function init() {
+			var style = window.getComputedStyle(ta, null);
+
+			if (style.resize === 'vertical') {
+				ta.style.resize = 'none';
+			} else if (style.resize === 'both') {
+				ta.style.resize = 'horizontal';
+			}
+
+			// horizontal overflow is hidden, so break-word is necessary for handling words longer than the textarea width
+			ta.style.wordWrap = 'break-word';
+
+			// Chrome/Safari-specific fix:
+			// When the textarea y-overflow is hidden, Chrome/Safari doesn't reflow the text to account for the space
+			// made available by removing the scrollbar. This workaround will cause the text to reflow.
+			var width = ta.style.width;
+			ta.style.width = '0px';
+			// Force reflow:
+			/* jshint ignore:start */
+			ta.offsetWidth;
+			/* jshint ignore:end */
+			ta.style.width = width;
+
+			maxHeight = style.maxHeight !== 'none' ? parseFloat(style.maxHeight) : false;
+
+			if (style.boxSizing === 'content-box') {
+				heightOffset = -(parseFloat(style.paddingTop)+parseFloat(style.paddingBottom));
+			} else {
+				heightOffset = parseFloat(style.borderTopWidth)+parseFloat(style.borderBottomWidth);
+			}
+
+			adjust();
+		}
+
+		function adjust() {
+			var startHeight = ta.style.height;
+			var htmlTop = document.documentElement.scrollTop;
+			var bodyTop = document.body.scrollTop;
+
+			ta.style.height = 'auto';
+
+			var endHeight = ta.scrollHeight+heightOffset;
+
+			if (maxHeight !== false && maxHeight < endHeight) {
+				endHeight = maxHeight;
+				if (ta.style.overflowY !== 'scroll') {
+					ta.style.overflowY = 'scroll';
+				}
+			} else if (ta.style.overflowY !== 'hidden') {
+				ta.style.overflowY = 'hidden';
+			}
+
+			ta.style.height = endHeight+'px';
+
+			// prevents scroll-position jumping
+			document.documentElement.scrollTop = htmlTop;
+			document.body.scrollTop = bodyTop;
+
+			if (startHeight !== ta.style.height) {
+				var evt = document.createEvent('Event');
+				evt.initEvent('autosize.resized', true, false);
+				ta.dispatchEvent(evt);
+			}
+		}
+
+		// IE9 does not fire onpropertychange or oninput for deletions,
+		// so binding to onkeyup to catch most of those events.
+		// There is no way that I know of to detect something like 'cut' in IE9.
+		if ('onpropertychange' in ta && 'oninput' in ta) {
+			ta.addEventListener('keyup', adjust);
+		}
+
+		window.addEventListener('resize', adjust);
+		ta.addEventListener('input', adjust);
+
+		ta.addEventListener('autosize.update', adjust);
+
+		ta.addEventListener('autosize.destroy', function(style){
+			window.removeEventListener('resize', adjust);
+			ta.removeEventListener('input', adjust);
+			ta.removeEventListener('keyup', adjust);
+			ta.removeEventListener('autosize.destroy');
+
+			Object.keys(style).forEach(function(key){
+				ta.style[key] = style[key];
+			});
+
+			ta.removeAttribute('data-autosize-on');
+		}.bind(ta, {
+			height: ta.style.height,
+			overflow: ta.style.overflow,
+			overflowY: ta.style.overflowY,
+			wordWrap: ta.style.wordWrap,
+			resize: ta.style.resize
+		}));
+
+		ta.setAttribute('data-autosize-on', true);
+		ta.style.overflow = 'hidden';
+		ta.style.overflowY = 'hidden';
+
+		init();
+	}
+
+	// Do nothing in IE8 or lower
+	if (typeof window.getComputedStyle !== 'function') {
+		return function(elements) {
+			return elements;
+		};
+	} else {
+		return function(elements) {
+			if (elements && elements.length) {
+				Array.prototype.forEach.call(elements, main);
+			} else if (elements && elements.nodeName) {
+				main(elements);
+			}
+			return elements;
+		};
+	}
+}));
+
+
+var jsonURL;
+$(function(){
+    jsonURL = $('link[rel="https://api.w.org/"]').attr('href') + 'wp/v2/';
+});
+
+
+function jsGetJSON(link,ret){
+    $.ajax({
+        url : jsonURL + link,
+        type : 'GET',
+        data : null,
+        dataType : 'json',
+        /*beforeSend: function ( xhr ) {
+            xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
+        },*/
+        success : function(response){
+            ret(response);
+        },
+    });
+};
+
+function jsGetPosts(query,ret){
+
+    console.log('getting posts from ' + ajaxURL);
+
+    query['action'] = 'get_posts';
+
+    $.ajax({
+        url : ajaxURL,
+        type : 'POST',
+        data : query,
+        dataType : 'json',
+        success : function(response){
+            ret(response);
+        },
+    });
+
+}
+
+
+var ajaxURL;
+$(function(){
+    ajaxURL = $('meta[name="ajaxURL"]').attr('content');
+});
+
+
+var jio_data_img = {
+
+    // $img is in view (true | false)
+    inview : function($img){
+        var w = $(window);
+        if(w.scrollTop() + w.height() <= $img.offset().top){ return false; }
+        else if (w.scrollTop() >= $img.offset().top + $img.height()){ return false; }
+        else { return true; }
+    },
+
+    // placeholder load $img
+    replace: function($img) {
+        var $imgSrc = $img.attr('data-src'),
+            $imgBg = $img.attr('data-bg'),
+            $imgID = $img.attr('data-img-id'),
+
+            $imgIDSize = $img.attr('data-id-size'),
+            $imgSrcset = $img.attr('data-srcset'),
+            $imgSizes = $img.attr('data-sizes'),
+            $imgPlaceholder = new Image();
+
+        $img.removeAttr('data-src data-bg data-srcset data-sizes data-img-id data-id-size');
+
+        if (typeof $imgSrc !== 'undefined') {
+            $imgPlaceholder.src = $imgSrc;
+            $imgPlaceholder.onload = function() {
+                $img.removeClass('loading').attr('src', $imgSrc);
+            };
+        };
+
+        if (typeof $imgID !== 'undefined' && typeof jsonURL !== 'undefined') {
+            if(typeof $imgIDSize === 'undefined'){$imgIDSize = 'full';}
+
+            jsGetJSON('media/'+$imgID, function(ret){
+
+                if(ret.status === 404){
+                    $img.parent('.image-container').remove();
+                    $img.remove();
+                }
+
+                if (ret.status !== 404){
+
+                    var imgsrc;
+                    if(typeof ret.media_details.sizes[$imgIDSize] !== 'undefined'){
+                        imgsrc = ret.media_details.sizes[$imgIDSize].source_url;
+                    }
+
+                    else{
+                        imgsrc = ret.source_url;
+                    }
+
+
+                    $imgPlaceholder.src = imgsrc;
+                    $imgPlaceholder.onload = function() {
+                        $img.removeClass('loading').attr('src', imgsrc);
+                    };
+                };
+            });
+        };
+
+        if (typeof $imgSrcset !== 'undefined') {
+          $imgPlaceholder.srcset = $imgSrcset;
+          $imgPlaceholder.sizes = $imgSizes;
+          $imgPlaceholder.onload = function() {
+            $img.removeClass('loading').attr('srcset', $imgSrcset).attr('sizes', $imgSizes);
+          };
+        }
+
+        if (typeof $imgBg !== 'undefined') {
+            $imgPlaceholder.src = $imgBg;
+            $imgPlaceholder.onload = function() {
+                $img.removeClass('loading').css({
+                    backgroundImage: 'url(' + $imgBg + ')',
+                });
+            };
+        };
+    },
+
+    // scan DOM for replacable img srcses
+    scan : function(){
+        $('[data-src], [data-bg], [data-srcset], [data-sizes], [data-img-id]').each(function(e){
+            var $img = $(this);
+            if(jio_data_img.inview($img)){
+                jio_data_img.replace($img);
+            }
+        });
+    },
+
+    // Initiate on each event in array
+    init : function(events){
+        if ($.isArray(events)){
+            events.forEach(function(event){
+                $(window).on(event,function(){
+                    jio_data_img.scan();
+                });
+            });
+        }
+    }
+}
+
+// Lesgo!
+jio_data_img.init(['load','scroll','resize']);
+
+
 var checkSuccess = function(target){
 
     if(target.val() === ''){target.removeClass('success').next('label').removeClass('success');}
@@ -4097,48 +3849,6 @@ $(function(){
     formJsInit();
 
 });
-
-
-// @koala-append 'assets/jsrender.js';
-// @koala-append 'assets/dropzone.js';
-// @koala-append 'assets/js.cookie.js';
-// @koala-append 'assets/sortable.js';
-// @koala-append 'assets/tinysort.js';
-// @koala-append 'assets/autosize.js';
-
-// @koala-append 'components/json.js';
-// @koala-append 'components/ajax.js';
-// @koala-append 'components/jio-data-img.js';
-// @koala-append 'components/form.js';
-
-// @koala-append 'modules/update-pop.js';
-// @koala-append 'modules/autosize.js';
-// @koala-append 'modules/clone-select.js';
-// @koala-append 'modules/sync-scroll.js';
-// @koala-append 'modules/register.js';
-// @koala-append 'modules/front-video.js';
-// @koala-append 'modules/YT_uploadVideo.js';
-// @koala-append 'modules/item-finder.js';
-// @koala-append 'modules/user.js';
-// @koala-append 'modules/range.js';
-// @koala-append 'modules/load-inners.js';
-// @koala-append 'modules/toggle-menu.js';
-// @koala-append 'modules/toggle-aside.js';
-// @koala-append 'modules/toggle-article.js';
-// @koala-append 'modules/article-save-post.js';
-// @koala-append 'modules/js-menu.js';
-// @koala-append 'modules/jsquery.js';
-// @koala-append 'modules/renderModule.js';
-// @koala-append 'modules/flogin.js';
-// @koala-append 'modules/limit.js';
-// @koala-append 'modules/sort-attach.js';
-// @koala-append 'modules/file-upload.js';
-// @koala-append 'modules/article-page.js';
-// @koala-append 'modules/notify.js';
-// @koala-append 'modules/edit.js';
-// @koala-append 'modules/typeselect.js';
-// @koala-append 'modules/article-page-header.js';
-
 
 
 var updatePop = function(id,val){
@@ -4355,99 +4065,421 @@ if($('.home .video-container').length){
 }
 
 
+/*
+Copyright 2015 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+var DRIVE_UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v2/files/';
+
+
+/**
+ * Helper for implementing retries with backoff. Initial retry
+ * delay is 1 second, increasing by 2x (+jitter) for subsequent retries
+ *
+ * @constructor
+ */
+var RetryHandler = function() {
+  this.interval = 1000; // Start at one second
+  this.maxInterval = 60 * 1000; // Don't wait longer than a minute
+};
+
+/**
+ * Invoke the function after waiting
+ *
+ * @param {function} fn Function to invoke
+ */
+RetryHandler.prototype.retry = function(fn) {
+  setTimeout(fn, this.interval);
+  this.interval = this.nextInterval_();
+};
+
+/**
+ * Reset the counter (e.g. after successful request.)
+ */
+RetryHandler.prototype.reset = function() {
+  this.interval = 1000;
+};
+
+/**
+ * Calculate the next wait time.
+ * @return {number} Next wait interval, in milliseconds
+ *
+ * @private
+ */
+RetryHandler.prototype.nextInterval_ = function() {
+  var interval = this.interval * 2 + this.getRandomInt_(0, 1000);
+  return Math.min(interval, this.maxInterval);
+};
+
+/**
+ * Get a random int in the range of min to max. Used to add jitter to wait times.
+ *
+ * @param {number} min Lower bounds
+ * @param {number} max Upper bounds
+ * @private
+ */
+RetryHandler.prototype.getRandomInt_ = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+
+/**
+ * Helper class for resumable uploads using XHR/CORS. Can upload any Blob-like item, whether
+ * files or in-memory constructs.
+ *
+ * @example
+ * var content = new Blob(["Hello world"], {"type": "text/plain"});
+ * var uploader = new MediaUploader({
+ *   file: content,
+ *   token: accessToken,
+ *   onComplete: function(data) { ... }
+ *   onError: function(data) { ... }
+ * });
+ * uploader.upload();
+ *
+ * @constructor
+ * @param {object} options Hash of options
+ * @param {string} options.token Access token
+ * @param {blob} options.file Blob-like item to upload
+ * @param {string} [options.fileId] ID of file if replacing
+ * @param {object} [options.params] Additional query parameters
+ * @param {string} [options.contentType] Content-type, if overriding the type of the blob.
+ * @param {object} [options.metadata] File metadata
+ * @param {function} [options.onComplete] Callback for when upload is complete
+ * @param {function} [options.onProgress] Callback for status for the in-progress upload
+ * @param {function} [options.onError] Callback if upload fails
+ */
+var MediaUploader = function(options) {
+  var noop = function() {};
+  this.file = options.file;
+  this.contentType = options.contentType || this.file.type || 'application/octet-stream';
+  this.metadata = options.metadata || {
+    'title': this.file.name,
+    'mimeType': this.contentType
+  };
+  this.token = options.token;
+  this.onComplete = options.onComplete || noop;
+  this.onProgress = options.onProgress || noop;
+  this.onError = options.onError || noop;
+  this.offset = options.offset || 0;
+  this.chunkSize = options.chunkSize || 0;
+  this.retryHandler = new RetryHandler();
+
+  this.url = options.url;
+  if (!this.url) {
+    var params = options.params || {};
+    params.uploadType = 'resumable';
+    this.url = this.buildUrl_(options.fileId, params, options.baseUrl);
+  }
+  this.httpMethod = options.fileId ? 'PUT' : 'POST';
+};
+
+/**
+ * Initiate the upload.
+ */
+MediaUploader.prototype.upload = function() {
+  var self = this;
+  var xhr = new XMLHttpRequest();
+
+  xhr.open(this.httpMethod, this.url, true);
+  xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.setRequestHeader('X-Upload-Content-Length', this.file.size);
+  xhr.setRequestHeader('X-Upload-Content-Type', this.contentType);
+
+  xhr.onload = function(e) {
+    if (e.target.status < 400) {
+      var location = e.target.getResponseHeader('Location');
+      this.url = location;
+      this.sendFile_();
+    } else {
+      this.onUploadError_(e);
+    }
+  }.bind(this);
+  xhr.onerror = this.onUploadError_.bind(this);
+  xhr.send(JSON.stringify(this.metadata));
+};
+
+/**
+ * Send the actual file content.
+ *
+ * @private
+ */
+MediaUploader.prototype.sendFile_ = function() {
+  var content = this.file;
+  var end = this.file.size;
+
+  if (this.offset || this.chunkSize) {
+    // Only bother to slice the file if we're either resuming or uploading in chunks
+    if (this.chunkSize) {
+      end = Math.min(this.offset + this.chunkSize, this.file.size);
+    }
+    content = content.slice(this.offset, end);
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('PUT', this.url, true);
+  xhr.setRequestHeader('Content-Type', this.contentType);
+  xhr.setRequestHeader('Content-Range', 'bytes ' + this.offset + '-' + (end - 1) + '/' + this.file.size);
+  xhr.setRequestHeader('X-Upload-Content-Type', this.file.type);
+  if (xhr.upload) {
+    xhr.upload.addEventListener('progress', this.onProgress);
+  }
+  xhr.onload = this.onContentUploadSuccess_.bind(this);
+  xhr.onerror = this.onContentUploadError_.bind(this);
+  xhr.send(content);
+};
+
+/**
+ * Query for the state of the file for resumption.
+ *
+ * @private
+ */
+MediaUploader.prototype.resume_ = function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('PUT', this.url, true);
+  xhr.setRequestHeader('Content-Range', 'bytes */' + this.file.size);
+  xhr.setRequestHeader('X-Upload-Content-Type', this.file.type);
+  if (xhr.upload) {
+    xhr.upload.addEventListener('progress', this.onProgress);
+  }
+  xhr.onload = this.onContentUploadSuccess_.bind(this);
+  xhr.onerror = this.onContentUploadError_.bind(this);
+  xhr.send();
+};
+
+/**
+ * Extract the last saved range if available in the request.
+ *
+ * @param {XMLHttpRequest} xhr Request object
+ */
+MediaUploader.prototype.extractRange_ = function(xhr) {
+  var range = xhr.getResponseHeader('Range');
+  if (range) {
+    this.offset = parseInt(range.match(/\d+/g).pop(), 10) + 1;
+  }
+};
+
+/**
+ * Handle successful responses for uploads. Depending on the context,
+ * may continue with uploading the next chunk of the file or, if complete,
+ * invokes the caller's callback.
+ *
+ * @private
+ * @param {object} e XHR event
+ */
+MediaUploader.prototype.onContentUploadSuccess_ = function(e) {
+  if (e.target.status == 200 || e.target.status == 201) {
+    this.onComplete(e.target.response);
+  } else if (e.target.status == 308) {
+    this.extractRange_(e.target);
+    this.retryHandler.reset();
+    this.sendFile_();
+  }
+};
+
+/**
+ * Handles errors for uploads. Either retries or aborts depending
+ * on the error.
+ *
+ * @private
+ * @param {object} e XHR event
+ */
+MediaUploader.prototype.onContentUploadError_ = function(e) {
+  if (e.target.status && e.target.status < 500) {
+    this.onError(e.target.response);
+  } else {
+    this.retryHandler.retry(this.resume_.bind(this));
+  }
+};
+
+/**
+ * Handles errors for the initial request.
+ *
+ * @private
+ * @param {object} e XHR event
+ */
+MediaUploader.prototype.onUploadError_ = function(e) {
+  this.onError(e.target.response); // TODO - Retries for initial upload
+};
+
+/**
+ * Construct a query string from a hash/object
+ *
+ * @private
+ * @param {object} [params] Key/value pairs for query string
+ * @return {string} query string
+ */
+MediaUploader.prototype.buildQuery_ = function(params) {
+  params = params || {};
+  return Object.keys(params).map(function(key) {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+  }).join('&');
+};
+
+/**
+ * Build the drive upload URL
+ *
+ * @private
+ * @param {string} [id] File ID if replacing
+ * @param {object} [params] Query parameters
+ * @return {string} URL
+ */
+MediaUploader.prototype.buildUrl_ = function(id, params, baseUrl) {
+  var url = baseUrl || DRIVE_UPLOAD_URL;
+  if (id) {
+    url += id;
+  }
+  var query = this.buildQuery_(params);
+  if (query) {
+    url += '?' + query;
+  }
+  return url;
+};
+
+
+// Refreshtoken: 1/XsKB2xh_rvd_ci2aRgIMjAOrgYImfr7x_SDpx_1w610
+
 // Video handler function
-var YT_UploadVideo = function(file, clientID, clientSecret, refreshToken, callback) {
+var YT_GetAccessToken = function(clientID, clientSecret, refreshToken, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener("load", function() {
+        if (typeof callback === "function") {
+            callback( clientID, clientSecret, JSON.parse( xhr.response ).access_token );
+        }
+    });
+
+    xhr.open( 'POST', 'https://www.googleapis.com/oauth2/v4/token' );
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var request = "client_id=" + clientID + "&client_secret=" + clientSecret + "&refresh_token=" + refreshToken + "&grant_type=refresh_token";
+    xhr.send(request);
+
+}
+
+var YT_UploadVideo = function(file, clientID, clientSecret, accesstoken, params) {
     if ( file != undefined ) {
-
-        // Inits a http request to googles server
-        var xhr = new XMLHttpRequest();
-        xhr.addEventListener("load", function() {
-
-        // Get response from http request, including access token
-        var resp = JSON.parse( xhr.response );
-
-        // Metadata
-        var metadata = {
-            "snippet": {
-                "title": 'Atlex video',
-                "description": 'Atlex',
-                "tags": ["test"],
-                "categoryId": 22,
-            },
-            "status": {
-                "privacyStatus": 'unlisted',
-            },
-        };
+        var uploadStartTime;
+        var callback, progress, error, meta;
+        if (typeof params === "object") {
+            callback = params.callback || "noop";
+            progress = params.progress || "noop";
+            error = params.error || "noop";
+            meta = params.meta ||
+            {
+                "snippet": {
+                    "title": 'Atlex video',
+                    "description": 'Atlex',
+                    "tags": ["test"],
+                    "categoryId": 22,
+                },
+                "status": {
+                    "privacyStatus": 'unlisted',
+                },
+            }
+        }
 
         // Creates object used to upload file
         var uploader = new MediaUploader({
-                "baseUrl": 'https://www.googleapis.com/upload/youtube/v3/videos',
-                "file": file,
-                "token": resp.access_token,
-                "metadata": metadata,
-                "params": {
+            "baseUrl": 'https://www.googleapis.com/upload/youtube/v3/videos',
+            "file": file,
+            "token": accesstoken,
+            "metadata": meta,
+            "params": {
                 "part": 'snippet,status',
             },
 
             // Error message
             onError: function() {
                 document.getElementById("video-statustext").innerHTML = "( Upload afbrudt pågrund af fejl )";
+                if (typeof error === "function") {
+                    error();
+                }
             },
 
             // Loading "bar"
             onProgress: function(data) {
-                document.getElementById("video-statustext").innerHTML = "( " + Math.floor(data.loaded / (data.total / 100)) + "% )";
+                var timePassed = (new Date()).getTime() - uploadStartTime;
+                if (typeof progress === "function") {
+                    progress(data, timePassed);
+                }
             },
 
             // Upload complete message
             onComplete: function(data) {
                 var videoID = JSON.parse( data ).id;
-
                 document.getElementById("video-statustext").innerHTML = "( Upload færdig )";
-
                 if(typeof callback === 'function'){
                     callback(videoID);
                 }
-
             },
         });
 
         // Uploads file
+        uploadStartTime = (new Date()).getTime();
         uploader.upload();
-
-    });
-
-          // Opens http request and sets encoding
-          xhr.open( 'POST', 'https://www.googleapis.com/oauth2/v4/token' );
-          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-          // Sets request parameters (clientid, refreshtoken, etc.)
-          var request = "client_id=" + clientID + "&client_secret=" + clientSecret + "&refresh_token=" + refreshToken + "&grant_type=refresh_token";
-
-          // Runs the whole thing
-          xhr.send(request);
-
-        } else {
-
-        // No file selected error message
-        document.getElementById("video-statustext")
-          .innerHTML = "( Ingen video valgt )";
-
     }
+}
+
+// Delete video
+var YT_DeleteVideo = function(videoID, clientID, clientSecret, accessToken, callback) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', 'https://www.googleapis.com/youtube/v3/videos' );
+    if (typeof callback === "function") {
+        xhr.addEventListener("load", callback());
+    }
+
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
+    var request = "client_id=" + clientID + "&client_secret=" + clientSecret
+        + "&scope=https://www.googleapis.com/auth/youtube&id=" + videoID;
+
+    xhr.send(request);
+
 }
 
 // Construct videohandler, init vars
 document.getElementById("video-upload-btn").addEventListener('click', function() {
     if(!$('.ovelse-form').find('input[name="video-id"]').length){
-        YT_UploadVideo(
-            document.getElementById("video-file").files[0],
+        YT_GetAccessToken(
             '277088904091-9i70tiqg90t53ev4mu3j6dlfel4ie1h9.apps.googleusercontent.com',
             '4DwvzFwbw4vVrrrxbO0w_rE_',
-            '1/BsQrj8Mbtbe48_KBObfskwYtUwesTS-xz75bZIPW5Q8',
-            function(r){
-                $('.ovelse-form').prepend('<input type="hidden" name="video-id" value="'+r+'"/>');
-                $('.video-preview iframe').attr('src','https://youtube.com/embed/' + r);
-                $('.video-upload').addClass('has-video');
+            '1/XsKB2xh_rvd_ci2aRgIMjAOrgYImfr7x_SDpx_1w610',
+            function(clientID, clientSecret, accesstoken) {
+                YT_UploadVideo(
+                    document.getElementById("video-file").files[0],
+                    clientID, clientSecret, accesstoken,
+                    {
+                        "callback": function(r){
+                            $('.ovelse-form').prepend('<input type="hidden" name="video-id" value="'+r+'"/>');
+                            $('.video-preview iframe').attr('src','https://youtube.com/embed/' + r);
+                            $('.video-upload').addClass('has-video');
+                        },
+                        "progress": function(data, timePassed) {
+                            if (timePassed / 1000 > 2.5) {
+                                var estimatedTime = Math.floor( ((data.total - data.loaded) / data.loaded) * timePassed );
+                                var formatted = Math.floor( estimatedTime / 1000 / 60 ) + " min "
+                                    + Math.floor( (estimatedTime / 1000) % 60 ) + " sek";
+                                document.getElementById("video-statustext").innerHTML = "( " + formatted + " )";
+                            } else {
+                                document.getElementById("video-statustext").innerHTML
+                                    = "( Calculating estimated time remaining )"
+                            }
+                        }
+                    }
+                );
             }
         );
     }
@@ -4455,6 +4487,17 @@ document.getElementById("video-upload-btn").addEventListener('click', function()
 
 // Remove that video
 $('.video-preview-delete').on('click',function(e){
+
+    var videoid = $('input[name="video-id"]')[0].getAttribute("value");
+    YT_GetAccessToken(
+        '277088904091-9i70tiqg90t53ev4mu3j6dlfel4ie1h9.apps.googleusercontent.com',
+        '4DwvzFwbw4vVrrrxbO0w_rE_',
+        '1/XsKB2xh_rvd_ci2aRgIMjAOrgYImfr7x_SDpx_1w610',
+        function(clientID, clientSecret, accessToken) {
+            YT_DeleteVideo(videoid, clientID, clientSecret, accessToken, function() {});
+        }
+    );
+
     e.preventDefault();
     $('.video-upload').removeClass('has-video');
     $('input[name="video-id"]').remove();
@@ -5658,5 +5701,3 @@ $(function(){
         }
     });
 });
-
-
