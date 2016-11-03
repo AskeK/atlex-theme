@@ -16,6 +16,7 @@
 // @koala-append 'modules/sync-scroll.js';
 // @koala-append 'modules/register.js';
 // @koala-append 'modules/front-video.js';
+// @koala-append 'modules/media-uploader.js';
 // @koala-append 'modules/YT_uploadVideo.js';
 // @koala-append 'modules/item-finder.js';
 // @koala-append 'modules/user.js';
@@ -36,5 +37,4 @@
 // @koala-append 'modules/notify.js';
 // @koala-append 'modules/edit.js';
 // @koala-append 'modules/typeselect.js';
-// @koala-append 'modules/article-page-header.js';
-
+// @koala-append 'article-page-header.js';
