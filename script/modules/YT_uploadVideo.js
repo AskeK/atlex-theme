@@ -44,6 +44,7 @@ var YT_UploadVideo = function(file, clientID, clientSecret, refreshToken, callba
 
             // Upload complete message
             onComplete: function(data) {
+
                 var videoID = JSON.parse( data ).id;
 
                 document.getElementById("video-statustext").innerHTML = "( Upload færdig )";

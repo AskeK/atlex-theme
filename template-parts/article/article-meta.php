@@ -3,7 +3,7 @@ $tpl = $GLOBALS['jstemplates'];
 if ( !$tpl && !in_array( get_post_type( get_the_ID() ), array('post','page') ) ) : // PHP template
 
 $images = get_post_meta(get_the_ID(),'images',false);
-$video = get_post_meta(get_the_ID(),'video',false);
+$video = get_post_meta(get_the_ID(),'video-id',true);
 $count_str = '';
 $img_count = (has_post_thumbnail()) ? 1 : 0;
 $vid_count = 0;
@@ -13,10 +13,8 @@ if (is_array($images) && !empty($images[0])) {
     }
 }
 
-if (is_array($video) && !empty($video[0])) {
-    foreach($video as $v){
-        $vid_count ++;
-    }
+if ($video) {
+    $vid_count =1;
 }
 
 if ('ovelse' === get_post_type(get_the_ID())){
@@ -47,9 +45,9 @@ elseif('forlob' === get_post_type(get_the_ID())){
     {{for images}}
         {{* mc ++; }}
     {{/for}}
-    {{for video}}
-        {{* vc ++; }}
-    {{/for}}
+    {{if video-id}}
+        {{* vc = 1; }}
+    {{/if}}
     {{* :mc }} billede{{if mc!==1}}r{{/if}} / {{* :vc }} video{{if vc!=='1'}}er{{/if}}
 {{else}}
     {{* window.oc = 0;}}
